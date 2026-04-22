@@ -25,7 +25,7 @@ See `references/principles.md`.
 Before starting:
 
 - Access to the target project codebase
-- Michi toolkit installed (skills in `.claude/skills/` or accessible via the dark-factory repo)
+- Michi toolkit installed (skills in `.claude/skills/` or accessible via the GitHub repo)
 - User present and interactive — this is collaborative, not autonomous
 
 ## Phase 1: Survey

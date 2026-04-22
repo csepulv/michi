@@ -1,5 +1,5 @@
 # PDF build recipe for a Starlight docs site.
-# Consumed by dark-factory/tools/build-pdf.sh.
+# Consumed by michi/tools/build-pdf.sh.
 #
 # Sizes define what goes into each PDF variant. Pages are Starlight slugs
 # (path relative to content_root, without the .md extension).

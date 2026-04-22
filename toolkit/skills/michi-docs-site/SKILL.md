@@ -288,7 +288,7 @@ If the user wants to customize further (theme, additional pages, deploy), that's
 Invoked as `/michi-docs-site pdf <target-site-dir>`. Produces, validates, or updates a `pdf-recipe.yaml` in the
 target site directory. The recipe is consumed by `tools/build-pdf.sh` to build S/M/L/XL PDFs.
 
-**Target is any Starlight site** — works on hand-built sites (e.g. dark-factory's `website/`) and sites
+**Target is any Starlight site** — works on hand-built sites (e.g. michi's `website/`) and sites
 scaffolded by this skill (`internal-site/`) alike. It does not require the site to have been created by the
 scaffold mode.
 
