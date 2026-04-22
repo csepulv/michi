@@ -1,0 +1,20 @@
+{
+  "name": "internal-site",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "sync": "bash sync.sh",
+    "dev": "bash sync.sh && exec astro dev",
+    "start": "bash sync.sh && exec astro dev",
+    "build": "bash sync.sh && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.38.3",
+    "@fontsource/michroma": "^5.2.8",
+    "astro": "^6.0.1",
+    "sharp": "^0.34.5",
+    "starlight-theme-rapide": "^0.5.2"
+  }
+}

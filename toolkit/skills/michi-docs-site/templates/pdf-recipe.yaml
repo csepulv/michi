@@ -1,0 +1,73 @@
+# PDF build recipe for a Starlight docs site.
+# Consumed by dark-factory/tools/build-pdf.sh.
+#
+# Sizes define what goes into each PDF variant. Pages are Starlight slugs
+# (path relative to content_root, without the .md extension).
+#
+# This is a flat recipe — no `extends`. Each size is fully specified so
+# `git diff` shows exactly what changed.
+
+title: {{TITLE}}
+subtitle: {{SUBTITLE}}        # optional; blank or remove if not wanted
+output_dir: dist              # where PDFs are written, relative to the site dir
+content_root: src/content/docs
+frontmatter: strip-use-title-as-h1   # strip YAML, promote `title:` to H1
+
+sizes:
+  S:
+    label: Quick Start
+    output: {{SLUG}}-quickstart.pdf
+    sections:
+      - label: Introduction
+        pages:
+          - introduction/overview
+      - label: Getting Started
+        pages:
+          - getting-started/install
+
+  M:
+    label: Understanding
+    output: {{SLUG}}-understanding.pdf
+    sections:
+      - label: Introduction
+        pages:
+          - introduction/overview
+      - label: Getting Started
+        pages:
+          - getting-started/install
+      - label: Core Concepts
+        pages:
+          - core-concepts/principles
+
+  L:
+    label: Full Guide
+    output: {{SLUG}}-full.pdf
+    sections:
+      - label: Introduction
+        pages: []
+      - label: Getting Started
+        pages: []
+      - label: Core Concepts
+        pages: []
+      - label: The Story
+        pages: []
+
+  XL:
+    label: Complete
+    output: {{SLUG}}-complete.pdf
+    sections:
+      - label: Introduction
+        pages: []
+      - label: Getting Started
+        pages: []
+      - label: Core Concepts
+        pages: []
+      - label: The Story
+        pages: []
+      - label: Reference
+        pages: []
+
+# Pages on disk that should never be included in any PDF.
+# Slugs that are .mdx (e.g., homepage) should usually go here too.
+exclude:
+  - index

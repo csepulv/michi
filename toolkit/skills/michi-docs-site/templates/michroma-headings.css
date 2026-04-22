@@ -1,0 +1,26 @@
+@import '@fontsource/michroma';
+
+/* Michroma uppercase headings — content area only */
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.content-panel h1 {
+  font-family: 'Michroma', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sl-markdown-content h1,
+.content-panel h1 {
+  font-size: 1.6rem !important;
+}
+
+.sl-markdown-content h2 {
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em;
+}
+
+.sl-markdown-content h3 {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em;
+}
