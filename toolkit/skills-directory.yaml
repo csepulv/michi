@@ -4,13 +4,13 @@ skills:
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 952f269c5cf8ec5fb342df7973c07a0f
+    sync_hash: 258a0752fe336973900016738deabb31
   - name: michi-docs-site
     source: custom
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 66c490384fd0ac459681ad3c47c311c2
+    sync_hash: d3a0b3b5409cd90948d428f9fb006db7
   - name: michi-explore
     source: custom
     category: contextual

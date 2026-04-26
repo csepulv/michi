@@ -177,14 +177,6 @@ The agent's definition of done defaults to "code written + unit tests pass." The
 
 **Fix:** Explicit verification checklist in CLAUDE.md. The deeper fix is encoding "done" criteria in the plan doc per milestone, not relying on the agent's judgment about completeness. See the standalone `verification-before-completion` skill and principles.md on "Deliberate and Methodical."
 
-### Verbal git instructions between human and agent
-
-**Confidence:** High
-
-Back-and-forth verbal instructions for git branch operations (create, reset, swap) accumulate errors across exchanges and can end with branches reversed or state corrupted.
-
-**Fix:** Git branch operations should be scripts, not verbal step-by-step instructions.
-
 ### Agent doesn't search outside its workspace
 
 **Confidence:** Medium

@@ -54,7 +54,7 @@ docs-root: docs
 1. **Before starting:** Read the plan doc for this milestone. Verify correct branch (`git branch`).
 2. **During implementation:** Run tests after every file change.
 3. **After implementation:** Run the full verification checklist in the plan doc.
-4. **After verification:** Commit with `michi(mN): description`. Update STATUS.md. Notify via Slack.
+4. **After verification:** Hand off with a proposed commit message in `michi(mN): description` form. Update STATUS.md. Notify via Slack.
 
 ### Decision Logging
 
@@ -79,7 +79,6 @@ After completing a milestone, you MUST complete all of these:
 - [ ] Result verified in data store
 - [ ] Cross-package schemas updated (if new types/enums introduced)
 - [ ] No hardcoded caller assumptions introduced
-- [ ] Committed on milestone branch
 
 ### Cross-Package Changes
 
@@ -96,10 +95,9 @@ Do not provide your implementation reasoning — let the reviewer evaluate indep
 
 ### Git
 
-- Commit after each milestone with `michi(mN): description`
-- Add specific files — do not `git add -A`
-- Do NOT push — the human controls what leaves the machine
-- Do NOT create PRs unless explicitly asked
+- The human runs git. The agent does not run mutations (`add`, `commit`, `push`, `checkout`, …).
+- After each milestone, summarize changes and propose a commit message in `michi(mN): description` form.
+- Do NOT create PRs unless explicitly asked.
 
 ### Communication
 
