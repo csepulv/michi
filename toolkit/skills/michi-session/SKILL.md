@@ -209,24 +209,18 @@ Run the sustainability check from the target reference:
 - What emerged from this work that should be discussed or explored?
 - Update `## Discussion` with items for human review.
 
-## Commit
+## Ready to Commit
 
-After the sustainability check:
+After the sustainability check, hand off to the human with a proposed commit message in
+michi shape:
 
-```bash
-git add [specific files]
-git commit -m "michi(mN): [description]
+```
+michi(mN): [description]
 
 [Summary of what was built and key decisions]
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-**Commit conventions:**
-
-- Prefix with `michi(mN):` to identify michi work in git log
-- Add specific files by name — do not `git add -A`
-- Do not push — the human controls what leaves the machine
+Git policy is global (agent doesn't run mutations; human commits).
 
 ## Post-Milestone
 
