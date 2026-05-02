@@ -80,9 +80,20 @@ you don't need a separate explore skill for "let me understand this bug."
 
 **Verify** — Run the full test suite. Demonstrate the fix or feature works. Show nothing broke. Evidence, not assertion.
 
-**Capture** — Write up what happened — it can be short, it might be long. Update STATUS.md if the project state changed.
-Quick check as you write: did anything you investigated not land in the writeup? If so, is that intentional? Dropped
-source material is the most common capture failure — name it or keep it.
+**Capture** — Write up what happened — it can be short, it might be long. Quick check as you write: did anything you
+investigated not land in the writeup? If so, is that intentional? Dropped source material is the most common capture
+failure — name it or keep it.
+
+### Update STATUS.md (and journal)
+
+If this workshop produced any artifact, commit, or decision that affects what's active, what's next, or what just
+shipped, update STATUS.md before closing out — and the active epic's `journal.md` if you wrote to it.
+
+**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
+recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
+
+Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
+freshness contract on root docs.
 
 ## Output
 

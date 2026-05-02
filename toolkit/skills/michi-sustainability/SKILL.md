@@ -165,6 +165,88 @@ Produce two sections. The second is as valuable as the first.
 The skipped table documents the thoroughness of the audit and explains why seemingly obvious replacements were
 rejected. Don't skip the skipped table — it's the record that the judgment was applied, not just the wins.
 
+## Optional: Doc Drift Audit
+
+A safety net for currency gaps that escaped recent debriefs. Sustainability is a layer of defense beyond the per-debrief
+Pass 2 — that pass is scoped to the just-shipped milestone; this audit is cross-project and catches what individual
+debriefs missed.
+
+**Signals the project might warrant a doc-drift audit:**
+
+- Multiple milestones have shipped since the last sustainability check
+- Recent sessions have touched mechanisms referenced in `docs/reference/` (env files, build/deploy commands, file
+  layouts, named tools or scripts)
+- A human or agent recently encountered a stale doc by accident (the IDE flagged it; a question revealed it; a
+  cold-start session got tripped up)
+- ARCHITECTURE.md hasn't been touched in 2+ epics
+
+If none of these, skip — the per-debrief Pass 2 is doing its job.
+
+**If the human agrees to run the audit:**
+
+1. **Scope it.** Either "all of `docs/reference/`," "ARCHITECTURE.md," or a specific subset. Don't try the whole corpus.
+2. **For each doc in scope:** read it cold. For every concrete claim (a file path, a function name, a tool, a procedure,
+   an env-file convention), verify against current code or current state.
+3. **Categorize findings:**
+   - **Wrong** — the doc states something contradicted by current reality. Fix or flag.
+   - **Stale-ish** — the doc isn't wrong but is missing recent additions. Note for next debrief.
+   - **Stamp-only** — the doc is correct; refresh the `last-verified:` stamp.
+4. **Output:** a findings list (per-doc, per-finding) plus a summary table — "audited / wrong / stale-ish / current."
+
+The skipped table discipline applies — record what you read and judged current, not just what you fixed. That's the
+record that the audit was actually thorough.
+
+## Optional: Archive Candidates
+
+Looking for `docs/` artifacts that should be moved to `docs/archive/`. This is a sustainability responsibility, not
+a debrief one — debriefs are scoped to the just-shipped milestone and rarely cross over to "what about that closed
+epic from three months ago." The longer the gap between archive sweeps, the more accumulation sits next to active
+work, making it harder to see what's current.
+
+**Scope of this sub-mode:** `docs/epics/`, `docs/sidebars/`, `docs/reference/`. **Not** memory.md or STATUS.md —
+those have their own hygiene and belong to debriefs. Don't lump them in here.
+
+**Signals worth a scan:**
+
+- An epic just closed (and its dir is sitting in `docs/epics/` next to active work)
+- `docs/epics/` contains directories for milestones long shipped, where new sessions wouldn't read them
+- `docs/sidebars/` has entries whose findings have fully landed in reference docs or epic plans
+- A reference doc has been explicitly superseded — by another doc, by a memory rule flagging it as misleading, or
+  by a code-level change that invalidated its contents
+- A multi-epic period has passed since the last archive sweep
+
+**Candidates to surface (with one-line justification each):**
+
+- Closed epic directories → `docs/archive/epics/<name>-MMDDYY/`
+- Sidebars whose output is captured elsewhere → `docs/archive/sidebars/<name>-MMDDYY.md`
+- Reference docs explicitly superseded → `docs/archive/reference/<name>-MMDDYY.{md|json|...}`
+
+### The `-MMDDYY` Suffix Convention
+
+Archived names carry a date suffix indicating when the move happened. Format is **MMDDYY** (e.g., `050126` for
+May 1, 2026):
+
+- Folder: `docs/archive/epics/chat-plugin-050126/`
+- File: `docs/archive/sidebars/v2-legacy-deploy-050126.md`
+- File: `docs/archive/reference/elasticsearch-bookmarks-mapping-050126.json`
+
+Two purposes: (1) you can tell at a glance when something was archived; (2) it prevents name conflicts if the
+original name is reused later (a new "chat-plugin" epic doesn't collide with the archived one).
+
+Use `git mv` for git-tracked artifacts to preserve history. Per project policy, the agent doesn't run git mutations;
+surface the moves and let the human execute.
+
+### Don't Archive
+
+- Sidebars or epics inside the active epic — wait for the whole epic to close, then archive together
+- Reference docs the human still actively cites (`code-style.md`, `local-dev.md`, etc.) even when contents look
+  stale; staleness is a debrief Pass 2 concern, not an archive concern
+- Anything that other epics still cite as historical record. Cross-references in journals are fine; the original
+  doc often still earns shelf space if newer work cites it
+
+The human decides what gets moved. Archiving is destructive-feeling and benefits from a human eye on each call.
+Surface candidates in the findings; let the human approve and run the `git mv`.
+
 ## Output
 
 The sustainability check produces:
@@ -178,6 +260,17 @@ The sustainability check produces:
 **Inputs-vs-outputs check before finalizing.** Sustainability checks often read substantial source material — recent
 commits, multiple files, journals, prior debriefs. Before closing out, verify the findings reflect what was reviewed.
 If you read 13 files and produced 3 bullet points, something was likely dropped. Use the inputs as a checklist.
+
+### Update STATUS.md (and journal)
+
+If the sustainability check produced findings that shift what's active or what's next, or if it changed the project's
+health picture, update STATUS.md before closing out — and the relevant `journal.md` if you wrote to it.
+
+**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
+recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
+
+Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
+freshness contract on root docs.
 
 For deeper checkpoint-style outputs (readiness assessments, milestone-end reviews), `toolkit/checkpoint-doc-formats.md`
 offers optional structured formats — Readiness Checklist, Assessment-doc tables, Operational Guide. Use when the

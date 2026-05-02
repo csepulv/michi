@@ -20,6 +20,21 @@ cp -r <michi-path>/toolkit/skills/michi-* .claude/skills/
 
 This installs all ten skills. Copy only specific skill directories if you want a narrower subset. Each skill is self-contained — its `references/` folder includes everything it needs.
 
+### Alternate: install via agent-sync
+
+If you use [`agent-sync`](https://github.com/csepulv/save-the-tokens/tree/main/tools/agent-sync) to manage skills across machines and tools (Claude Code, Codex, Gemini), the published `toolkit/skills-directory.yaml` already references the Michi skills hosted on GitHub. Add an entry pointing at this repo to your source directory's `skills-directory.yaml`, or copy the published file directly:
+
+```bash
+# from a checkout of csepulv/michi
+cp toolkit/skills-directory.yaml ~/ai-config/personal/
+
+# fetch and sync
+agent-sync fetch
+agent-sync sync
+```
+
+Released versions are listed in [CHANGELOG.md](../CHANGELOG.md). The published repo tracks `main` only — to pin to a specific release, replace `tree/main/` with the corresponding public commit SHA in each `source` URL.
+
 ## Skill Order
 
 ### First time: Bootstrap

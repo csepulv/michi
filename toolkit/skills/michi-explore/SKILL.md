@@ -146,9 +146,16 @@ Brief, built-in — not a separate debrief:
 - **Anything for memory?** — collaboration patterns, corrections, context that would help a future session.
 - **What's next?** — does this feed into planning? Another exploration? Nothing yet?
 
-### Update STATUS.md if warranted
+### Update STATUS.md (and journal)
 
-If the exploration changes what's active, next, or understood about the project.
+If the exploration produced a sidebar, decision, or shift in what's active or next, update STATUS.md before closing
+out — and the relevant `journal.md` if you wrote to it. (Peek mode produces no changes and skips this step.)
+
+**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
+recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
+
+Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
+freshness contract on root docs.
 
 ### What's Next
 

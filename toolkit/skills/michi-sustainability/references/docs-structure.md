@@ -124,6 +124,54 @@ Capitalization signals importance — the filesystem communicates priority witho
 
 ---
 
+## Doc Currency
+
+Long-lived docs drift relative to the code and process they describe. The mass of documentation grows linearly with the
+project; attention to currency does not. Two conventions help make staleness visible at the moment of reading.
+
+### Top-of-doc `Last updated:` stamp (mandatory)
+
+Two docs carry a top-of-doc stamp, edited on every change:
+
+- **STATUS.md** — `**Last updated:** YYYY-MM-DD` at the top. Updated by every skill that produces commits, decisions,
+  or changes to what's active. Read-cold-and-update is the reflex, not "update if changed."
+- **journal.md** (project-level and active epic's) — same stamp at the top. Updated when entries are added.
+
+The skills (workshop, session, planning, debrief, sustainability, explore) all carry an "Update STATUS.md (and
+journal)" step that lands these stamps. The reflex is uniform across skills.
+
+### Section-level `last-verified:` stamp (recommended)
+
+Long-lived reference docs can carry per-section verification stamps. This applies to:
+
+- **ARCHITECTURE.md** — most important. Each section gets `last-verified: YYYY-MM-DD`. Stamp the section you re-verified
+  during a debrief; older stamps in changed areas signal "ground first before citing."
+- **`docs/reference/*.md`** — optional. Apply where the doc is being cited authoritatively for design decisions.
+
+The stamp doesn't make a section correct. It tells the reader the cost of trusting it cheaply: recent stamp = low
+verification cost; old stamp in a fast-moving area = verify before acting.
+
+Format:
+
+```markdown
+### Some Section
+
+**last-verified:** 2026-05-01
+
+(content)
+```
+
+The michi-debrief skill's Pass 2 (Invalidate) and Pass 3 (Currency + Cleanup) maintain these stamps as part of normal
+session close.
+
+### Reading Posture
+
+Per-doc reading guidelines — what to trust, where to verify, how to read each root doc — live in `toolkit/ground-rules.md`.
+That doc is the companion to `principles.md`: where principles shape *how to work*, ground rules shape *how to read
+what's written down*. Loaded by every Michi skill alongside principles.
+
+---
+
 ## Docs Root
 
 By default, Michi docs live in `docs/`. Projects with existing external-facing documentation (product docs, API docs,
@@ -456,10 +504,25 @@ Documents have a lifecycle. Not everything is "current."
 | **On-deck**  | Next up, may need refinement                  | `docs/epics/<epic>/plans/` (draft or outline) |
 | **Planned**  | Eventually, shape is known but details aren't | `STATUS.md` or spec outline                   |
 | **Ideas**    | Maybe, unvalidated                            | `STATUS.md` ideas section                     |
-| **Archived** | Done or closed, kept for reference            | `docs/archive/<epic>/`                        |
+| **Archived** | Done or closed, kept for reference            | `docs/archive/{epics,sidebars,reference}/<name>-MMDDYY{/|.ext}` |
 
 Plans and specs move through this lifecycle. Top-level docs (`CLAUDE.md`, `PROJECT.md`, `ARCHITECTURE.md`) don't —
 they're living documents that stay current.
+
+### Archive Naming Convention
+
+Archived directories and files carry a **`-MMDDYY` date suffix** indicating when the move happened. Format is
+two-digit month, day, year (e.g., `050126` = May 1, 2026):
+
+- Closed epic dir: `docs/archive/epics/chat-plugin-050126/`
+- Standalone sidebar: `docs/archive/sidebars/v2-legacy-deploy-050126.md`
+- Superseded reference doc: `docs/archive/reference/elasticsearch-bookmarks-mapping-050126.json`
+
+Two purposes: (1) you can tell at a glance when something was archived; (2) name conflicts are prevented if the
+original name is reused (a new "chat-plugin" epic doesn't collide with the archived one).
+
+Use `git mv` for git-tracked artifacts to preserve history. The michi-sustainability skill's "Archive Candidates"
+sub-mode surfaces what should move; the human approves and runs the `git mv` (per project git policy).
 
 ---
 

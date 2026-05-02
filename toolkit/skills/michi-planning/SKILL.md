@@ -237,6 +237,17 @@ Before handing off to implementation, verify:
 
 Present the plan to the human for review. The plan is a contract — implementation executes against it.
 
+### Update STATUS.md (and journal)
+
+If planning produced a new plan doc, shifted what's "next," or added/changed an active milestone, update STATUS.md
+before closing out — and the active epic's `journal.md` if you wrote to it.
+
+**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
+recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
+
+Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
+freshness contract on root docs.
+
 ### What's Next
 
 When the plan is approved, the natural next step is `/michi-session` to execute it.

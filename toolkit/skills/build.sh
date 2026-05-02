@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Sync shared reference files from toolkit/ into each skill's references/ directory.
-# Run this after updating toolkit/principles.md, toolkit/docs-structure.md, or toolkit/patterns.md.
+# Run this after updating toolkit/principles.md, toolkit/docs-structure.md, toolkit/ground-rules.md,
+# or toolkit/patterns.md.
 
 set -euo pipefail
 
@@ -10,6 +11,7 @@ TOOLKIT_DIR="$(dirname "$SCRIPT_DIR")"
 SHARED_FILES=(
   "principles.md"
   "docs-structure.md"
+  "ground-rules.md"
 )
 
 # Files shared with specific skills only

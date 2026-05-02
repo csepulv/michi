@@ -1,61 +1,74 @@
+# Skills Directory — published Michi toolkit on GitHub.
+#
+# This file is the public-facing version of the skills directory. It points
+# at skills hosted under csepulv/michi on GitHub, so external users can fetch
+# them with `agent-sync` (see https://github.com/csepulv/save-the-tokens).
+#
+# Pinning: all sources reference `main`. To pin to a release tag instead,
+# replace `tree/main/` with `tree/v<version>/` in the source URL.
+#
+# Internally (in michi-private) the canonical file is
+# `toolkit/skills-directory.yaml` with `source: custom`. Copybara replaces
+# that file with this one at publish time.
+
 skills:
   - name: michi-bootstrap
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-bootstrap
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 258a0752fe336973900016738deabb31
+    sync_hash: null
   - name: michi-docs-site
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-docs-site
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: d3a0b3b5409cd90948d428f9fb006db7
+    sync_hash: null
   - name: michi-explore
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-explore
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: dd8cdffc5de2af8ebb32b370679fa7f4
+    sync_hash: null
   - name: michi-pr-prep
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-pr-prep
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: a7028e9573c5781dd17c0a001772a664
+    sync_hash: null
   - name: michi-planning
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-planning
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 669def7649dc3a5cb71b1e460042cf9a
+    sync_hash: null
   - name: michi-scenario-test-builder
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-scenario-test-builder
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: a44b33c532d9970f0ad2b651ad26e878
+    sync_hash: null
   - name: michi-debrief
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-debrief
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 868b1fb44b910cbc617c4512bda1d974
+    sync_hash: null
   - name: michi-session
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-session
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: 4bbcfa8139a5b85d33f5f5319b1f9a4b
+    sync_hash: null
   - name: michi-sustainability
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-sustainability
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: a850aca9bc1148b42c159e620489b203
+    sync_hash: null
   - name: michi-workshop
-    source: custom
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-workshop
     category: contextual
     disable-model-invocation: false
     last_fetched: null
-    sync_hash: ff23d3c5a4538674aaac37cb85b0c65b
+    sync_hash: null

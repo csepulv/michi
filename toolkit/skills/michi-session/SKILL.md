@@ -225,12 +225,23 @@ Git policy is global (agent doesn't run mutations; human commits).
 ## Post-Milestone
 
 1. **Update the plan doc** — check off completed steps, note deviations
-2. **Update STATUS.md** — reflect current state
+2. **Update STATUS.md** — see "Update STATUS.md (and journal)" below. Required, not conditional.
 3. **Notify** — Slack or established channel:
     - What was completed
     - Results (test count for code, exit criteria assessment for non-code)
     - Decisions needing human review (contract-change level)
     - Whether you're continuing to the next milestone or stopping
+
+### Update STATUS.md (and journal)
+
+After every milestone that produced commits, decisions, or shifts in what's next, update STATUS.md before declaring the
+milestone done — and the active epic's `journal.md` if you wrote to it.
+
+**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
+recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
+
+Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
+freshness contract on root docs.
 
 ## Between Milestones
 
