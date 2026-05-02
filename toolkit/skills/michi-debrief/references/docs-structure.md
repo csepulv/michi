@@ -304,6 +304,20 @@ to `docs/reference/` during debrief.
 Sidebars may feed into epic planning — a library evaluation produces a recommendation that becomes a constraint in the
 next epic's spec. Reference from plan docs when relevant.
 
+### Workshop work (no separate tier)
+
+Workshop sessions (`/michi-workshop`) — small fixes, focused features, quick investigations — don't get their own
+document tier. Output rolls up into the existing tiers based on scope:
+
+- **Bug fix or very small workshop:** a `docs/journal.md` entry is enough (the workshop skill has a `bugfix` mode that
+  defaults to this).
+- **Standalone workshop with substantive design decisions:** a sidebar (`docs/sidebars/<topic>.md`) — same shape as any
+  other sidebar.
+- **Workshop inside an active epic:** the active epic's `journal.md` or `plans/<plan>.md`.
+
+There is no `docs/workshop/` directory. If a workshop reaches for one, the work either belongs in an epic (escalate
+via `/michi-planning`) or as a sidebar.
+
 ### Scaling Within an Epic
 
 Each sub-item (spec, verification, journal, plans) can be a single file or a directory depending on scope:
@@ -412,7 +426,7 @@ UPPERCASE files stay in place:
 
 Bootstrap provides a subcommand for this (`/michi-bootstrap multi-project`).
 
-See `docs/sidebars/multi-project-doc-structure.md` for the full rationale and options considered.
+See `docs/archive/sidebars/multi-project-doc-structure-050226.md` for the full rationale and options considered.
 
 ---
 

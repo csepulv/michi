@@ -50,6 +50,16 @@ documentation reliably up-to-date as agents work in a codebase.
   for `ARCHITECTURE.md` and files under `docs/reference/`. The stamp tells
   a reader how recently a doc was verified — recent means trust cheaply,
   old means verify before acting on it.
+- **`michi-workshop` bug-fix mode.** New `/michi-workshop bugfix <description>`
+  invocation produces a journal entry by default instead of scaffolding a
+  `docs/workshop/<topic>.md` doc. The skill confirms with the user before
+  producing more than the journal note.
+- **"Workshop work" guidance in `toolkit/docs-structure.md`.** Documents
+  that workshop output rolls up into existing tiers (journal entry, sidebar,
+  or active epic) rather than getting its own `docs/workshop/` directory.
+- **`publish/README.md` shows the current toolkit version.** A
+  `**Current version:** v<version>` line links to `CHANGELOG.md`. Updated
+  by the release-prep flow on each version bump.
 ### Changed
 
 - **`michi-debrief` reorganized into three explicit passes:**

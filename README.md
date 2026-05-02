@@ -4,6 +4,8 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
+**Current version:** `v2026.05.02` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+
 AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable and trustworthy — or make it clear when it isn't trustworthy yet.
 
 Michi is for engineers using Claude Code for sustained, multi-milestone development — not one-off tasks. If you've tried agent coding and found it powerful but inconsistent, this is the structure that closes the gap.
@@ -37,6 +39,22 @@ cp -r michi/toolkit/skills/michi-* ~/.claude/skills/
 ```
 
 Each skill is self-contained — its `references/` folder includes everything it needs.
+
+### Alternate: install via agent-sync
+
+If you use [`agent-sync`](https://github.com/csepulv/save-the-tokens/tree/main/tools/agent-sync) to manage skills across machines and tools (Claude Code, Codex, Gemini), the published `toolkit/skills-directory.yaml` already references the Michi skills hosted on GitHub. Add an entry pointing at this repo to your source directory's `skills-directory.yaml`, or copy the published file directly:
+
+```bash
+# from a checkout of csepulv/michi
+cp toolkit/skills-directory.yaml ~/ai-config/personal/
+
+# fetch and sync
+agent-sync fetch
+agent-sync sync
+```
+
+Released versions are listed in [CHANGELOG.md](../CHANGELOG.md). The published repo tracks `main` only — to pin to a specific release, replace `tree/main/` with the corresponding public commit SHA in each `source` URL.
+
 
 ### First run
 

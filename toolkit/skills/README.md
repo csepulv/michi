@@ -129,8 +129,8 @@ michi-debrief
 michi-workshop
   ├── Reads: relevant code, context
   ├── Maintains: Michi discipline (assumptions, verification, decisions)
-  ├── Scales: from a few bullets to a workshop doc
-  └── Produces: working code + optional docs/workshop/<topic>.md
+  ├── Scales: from a few bullets in conversation to a sidebar/journal entry
+  └── Produces: working code + journal entry, sidebar, or epic plan (no separate workshop tier)
 ```
 
 ## Shared References
