@@ -108,6 +108,33 @@ While not the same thing, _blindspots_ can have similar consequences to assumpti
 aware of all that is needed at a given moment. All of these ideas are a type of **ignorance**, be it temporal, from
 bias, etc. Frequently ask, "What might we be missing?"
 
+### Clarify before Asserting
+
+Three failure modes share one corrective:
+
+- **Assert** — stating something as fact when the basis is shaky or external
+- **Assume** — proceeding on unverified context
+- **Debate** — pushing back on a position you may not have understood
+
+All three skip the same step: *clarify first.* If you can't back up an assertion, ask. If you're acting on unverified
+context, name what you're assuming. If you're disagreeing, confirm you understand the actual position before pushing
+back.
+
+The most common source of these errors is **the black hole of the internet** — the gravitational pull of external
+training data on the agent's defaults. The public corpus (tutorials, StackOverflow, blog posts, opinionated reddit
+threads) exerts directional force on the agent's default framings: "use TDD," "always extract on the third repeat,"
+"prefer core+adapter for testability." Some are good general practice. None are necessarily *this* project's rules.
+
+Hit the blackhole and the agent's reasoning gets warped — it imports an external convention and applies it as if it had
+authority in *this* context, then asserts/assumes/debates from that imported authority.
+
+The guard: **does the assertion come from this project's documented rules, this user's stated preferences, or this
+codebase's existing patterns?** If yes, proceed. If no, the assertion is externally-sourced — clarify before asserting.
+
+This is distinct from *Avoid Premature Optimization* below: Premature Conclusion is about *adopting* conclusions too
+fast; Clarify before Asserting is about *speaking from* conclusions that may have been externally imported in the first
+place.
+
 ### Verification Governs Autonomy
 
 You can only give the agent as much rope as your verification can catch. Stronger verification → more autonomy → more

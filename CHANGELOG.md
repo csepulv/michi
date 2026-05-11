@@ -11,9 +11,10 @@ matching version recorded here.
 
 ## [2026.05.10] - 2026-05-10
 
-This release adds a Complexity/Uncertainty axis for pacing decisions and a new
-principle on avoiding premature conclusions. The planning and workshop skills
-apply the framework.
+This release adds a Complexity/Uncertainty axis for pacing decisions and two
+new principles on epistemic discipline — avoiding premature conclusions and
+clarifying before asserting. The planning and workshop skills apply the
+framework.
 
 ### Added
 
@@ -24,6 +25,11 @@ apply the framework.
 - **New principle: *Avoid Premature Optimization*** in `toolkit/principles.md`.
   Names a broader Premature Conclusion trap (generalization, consolidation,
   systemization, speed) and a remedy: intervention proportional to evidence.
+- **New principle: *Clarify before Asserting*** in `toolkit/principles.md`.
+  Names three sibling failure modes (asserting without basis, assuming without
+  checking, debating without understanding) and one corrective: clarify first.
+  Notes external training data as the common source — what looks like authority
+  may be imported convention.
 - **`michi-planning` C/U pre-flight.** Agent assesses where the milestone sits
   on Complexity/Uncertainty and records it in the plan doc before exploring.
 - **`michi-workshop` *Mind the Complexity and Uncertainty* discipline.**
