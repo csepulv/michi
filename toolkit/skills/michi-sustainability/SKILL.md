@@ -233,8 +233,9 @@ May 1, 2026):
 Two purposes: (1) you can tell at a glance when something was archived; (2) it prevents name conflicts if the
 original name is reused later (a new "chat-plugin" epic doesn't collide with the archived one).
 
-Use `git mv` for git-tracked artifacts to preserve history. Per project policy, the agent doesn't run git mutations;
-surface the moves and let the human execute.
+Use `git mv` for git-tracked artifacts to preserve history. The agent runs `git mv` directly — it's the one git
+mutation the agent is permitted. For bulk archive sweeps (more than ~5 files), surface the list and confirm before
+running.
 
 ### Don't Archive
 
@@ -245,7 +246,8 @@ surface the moves and let the human execute.
   doc often still earns shelf space if newer work cites it
 
 The human decides what gets moved. Archiving is destructive-feeling and benefits from a human eye on each call.
-Surface candidates in the findings; let the human approve and run the `git mv`.
+Surface candidates in the findings; once approved, the agent runs the `git mv` (individual renames directly; confirm
+the full list before bulk sweeps).
 
 ## Output
 

@@ -9,6 +9,35 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.05.10] - 2026-05-10
+
+This release adds a Complexity/Uncertainty axis for pacing decisions and a new
+principle on avoiding premature conclusions. The planning and workshop skills
+apply the framework.
+
+### Added
+
+- **Complexity/Uncertainty pacing axis** in *Two Modes of Practice*
+  (`toolkit/principles.md`). Mode (Paired vs. Entrusted) and C/U are
+  independent axes; C/U shapes pacing (Crawl → Walk → Run → Fly) within either
+  mode.
+- **New principle: *Avoid Premature Optimization*** in `toolkit/principles.md`.
+  Names a broader Premature Conclusion trap (generalization, consolidation,
+  systemization, speed) and a remedy: intervention proportional to evidence.
+- **`michi-planning` C/U pre-flight.** Agent assesses where the milestone sits
+  on Complexity/Uncertainty and records it in the plan doc before exploring.
+- **`michi-workshop` *Mind the Complexity and Uncertainty* discipline.**
+  Workshop's lighter ceremony doesn't lower work's risk; the new discipline
+  adjusts pacing and pairing within workshop. Don't confuse *small* with
+  *safe*.
+
+### Changed
+
+- **`michi-workshop` escalation framing.** Escalation triggers now reflect
+  ceremony growth, not risk; risk is handled by the new C/U discipline.
+- **`michi-sustainability` archive-sweep policy.** Agent runs `git mv` directly
+  for archive renames; bulk sweeps (>5 files) require confirmation.
+
 ## [2026.05.02] - 2026-05-02
 
 First versioned release of the Michi toolkit. Adds CalVer versioning, an

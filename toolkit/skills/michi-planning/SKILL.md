@@ -33,10 +33,34 @@ Before starting:
   from a prior context-capture session. These show how users interact with the application, not just how the code is
   structured. When available, they produce better verification scenarios.
 
+## Assess Complexity and Uncertainty
+
+Before exploring or drafting, assess where this milestone sits on the Complexity and Uncertainty
+axis (see *Two Modes of Practice* in `references/principles.md`). The reading shapes exploration
+depth, assumption-surfacing rigor, and implementation pacing.
+
+**Complexity factors:** greenfield vs. brownfield vs. legacy, repo size, tightness of existing
+constraints, depth and rigidity of dependencies.
+
+**Uncertainty factors:** novel vs. commodity domain, requirements clarity (well-defined vs.
+discovered through the work), test coverage, prior agent exposure to this codebase, novel pattern
+or new territory (a named code pattern in the milestone description counts here).
+
+Combine into Low / Mixed / High. Record the reading and the reasoning at the top of the plan doc.
+
+- **Low C/U** — pacing is the user's choice. Light exploration, standard assumption surfacing.
+- **Mixed** (Low on one axis, High on the other) — be careful. The user may want Entrusted; confirm
+  and suggest a Paired example or a paired review of the first milestone before transitioning.
+- **High C/U** — start in Paired with Crawl/Walk. Deeper exploration. More rigorous assumption
+  surfacing. Entrusted is earned by demonstrating alignment over the first one or two milestones.
+
+If the reading is High or Mixed, flag it to the user and confirm pacing before proceeding.
+
 ## First-Epic Guidance
 
 The first Michi epic on a project is different. The accumulated Michi context (journals, learnings, scenarios, architecture
-docs) that enriches later planning doesn't exist yet.
+docs) that enriches later planning doesn't exist yet. **First epic is implicitly High Complexity/Uncertainty**, so the
+prescription below follows from the *Assess Complexity and Uncertainty* section above.
 
 **Spec maturity:** The starting spec is a hypothesis, not a contract. It may reference tools that don't exist, make
 assumptions about APIs that haven't been validated, or describe a scope that shifts once implementation begins. Treat it

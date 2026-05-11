@@ -10,8 +10,8 @@ description:
 The everyday carry tool. Same discipline as the full michi software factory, less ceremony. Strong on rigor, flexible on process.
 
 **When the pocket Leatherman is enough, don't go to the factory.** Bug fixes, small features, quick investigations,
-focused improvements. But know when you've outgrown it — if the work is expanding beyond what you can hold in your head,
-escalate to full Michi (planning → session → debrief).
+focused improvements. Escalate to full Michi (planning → session → debrief) when **the ceremony needs to scale up** —
+not when the work feels risky. Risk is handled inside workshop via *Mind the Complexity and Uncertainty* (see below).
 
 **This skill encodes the questions Michi asks, not the artifacts Michi produces.** Artifacts emerge when the work demands
 them.
@@ -29,6 +29,25 @@ These always apply. They're what makes this Michi and not just winging it.
 
 Before acting, say what you're assuming. During work, name new assumptions as they appear. When you're wrong, say so.
 This is the single most valuable habit — it catches bugs before they're written.
+
+### Mind the Complexity and Uncertainty
+
+Workshop is about ceremony, not risk. The same Complexity/Uncertainty axis from *Two Modes of
+Practice* (see `references/principles.md`) applies — but here it shapes pacing and pairing
+*within* workshop, not whether to use workshop at all. **Don't confuse *small* with *safe*.**
+
+**Signals that this workshop is High C/U:**
+
+- Tightly-constrained brownfield code where existing conventions must be preserved
+- A named code pattern (adapter, strategy, façade, ...) whose interpretation could be ambiguous
+- First time the agent has worked in this codebase or subsystem
+- Small change to load-bearing logic
+
+**When High C/U:** keep workshop ceremony, but tighten the posture — shorter turns, more frequent
+checkpoints, Crawl/Walk pacing, explicit surfacing of interpretation choices. The artifact stays
+small; the discipline tightens.
+
+**When Mixed C/U:** confirm pacing with the user before defaulting to Run.
 
 ### Plan and Agree
 
@@ -59,13 +78,16 @@ not lost.
 
 ### Know When to Escalate
 
-The hardest discipline. Recognize when the EDC isn't enough:
+The hardest discipline. Recognize when **the ceremony level needs to scale up** — this is about ceremony,
+not about risk. (For risk, see *Mind the Complexity and Uncertainty* above.)
+
+Signals that workshop ceremony is insufficient:
 
 - The scope just expanded beyond what you planned
 - You're making decisions that affect things outside this task
-- You need verification infrastructure you don't have
+- The work needs an explicit contract with the human about scope, acceptance, or deliverables
+- You need verification infrastructure that requires explicit design (scenarios, test plans, fixtures)
 - The workshop doc is growing past a page
-- You're unsure whether the change is safe
 
 Flag it: "This is getting bigger than workshop — should we switch to a full session?" The human decides.
 
@@ -82,11 +104,12 @@ appropriate to bug fixes:
   line, regression test added. **Confirm with the user** if uncertain whether more is warranted (a sidebar, an
   epic-journal entry, or a pattern in `docs/reference/patterns.md`). When in doubt, ask.
 - **Escalate if it stops being a bug fix.** Scope creep ("while I'm in here…") is the failure mode. If the diagnosis
-  reveals architectural problems or the fix touches multiple subsystems, surface that and offer to switch to a full
-  session.
+  reveals the fix needs explicit design discussion or touches multiple subsystems, surface that and offer to switch to
+  a full session.
 
-The disciplines (Surface Assumptions, Plan and Agree, Verify Before Claiming Done, Capture Decisions, Know When to
-Escalate) all still apply. Bug-fix mode adjusts the *output ceremony*, not the *process rigor*.
+The disciplines (Surface Assumptions, Mind the Complexity and Uncertainty, Plan and Agree, Verify Before Claiming
+Done, Capture Decisions, Know When to Escalate) all still apply. Bug-fix mode adjusts the *output ceremony*, not the
+*process rigor*.
 
 ## Flow
 

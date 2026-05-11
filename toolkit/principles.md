@@ -145,8 +145,30 @@ of the tools, the codebase, and the verification discipline.
 
 Moving from Entrusted back to Paired isn't regression. It's knowing when to slow down.
 
-**The first epic should always be Paired.** The context that makes Entrusted viable doesn't exist yet. Start slow, earn
-speed.
+**Pacing follows from Complexity and Uncertainty.** Mode (Paired vs. Entrusted) is one axis. The second
+axis is the work's Complexity and Uncertainty — a combined reading of:
+
+- **Complexity factors:** greenfield vs. brownfield vs. legacy, repo size, tightness of existing
+  constraints, depth and rigidity of dependencies.
+- **Uncertainty factors:** novel vs. commodity domain, requirements clarity (well-defined vs.
+  discovered through the work), test coverage, prior agent exposure to this codebase, new pattern or
+  new territory.
+
+The two combine into Low or High. Pacing (Crawl → Walk → Run → Fly — see *Navigating Complexity*
+above) follows from where the work sits:
+
+- **Low Complexity/Uncertainty** — pacing is the user's choice. Entrusted at any pace is defensible.
+- **Mixed (Low on one axis, High on the other)** — be careful. You may not need the full baby steps
+  of High C/U, but don't start running at the outset. If the user wants to jump to Entrusted, ask
+  them to confirm, and suggest starting with a Paired example or a paired review of the first
+  milestone before transitioning.
+- **High Complexity/Uncertainty** — start in Paired with Crawl/Walk. Entrusted is earned by
+  demonstrating alignment over the first one or two milestones. Brownfield with tight conventions,
+  first epic in an unfamiliar codebase, and novel pattern application are all High signals.
+
+**The first epic in a codebase is implicitly High Complexity/Uncertainty** — shared context doesn't yet
+exist, agent exposure is none, and conventions (if any) are unread. The simple rule "the first epic
+should always be Paired" is the safe default; the grid is the underlying reason. Both are correct.
 
 The metaphor: running with the lights off. Paired is lights-on — you need to see the agent's work. Entrusted
 is running dark — verification infrastructure, decision logs, and scenario discipline see for you. The project is about
@@ -184,7 +206,9 @@ The triple is a triage tool. When a concern surfaces, ask: essential, incidental
 what you do with it. Essential gets attention now. Incidental gets reuse, not invention. Noise gets deferred —
 explicitly, so you don't re-pay the cost of re-evaluating it every time it resurfaces.
 
-**On optimization.** Optimization is seductive. It feels like rigor — faster tests, fewer allocations, tighter
+### Avoid Premature Optimization
+
+Optimization is seductive. It feels like rigor — faster tests, fewer allocations, tighter
 loops. But optimizing the wrong thing is worse than not optimizing at all, because it spends complexity on
 something that doesn't matter while distracting from something that does.
 
@@ -194,6 +218,24 @@ than a Google launch. The analysis of possible inefficiency isn't wrong — it's
 demands it.
 
 The default is: don't optimize. Any choice to optimize must be defended, never assumed. When in doubt, ask.
+
+**Premature optimization is one form of a broader trap: Premature Conclusion.** A conclusion adopted before
+the evidence justified it. Other variants worth recognizing:
+
+- **Premature generalization** — one case → new rule. (One bug fix becomes a new skill. One incident becomes
+  a new principle.)
+- **Premature consolidation** — one observed pattern → an abstraction. (Two similar functions become a
+  shared helper, before a third has emerged.)
+- **Premature systemization** — one workflow hiccup → new process or new ceremony.
+- **Premature speed** — rushing to completion without checking assumptions. "Look before you leap." Speed
+  of execution serves nothing if the action is wrong. (See *Minimize Latency* above: latency reduction is
+  about feedback loops, not raw execution speed. And see *Deliberate and Methodical* below: the
+  *actionable AND least painful AND something we could live with* check is the corrective when you catch
+  yourself rushing.)
+
+Common remedy across variants: **intervention proportional to evidence.** One instance → a note in
+`journal.md`. Two instances → a `## Decisions` line. Three instances (the Rule of 3 threshold) → a
+principle update, a skill change, a reference doc. Match the size of the response to the size of the evidence.
 
 ### Deliberate and Methodical — Avoid Flailing
 
