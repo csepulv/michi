@@ -196,6 +196,74 @@ If none of these, skip — the per-debrief Pass 2 is doing its job.
 The skipped table discipline applies — record what you read and judged current, not just what you fixed. That's the
 record that the audit was actually thorough.
 
+## Optional: Doc Compress
+
+Epic-close (or closing-sidebar) compression. Pairs with Archive Candidates as a two-step closing flow:
+**compress → archive**. Use when "this epic is done," before the directory moves to `docs/archive/`.
+
+Most Michi docs support work-in-progress — plans, per-milestone debriefs, journal entries, scratch sidebars,
+drafts of decisions. They earn their weight *during* the epic. After the epic ships, that weight competes with
+active work for the reader's attention and adds nothing the code itself doesn't already convey.
+
+**The codebase is the authoritative source.** Doc mass that duplicates or competes with what's in the code is a
+tax on future sessions — agent and human alike. Compression cuts the tax. What survives is what the code cannot
+deliver: a primer pointing at where key things live, an explanation of *why* a decision was made, context that
+wouldn't be obvious from reading the diff.
+
+**Scope:** the closing epic's `docs/epics/<epic>/` tree, or a similarly closing `docs/sidebars/<topic>/` if the
+sidebar has accumulated comparable doc mass.
+
+### What Survives
+
+Only these:
+
+- **Revised `spec.md`** — rewritten to reflect what was *actually delivered*, not what was originally proposed.
+  Overview of the real requirements; summary of the final milestones (which often diverge from the original
+  plan). Captures result, not the messy path that got there.
+- **Revised `verification.md`** — overview of how the epic was verified. Light on details; the automated tests
+  are the long-lived artifact, and this doc points at them and explains the approach.
+- **`memory.md`, `journal.md`, `STATUS.md` if local to the epic/sidebar** — preserved as historical record of
+  how the work unfolded.
+
+Everything else gets cut: per-milestone plans with checked-off steps, individual milestone debriefs, drafts of
+decisions that have since landed in code, scratch sidebars, exploration docs whose conclusions have been
+absorbed elsewhere.
+
+### The Test
+
+For anything you're tempted to keep in place, ask: *can a future reader get this from the code alone?* If yes,
+cut.
+
+For anything you're tempted to cut, ask: *will someone in six months need this — to understand **why** a
+decision was made, or **where** to find a key piece of the system?* If yes, the right move is usually
+**promote** to a project-level reference doc, not keep in place. The epic dir is not a permanent home.
+
+### Procedure
+
+Work through these in order:
+
+1. **Inventory** the epic's docs. List what's there so the cut/promote/revise decisions are visible.
+2. **Promote** non-survivor material that has value beyond the epic. Confirm each promotion with the human —
+   the call of "earns a permanent home" is the human's. Common targets:
+   - Patterns → `docs/reference/patterns.md` (or `patterns/<category>/<slug>.md` if the project uses the
+     hierarchical convention).
+   - Landmarks and durable decisions → project-level `docs/memory.md` Landmarks section or
+     `docs/reference/key-decisions.md`.
+3. **Revise `spec.md`** — rewrite as an overview of actual requirements and the milestones actually shipped.
+   Drop original-plan detail that didn't survive.
+4. **Revise `verification.md`** — light overview of the verification approach. Point at the long-lived
+   automated tests rather than restating them.
+5. **Cut** plans, per-milestone debriefs, scratch sidebars, in-progress discussion docs that have served their
+   purpose. Keep any epic-local `memory.md` / `journal.md` / `STATUS.md`.
+6. **Present the compressed directory for human review.** Surface what survived, what was promoted where, and
+   what was cut. Human approves before Archive Candidates runs.
+
+### Hand-off
+
+Compress is step one of a two-step closing flow: **compress** (revise + promote + cut) → **archive** (`git mv`
+to `docs/archive/epics/<name>-MMDDYY/`). They're intentionally separated — compression involves judgment;
+archive is mechanical. Keep them distinct so the judgment work has a clean review point before the move.
+
 ## Optional: Archive Candidates
 
 Looking for `docs/` artifacts that should be moved to `docs/archive/`. This is a sustainability responsibility, not

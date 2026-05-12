@@ -4,7 +4,7 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
-**Current version:** `v2026.05.10` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+**Current version:** `v2026.05.11` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable and trustworthy — or make it clear when it isn't trustworthy yet.
 

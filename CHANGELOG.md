@@ -9,6 +9,49 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.05.11] - 2026-05-11
+
+### Added
+
+- **`michi-sustainability doc-compress` — new optional sub-mode.** Closing-flow step for
+  compressing an epic's docs before archive. When an epic ships, much of its working
+  scaffolding (per-milestone plans, individual milestone debriefs, scratch sidebars,
+  decision drafts already in the code) no longer earns its weight. The sub-mode walks
+  through what survives — a revised `spec.md` capturing what was actually delivered, a
+  revised `verification.md` pointing at the long-lived automated tests, plus any
+  epic-local `memory.md` / `journal.md` / `STATUS.md` — and what to promote before
+  cutting (patterns to project-level reference docs; landmarks and durable decisions
+  to project memory or key-decisions). Pairs with the existing Archive Candidates
+  sub-mode as a two-step closing flow: compress, then archive.
+
+- **`/michi-pr-prep tldr` — new output mode.** Produces only the short, essential
+  version of a PR review guide, for reviewers who need orientation and not a deep map.
+  The default `/michi-pr-prep` now produces a TLDR section followed by a Details
+  section. The TLDR composes three elements: a one-paragraph *What This PR Does*
+  summary; a new *How the diff breaks down* table that categorizes changed files by
+  area with file counts and line deltas (gives the reviewer a one-glance sense of
+  shape and scale); and a new *What to look at first* — 2-4 bullets pointing at the
+  highest-value or highest-risk parts of the diff. The Details section retains the
+  existing File Map / Design Decisions / Things to Check / What Was Not Changed /
+  Process Notes content. The pre-existing "Two Modes" heading (in-session vs.
+  from-the-diff context) is renamed to "Context Modes" so the context-availability
+  dimension reads cleanly alongside the new TLDR-vs-full output-shape dimension.
+
+### Changed
+
+- **`toolkit/principles.md` — *Clarify before Asserting* principle expanded.** The
+  principle, introduced in v2026.05.10, now spells out a four-level priority order
+  for grounding decisions: most recent user instructions → session docs the user
+  pointed at → repo and project docs → outside training-data knowledge. Two new
+  framings: *authority ≠ accuracy* (even highest-authority sources can be wrong; the
+  agent should surface incongruities and ask rather than silently pick a side); and
+  two failure types — *untraceable* (basis can't be located in proximal sources) vs.
+  *untrustworthy* (basis found but doesn't hold up: typo, contradiction, staleness,
+  or cross-source conflict). The "black hole of the internet" section is broadened:
+  provisional internal artifacts (sidebar drafts, friction-inventory entries marked
+  "resolved" that still read as provisional) exert the same authority pull as
+  external training-data conventions.
+
 ## [2026.05.10] - 2026-05-10
 
 This release adds a Complexity/Uncertainty axis for pacing decisions and two
