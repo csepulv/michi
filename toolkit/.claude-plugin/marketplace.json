@@ -1,0 +1,15 @@
+{
+  "name": "michi",
+  "owner": {
+    "name": "Christian Sepulveda",
+    "email": "csepulv@gmail.com"
+  },
+  "description": "Michi tooling — small additions for Claude Code that complement the Michi toolkit's skills + principles. Includes both stable and experimental plugins; experimental plugins use the `experimental-` name prefix.",
+  "plugins": [
+    {
+      "name": "experimental-nudge",
+      "source": "./experimental/nudge",
+      "description": "Periodic judgment-sequence nudge fired at every PostToolBatch. Surfaces a consideration prompt as a system reminder; the agent reads it and may engage. Pure salience, no gating. Experimental — not part of the regular toolkit."
+    }
+  ]
+}

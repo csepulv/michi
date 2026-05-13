@@ -1,0 +1,5 @@
+{
+  "name": "experimental-nudge",
+  "version": "0.1.0",
+  "description": "Periodic judgment-sequence nudge for Claude Code. Fires at every PostToolBatch and injects a consideration prompt as a system reminder. Pure salience — the agent reads it and may consider, no gating, no action enforcement. Experimental: not part of the regular Michi toolkit."
+}

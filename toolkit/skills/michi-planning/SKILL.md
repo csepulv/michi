@@ -134,6 +134,10 @@ List assumptions explicitly. Challenge each: is this actually true? Could it cha
 Keep questions focused. Don't ask about implementation details you can decide yourself — ask about _contracts_,
 _constraints_, and _assumptions_.
 
+**Watch for scope assumptions especially.** "They probably also want X" or "this should include Y" is the
+*impulse to help* pull (see *Clarify before Asserting* in `references/principles.md`). Match the depth of the
+plan to the ask; surface proposed scope expansion as a question, not a conclusion.
+
 ### 3. Co-Design Verification Scenarios
 
 Spec and verification are co-designed — defining "how will we verify this?" shapes the spec itself. Scenarios aren't

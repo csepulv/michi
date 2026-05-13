@@ -28,6 +28,11 @@ decisions). See `references/principles.md`.
 When the argument starts with `peek`, orient first — read, summarize, wait. Don't propose actions or start
 investigating. Build shared context, then ask what the human wants to work on.
 
+Peek is the canonical surface where the *impulse to help (without full context and understanding)* — the
+helpfulness pull from *Clarify before Asserting* in `references/principles.md` — collides with progressive
+disclosure. The user asked for S; delivering L is scope inflation, not service. Match the depth of the answer
+to the depth of the question.
+
 ```
 /michi-explore peek              → orient at M level (default)
 /michi-explore peek S             → quick orientation

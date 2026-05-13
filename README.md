@@ -4,28 +4,31 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
-**Current version:** `v2026.05.11` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+**Current version:** `v2026.05.13` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
 
-AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable and trustworthy — or make it clear when it isn't trustworthy yet.
+AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and
+declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable
+and trustworthy — or make it clear when it isn't trustworthy yet.
 
-Michi is for engineers using Claude Code for sustained, multi-milestone development — not one-off tasks. If you've tried agent coding and found it powerful but inconsistent, this is the structure that closes the gap.
+Michi is for engineers using Claude Code for sustained, multi-milestone development — not one-off tasks. If you've tried
+agent coding and found it powerful but inconsistent, this is the structure that closes the gap.
 
 ## Skills
 
 Ten Claude Code skills covering the full development lifecycle:
 
-| Skill                         | When                  | What it does                                                                          |
-| ----------------------------- | --------------------- | ------------------------------------------------------------------------------------- |
-| `michi-bootstrap`             | Before first session  | Survey project, assess docs gaps, scaffold Michi structure interactively              |
-| `michi-explore`               | Investigative work    | Structured conversation for research, orientation, and brainstorming                  |
-| `michi-planning`              | Before implementation | Explore codebase, surface assumptions, co-design verification, write the plan doc     |
-| `michi-session`               | During implementation | Rigid execution — implement, test after every change, log decisions, verify, commit   |
-| `michi-workshop`              | Small work            | Lighter discipline for bug fixes, small features, and quick explorations              |
-| `michi-debrief`               | After implementation  | Review decisions, promote learnings, curate scenarios, calibrate trust                |
-| `michi-sustainability`        | At checkpoints        | Scaled health checks — within-milestone, between-milestone, between-epic              |
-| `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                         |
-| `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why              |
-| `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe   |
+| Skill                         | When                  | What it does                                                                        |
+|-------------------------------|-----------------------|-------------------------------------------------------------------------------------|
+| `michi-bootstrap`             | Before first session  | Survey project, assess docs gaps, scaffold Michi structure interactively            |
+| `michi-explore`               | Investigative work    | Structured conversation for research, orientation, and brainstorming                |
+| `michi-planning`              | Before implementation | Explore codebase, surface assumptions, co-design verification, write the plan doc   |
+| `michi-session`               | During implementation | Rigid execution — implement, test after every change, log decisions, verify, commit |
+| `michi-workshop`              | Small work            | Lighter discipline for bug fixes, small features, and quick explorations            |
+| `michi-debrief`               | After implementation  | Review decisions, promote learnings, curate scenarios, calibrate trust              |
+| `michi-sustainability`        | At checkpoints        | Scaled health checks — within-milestone, between-milestone, between-epic            |
+| `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                       |
+| `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why            |
+| `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe |
 
 The core loop is **bootstrap → planning → session → debrief**. Everything else is supplementary.
 
@@ -42,7 +45,10 @@ Each skill is self-contained — its `references/` folder includes everything it
 
 ### Alternate: install via agent-sync
 
-If you use [`agent-sync`](https://github.com/csepulv/save-the-tokens/tree/main/tools/agent-sync) to manage skills across machines and tools (Claude Code, Codex, Gemini), the published `toolkit/skills-directory.yaml` already references the Michi skills hosted on GitHub. Add an entry pointing at this repo to your source directory's `skills-directory.yaml`, or copy the published file directly:
+If you use [`agent-sync`](https://github.com/csepulv/save-the-tokens/tree/main/tools/agent-sync) to manage skills across
+machines and tools (Claude Code, Codex, Gemini), the published `toolkit/skills-directory.yaml` already references the
+Michi skills hosted on GitHub. Add an entry pointing at this repo to your source directory's `skills-directory.yaml`, or
+copy the published file directly:
 
 ```bash
 # from a checkout of csepulv/michi
@@ -53,8 +59,8 @@ agent-sync fetch
 agent-sync sync
 ```
 
-Released versions are listed in [CHANGELOG.md](../CHANGELOG.md). The published repo tracks `main` only — to pin to a specific release, replace `tree/main/` with the corresponding public commit SHA in each `source` URL.
-
+Released versions are listed in [CHANGELOG.md](../CHANGELOG.md). The published repo tracks `main` only — to pin to a
+specific release, replace `tree/main/` with the corresponding public commit SHA in each `source` URL.
 
 ### First run
 
@@ -76,6 +82,19 @@ The toolkit lives under [`toolkit/`](toolkit/):
 - [`docs-structure.md`](toolkit/docs-structure.md) — how target projects organize documentation
 - [`patterns.md`](toolkit/patterns.md) — cross-cutting patterns and anti-patterns
 - [`skills/`](toolkit/skills/) — all Claude Code skills
+- [`experimental/`](toolkit/experimental/) — experimental items (plugins, drafts) — try with eyes open
+
+## Experimental
+
+Some items live under [`toolkit/experimental/`](toolkit/experimental/) — work that's being shared, but isn't
+part of the regular toolkit. Experimental items are shared so people can try them, give feedback, or fork them; the
+contents are real and usable, but unsettled. Experimental plugins use the `experimental-` name prefix.
+
+See [`toolkit/experimental/README.md`](toolkit/experimental/README.md) for the contract — what's there, what to expect,
+how items move in or out.
+
+The first experimental item is [`experimental-nudge`](toolkit/experimental/nudge/) — a Claude Code plugin that fires a
+brief consideration prompt after every tool-call iteration. See its README for install and caveats.
 
 ## Status
 

@@ -28,7 +28,9 @@ These always apply. They're what makes this Michi and not just winging it.
 ### Surface Assumptions
 
 Before acting, say what you're assuming. During work, name new assumptions as they appear. When you're wrong, say so.
-This is the single most valuable habit — it catches bugs before they're written.
+This is the single most valuable habit — it catches bugs before they're written. Watch especially for assumptions
+about *scope* — "they probably also want X" or "while I'm in here, I'll fix Y" is the *impulse to help* pull
+(see *Clarify before Asserting* in `references/principles.md`), not service. Surface scope expansion as a question.
 
 ### Mind the Complexity and Uncertainty
 

@@ -9,6 +9,50 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.05.13] - 2026-05-13
+
+This release adds a public surface for sharing in-progress Michi work outside the regular toolkit, and reorganizes an
+existing principle to name a third common pattern of unsurfaced assumption.
+
+### Added
+
+- **New `toolkit/experimental/` directory — work-in-progress, shared early to allow others to explore and experiment.**
+  Items here aren't part of the regular toolkit, so install with eyes
+  open. Plugins use the `experimental-` name prefix. See [
+  `toolkit/experimental/README.md`](toolkit/experimental/README.md) for the full contract.
+
+- **(experimental) `experimental-nudge` plugin** — a Claude Code plugin that fires a brief consideration prompt as a
+  system reminder after every tool-call iteration. The agent reads it and may engage; no gating, no enforcement. The
+  bullets in the prompt are drawn from the Michi principles. **This is experimental — directionally positive evidence,
+  not validated as a stand-alone intervention.** Install at your discretion:
+
+  ```bash
+  git clone https://github.com/csepulv/michi.git
+  claude plugin marketplace add ./michi/toolkit
+  claude plugin install experimental-nudge@michi
+  ```
+
+  See [`toolkit/experimental/nudge/README.md`](toolkit/experimental/nudge/README.md) for the full documentation,
+  caveats, and disable instructions.
+
+### Changed
+
+- **`toolkit/principles.md` — three named patterns that pull the agent away from local sources, now grouped together
+  under *Clarify before Asserting* as a bulleted "Resist these pulls" section.** Two were already there: training-data
+  conventions exerting authority pull (the "black hole of the internet"), and provisional internal artifacts — draft
+  sidebar items marked "resolved" that haven't actually shipped. The third is new: **the impulse to help (without full
+  context and understanding)** — the agent's helpfulness mandate as a directional pull toward
+  anticipation-as-assumption. When a user asks for a quick orientation and the agent delivers a plan with options and
+  recommendations, the agent has assumed scope; looks like service, but is scope inflation. Specific corrective: *match
+  the depth of the answer to the depth of the question.* If anticipation feels valuable, surface it as a question rather
+  than a conclusion. Also added: a cross-link from *Surface Assumptions* noting that assumptions can arrive dressed as
+  helpfulness.
+
+- **Four skills got one-line ties to the new pull** where it commonly surfaces: `michi-explore` (Peek Mode),
+  `michi-workshop` (Surface Assumptions discipline), `michi-planning` (Step 2 Surface Assumptions), and
+  `michi-bootstrap` (Phase 1 Present Profile). Each names the pull and points at the principle in
+  `references/principles.md`.
+
 ## [2026.05.11] - 2026-05-11
 
 ### Added
@@ -115,13 +159,13 @@ documentation reliably up-to-date as agents work in a codebase.
   session produces real changes but the project's "what's active right
   now" document silently drifts.
 - **Two opt-in `michi-sustainability` sub-modes:**
-  - *Doc Drift Audit* — scan long-lived reference docs for statements
-    that no longer match the code (renamed functions, moved files,
-    instructions that have rotted).
-  - *Archive Candidates* — surface completed epics and superseded
-    sidebars under `docs/` that should move to `docs/archive/`. Adopts a
-    `-MMDDYY` date-suffix naming convention so archived items don't
-    collide with new work that reuses the name.
+    - *Doc Drift Audit* — scan long-lived reference docs for statements
+      that no longer match the code (renamed functions, moved files,
+      instructions that have rotted).
+    - *Archive Candidates* — surface completed epics and superseded
+      sidebars under `docs/` that should move to `docs/archive/`. Adopts a
+      `-MMDDYY` date-suffix naming convention so archived items don't
+      collide with new work that reuses the name.
 - **Doc Currency section in `toolkit/docs-structure.md`.** Top-of-doc
   `**Last updated:** YYYY-MM-DD` is mandatory for `STATUS.md` and
   `journal.md`. Per-section `**last-verified:** YYYY-MM-DD` is recommended
@@ -138,17 +182,18 @@ documentation reliably up-to-date as agents work in a codebase.
 - **`publish/README.md` shows the current toolkit version.** A
   `**Current version:** v<version>` line links to `CHANGELOG.md`. Updated
   by the release-prep flow on each version bump.
+
 ### Changed
 
 - **`michi-debrief` reorganized into three explicit passes:**
-  1. *Assess* — what was delivered; capture decisions, learnings, bugs,
-     and process observations.
-  2. *Invalidate* — audit what previously-recorded knowledge
-     (`STATUS.md`, `ARCHITECTURE.md`, `docs/reference/`, journal entries)
-     was just made wrong by this session, and fix it.
-  3. *Currency + Cleanup* — refresh `**Last updated:**` /
-     `**last-verified:**` stamps on touched docs and prune obviously stale
-     references.
+    1. *Assess* — what was delivered; capture decisions, learnings, bugs,
+       and process observations.
+    2. *Invalidate* — audit what previously-recorded knowledge
+       (`STATUS.md`, `ARCHITECTURE.md`, `docs/reference/`, journal entries)
+       was just made wrong by this session, and fix it.
+    3. *Currency + Cleanup* — refresh `**Last updated:**` /
+       `**last-verified:**` stamps on touched docs and prune obviously stale
+       references.
 
   Includes a table at the top of the skill listing the typical reasons a
   session rationalizes skipping Pass 2 and Pass 3, with rebuttals.

@@ -146,6 +146,10 @@ Codebase patterns detected:
 
 Wait for the user to review before proceeding. This is a checkpoint.
 
+Report findings; don't bundle a proposed fix list with the survey. Bundling is the *impulse to help* pull
+(see *Clarify before Asserting* in `references/principles.md`) — let the user direct the recommendation phase
+rather than pre-deciding it.
+
 ## Phase 2: Recommend
 
 Based on the survey, present recommendations. The flow branches:

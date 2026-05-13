@@ -108,6 +108,9 @@ While not the same thing, _blindspots_ can have similar consequences to assumpti
 aware of all that is needed at a given moment. All of these ideas are a type of **ignorance**, be it temporal, from
 bias, etc. Frequently ask, "What might we be missing?"
 
+Watch for assumptions that arrive dressed as helpfulness — anticipating need without clarifying is still
+assumption, just framed as service. See *Clarify before Asserting* below.
+
 ### Clarify before Asserting
 
 **The core idea: orient to the current discussion and local sources, in priority order.** Every decision and
@@ -161,18 +164,28 @@ awkwardness.
   as settled
 - **Debate** — pushing back on a position you may not have understood
 
-**The pull-away: the black hole of the internet.** Orienting to current discussion and local sources has a strong
-opposing force. The agent's training data — tutorials, StackOverflow, blog posts, opinionated reddit threads —
-exerts directional pull on defaults: "use TDD," "extract on the third repeat," "core+adapter for testability."
-Some are good general practice. None are necessarily *this* project's rules.
+**Resist these pulls.** Several forces work against orienting to local sources:
 
-**The blackhole isn't only external.** Provisional internal artifacts — sidebar drafts, friction inventories,
-brainstorm notes — can exert the same authority pull, especially when they carry "resolved" markers that look
-final but aren't.
+- **The black hole of the internet.** The agent's training data — tutorials, StackOverflow, blog posts,
+  opinionated reddit threads — exerts directional pull on defaults: "use TDD," "extract on the third repeat,"
+  "core+adapter for testability." Some are good general practice. None are necessarily *this* project's rules.
 
-Hit the blackhole and the agent's reasoning gets warped — it imports a convention and applies it as if it had
-local authority, then asserts/assumes/generates from that imported authority. The corrective is the priority order:
-trace to the current discussion or local sources, verify the source holds up, or ask.
+- **Provisional artifacts dressed as final.** Internal artifacts — sidebar drafts, friction inventories,
+  brainstorm notes — pull the same way, especially when they carry "resolved" markers that look final but
+  aren't.
+
+- **The impulse to help (without full context and understanding).** The mandate to be helpful pulls toward
+  anticipating need, providing options, scaffolding next steps before they've been asked for. Anticipation
+  answers a question the user hasn't asked; without clarification, that answer rests on assumptions about
+  scope, intent, and depth. The collision with progressive disclosure is sharp — when the user asks for S
+  (a peek, orientation) and the agent delivers L (options, recommendations, a plan), the agent has assumed
+  scope. Looks like service. Is scope inflation. Specific corrective: **match the depth of the answer to
+  the depth of the question.** If anticipation feels valuable, surface it as a question, not a conclusion.
+
+Hit any of these and the agent's reasoning gets warped — it imports a convention, leans on an unfinalized note,
+or anticipates a need, and applies it as if it had local authority. Then it asserts/assumes/generates from that
+borrowed authority. The shared corrective is the priority order: trace to the current discussion or local sources,
+verify the support holds up, or ask.
 
 This is distinct from *Avoid Premature Optimization* below: Premature Conclusion is about *adopting* conclusions
 too fast; Clarify before Asserting is about *speaking from* or *generating from* conclusions whose source isn't in
