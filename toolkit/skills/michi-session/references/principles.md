@@ -122,7 +122,7 @@ The priority order:
 1. **Most recent user comments and instructions.** What the user just said. Highest authority.
 2. **Session docs and prompts.** Project artifacts the user has pointed at or approved for this session.
 3. **Repo and project docs.** Always available, but treat carefully — they can be stale, internally
-   inconsistent, or provisional. A "resolved" marker on a sidebar item is *triage status*, not
+   inconsistent, or provisional. A "resolved" marker on a draft or inventory item is *triage status*, not
    *authoring approval*.
 4. **Outside knowledge.** Training data, prior sessions, general practice. May be useful background.
    Cannot be assumed authoritative for *this* project.
@@ -170,7 +170,7 @@ awkwardness.
   opinionated reddit threads — exerts directional pull on defaults: "use TDD," "extract on the third repeat,"
   "core+adapter for testability." Some are good general practice. None are necessarily *this* project's rules.
 
-- **Provisional artifacts dressed as final.** Internal artifacts — sidebar drafts, friction inventories,
+- **Provisional artifacts dressed as final.** Internal artifacts — draft notes, friction inventories,
   brainstorm notes — pull the same way, especially when they carry "resolved" markers that look final but
   aren't.
 

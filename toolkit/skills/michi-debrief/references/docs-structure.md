@@ -61,7 +61,6 @@ These serve the essential work — architecture, conventions, plans, process.
 | Debriefs                       | Post-session assessments — full for epics, short summary in journal for smaller work                 | S-M  | Written after sessions that warrant it, accumulates over the epic               |
 | Journal                        | Execution record — learnings, open questions, discussion items, gotchas                              | M    | Accumulated during implementation, curated during debriefs                      |
 | Roadmap (optional)             | Ideas, potential epics, future directions — not yet committed to a plan                              | S-M  | Long-lived, updated as ideas emerge or are promoted to epics                    |
-| Sidebars                       | Research, spikes, explorations, architecture discussions — work that informs epics but isn't an epic | S-M  | Variable — some ephemeral, some long-lived if the output feeds future decisions |
 | Recipes / guides / skills      | How-to for human and/or agent                                                                        | M    | Long-lived reference                                                            |
 | Code style / coding principles | Applied coding judgment — sharpened through debriefs                                                 | M    | Long-lived, grows incrementally                                                 |
 
@@ -172,6 +171,42 @@ what's written down*. Loaded by every Michi skill alongside principles.
 
 ---
 
+## STATUS at Scale
+
+A single root `STATUS.md` works for single-author single-epic flows. When multiple authors push to the same file, or
+many concurrent epics churn its `## Active` section, root STATUS becomes a merge hotspot and a scannability burden.
+
+The pattern: **split status by epic.** Each active epic carries its own STATUS file
+(`docs/epics/<epic>/STATUS.md`), owned by whoever drives it. Root `STATUS.md` becomes a thin index — project-level
+state plus `@`-refs:
+
+```markdown
+# STATUS
+
+**Last updated:** 2026-05-20
+
+## Active
+@./docs/epics/chat-plugin/STATUS.md
+@./docs/epics/auth-rewrite/STATUS.md
+
+## Recent
+@./docs/epics/billing-cleanup/STATUS.md  (closed 2026-05-15)
+```
+
+`@`-ref transitivity resolves at least three levels deep (verified), so per-epic STATUS files can themselves reference
+per-milestone status if the epic warrants it. Merge conflicts localize to per-epic files; the root index changes only
+when epics start or end.
+
+**Multi-project repos compose this.** Each sub-project keeps its own `docs/<name>/STATUS.md`; if a sub-project's epics
+warrant the split, the same pattern applies inside `docs/<name>/epics/`.
+
+**Reading discipline.** When working in an active epic, the read-cold-and-update reflex applies to whichever STATUS the
+session touched — usually the epic's, sometimes the root index too (when an epic starts, closes, or shifts priority).
+
+Single-author single-epic projects don't need this — keep root STATUS as the canonical file.
+
+---
+
 ## Docs Root
 
 By default, Michi docs live in `docs/`. Projects with existing external-facing documentation (product docs, API docs,
@@ -215,22 +250,16 @@ project/
         plans/                           #   How to build each milestone (incidental)
           m1-data-model.md
           m2-chat-services.md
-      another-epic/
+      another-epic.md                    # Flat-file epic — single workshop or short arc
+      yet-another-epic/                  # Subdirectory grows as scope demands
         spec.md
         verification/
           scenarios.md
           test-plan.md
-        sidebars/                        #   Epic-scoped research and spikes
-          state-lib-evaluation.md
         journal.md
         debriefs/
         plans/
           ...
-    sidebars/                            # Project-scoped research, spikes, explorations
-      service-split-exploration.md       #   Single-file sidebar
-      auth-strategy/                     #   Multi-file sidebar (grows as needed)
-        findings.md
-        options.md
     reference/                           # Long-lived, cross-epic
       code-style.md                      #   Applied coding principles (grows via debriefs)
       key-decisions.md                   #   Decisions that span epics
@@ -245,15 +274,20 @@ project/
         plans/
 ```
 
-### Why Epics, Not Topic Folders
+### About Epics
 
-The previous structure used `docs/plans/`, `docs/verification/`, `docs/learnings/` — organized by document type. That
-optimizes for cross-cutting views ("show me all plans") that are rarely needed.
+Epics are the universal unit of named work — anything substantive enough to track gets one. The doc structure organizes
+by *what* the work is about (the epic), not by *how* it's structured (plan vs. verification vs. journal). Everything
+inside an epic dir relates to that effort; archiving is moving one directory. Cross-epic concerns (project-wide
+decisions, guides, cheatsheets) live in `docs/reference/`.
 
-The epic-based structure optimizes for the view you actually use: "show me everything about this effort." When you're
-working on the chat plugin, everything you need is in `docs/epics/chat-plugin/`. Archiving is moving one directory.
+**Multiple concurrent epics is normal.** A project usually has several in flight — main thrust plus parallel or
+supporting work (research, infrastructure, spikes, explorations). Which one is "main" is answered by STATUS.md and
+README, not by a separate doc tier. If it's substantive enough to need a doc, it's an epic.
 
-Cross-epic concerns (project-wide decisions, guides, cheatsheets) live in `docs/reference/`.
+**Epics scale.** Start as a flat file (`docs/epics/<topic>.md`) for single-workshop or short-arc work; grow to a
+subdirectory when the work accumulates multiple milestones, supporting docs (specs, verification, plans, journal,
+debriefs), or multiple authors.
 
 ### Applied Coding Principles (`docs/reference/code-style.md`)
 
@@ -278,45 +312,19 @@ cross-project principles, the rules file can also reference global rules (`@~/.c
 entry is an applied example, not an abstract principle — the abstract version already lives in CLAUDE.md or global
 rules.
 
-### Sidebars (`docs/sidebars/`)
-
-Work that informs epics but isn't an epic: library evaluations, architecture explorations, research spikes, scope
-discussions, tool comparisons. The output is typically a decision, a recommendation, or a set of options — not code.
-
-Sidebars follow the same "start with files, split to directories" convention as epics:
-
-- **Small sidebar:** `docs/sidebars/state-lib-evaluation.md`
-- **Growing sidebar:** `docs/sidebars/service-split-exploration/findings.md`, `options.md`
-
-No prescribed internal structure — sidebars are flexible by nature. Directory-level sidebars can include `debriefs/`
-when the work warrants post-session assessment. The key question: does the output have lasting value? If yes (a decision
-affecting future epics, a recommendation worth referencing), it belongs here. If not (a quick spike confirming "yes this
-works"), a plan doc note is sufficient.
-
-**Scope determines location.** Sidebars can live at project scope or epic scope:
-
-- **`docs/sidebars/`** — project-scoped: research spanning epics or not tied to one
-- **`docs/epics/<epic>/sidebars/`** — epic-scoped: research that emerged during and primarily serves this epic
-
-Put it where it emerged. Promote to project scope if it outgrows the epic — same as how plan doc decisions get promoted
-to `docs/reference/` during debrief.
-
-Sidebars may feed into epic planning — a library evaluation produces a recommendation that becomes a constraint in the
-next epic's spec. Reference from plan docs when relevant.
-
 ### Workshop work (no separate tier)
 
 Workshop sessions (`/michi-workshop`) — small fixes, focused features, quick investigations — don't get their own
-document tier. Output rolls up into the existing tiers based on scope:
+document tier. Output rolls up based on scope:
 
-- **Bug fix or very small workshop:** a `docs/journal.md` entry is enough (the workshop skill has a `bugfix` mode that
+- **Bug fix or very small workshop:** a `docs/journal.md` entry is enough (the workshop skill's `bugfix` mode
   defaults to this).
-- **Standalone workshop with substantive design decisions:** a sidebar (`docs/sidebars/<topic>.md`) — same shape as any
-  other sidebar.
-- **Workshop inside an active epic:** the active epic's `journal.md` or `plans/<plan>.md`.
+- **Substantive workshop with standalone design decisions:** an epic — flat file `docs/epics/<topic>.md`, grows to a
+  subdirectory if it earns one. Same structure as any other epic.
+- **Workshop inside an active epic:** the epic's `journal.md` or `plans/<plan>.md`.
 
-There is no `docs/workshop/` directory. If a workshop reaches for one, the work either belongs in an epic (escalate
-via `/michi-planning`) or as a sidebar.
+There is no `docs/workshop/` directory. If a workshop reaches for one, the work either belongs in an epic (use
+`/michi-planning` to scope it out) or already fits inside an existing one.
 
 ### Scaling Within an Epic
 
@@ -340,7 +348,7 @@ should not mingle with the parent. This is a dev-process question, not a build-t
 (pnpm workspaces, turbo) may or may not need this pattern, and a repo without a shared build system may absolutely need
 it. "Multi-project" is the Michi term; "monorepo" is a common synonym.
 
-Single-project Michi repos are unchanged — keep the flat `docs/epics/`, `docs/sidebars/`, `docs/journal.md` layout.
+Single-project Michi repos are unchanged — keep the flat `docs/epics/`, `docs/journal.md` layout.
 
 ### Layout
 
@@ -368,10 +376,9 @@ project/
       memory.md                 # umbrella's memory
       reference/                # umbrella-scoped reference
       epics/                    # umbrella's epics
-      sidebars/                 # umbrella's sidebars
     <sub-project>/              # full mini-Michi per sub-project, scaled to size
       CLAUDE.md  PROJECT.md  STATUS.md  ARCHITECTURE.md
-      epics/  sidebars/  journal.md
+      epics/  journal.md
     <another-sub-project>/
       single-plan.md            # minimal — just one file
 ```
@@ -404,7 +411,7 @@ separate `docs/ROOT/CLAUDE.md`. Contents:
 - **Umbrella identity docs stay at repo root.** CLAUDE.md, PROJECT.md, STATUS.md, ARCHITECTURE.md, README.md — the
   repo IS the umbrella; the identity sits at the top. `docs/ROOT/` holds only the umbrella's *working* docs.
 - **Source/docs boundary.** Source dirs hold `README.md` + code only. For sub-projects, all internal dev knowledge
-  (CLAUDE.md, epics, plans, sidebars, journal) lives under `docs/<name>/`. Source dirs stay publishable; docs stay
+  (CLAUDE.md, epics, plans, journal) lives under `docs/<name>/`. Source dirs stay publishable; docs stay
   private until deliberately exposed.
 - **Capitalization rules apply within sub-project dirs.** UPPERCASE files (`CLAUDE.md`, `PROJECT.md`, `STATUS.md`,
   `ARCHITECTURE.md`) = always-read when working on that sub-project. lowercase = working documents.
@@ -418,7 +425,7 @@ separate `docs/ROOT/CLAUDE.md`. Contents:
 Transitioning from single-project to multi-project is a one-time migration — only `docs/*` contents move; repo-root
 UPPERCASE files stay in place:
 
-- `git mv docs/epics docs/ROOT/epics` (same for `sidebars/`, `reference/`)
+- `git mv docs/epics docs/ROOT/epics` (same for `reference/`)
 - `git mv docs/journal.md docs/ROOT/journal.md` (same for `memory.md`)
 - Repo-root CLAUDE.md, PROJECT.md, STATUS.md, ARCHITECTURE.md, README.md **stay at repo root**
 - Repo-root CLAUDE.md is *augmented* in place with the repo-wide layer content (project index, `multi-project: true`,

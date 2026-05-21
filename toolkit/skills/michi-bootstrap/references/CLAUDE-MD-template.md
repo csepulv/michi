@@ -45,6 +45,15 @@ docs-root: docs
 
 [Project-specific things that trip people up — framework quirks, config surprises, naming inconsistencies]
 
+## Tooling & Permissions
+
+[Keep the import below only if this project has a `.claude/settings.json` (and add
+`@./.claude/settings.local.json` if a local file exists). Otherwise delete this section.]
+
+@./.claude/settings.json
+
+Consider what tools you have permission for when choosing a tool — prefer a granted tool over one that prompts, to minimize friction.
+
 ---
 
 ## Michi Instructions

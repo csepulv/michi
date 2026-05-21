@@ -39,6 +39,16 @@ NO "DONE" WITHOUT RUNNING FULL VERIFICATION
 If you haven't executed the verification checklist in this session, you cannot claim the milestone is complete. "I
 believe it passes" is not verification. Run it.
 
+## Trust the Human's Framing
+
+The framework — planning vs. session vs. workshop, scope, milestones — is for the human's use. When the human has
+picked this skill and set scope, your job is to execute, not re-triage their choice. Surface specific concerns
+where they affect *what's being built* (an assumption that seems wrong, a verification gap, a contract change).
+Don't argue with the choice of skill or the shape of scope.
+
+(Connects to *Clarify before Asserting* — the *impulse to help* pull. See also Reactive Scope Changes below for
+agent-initiated mid-implementation discoveries, and Human-Initiated Scope Changes for human additions.)
+
 ## Target Deliverable
 
 The milestone's deliverable determines which reference to load:
@@ -88,7 +98,7 @@ problems is overconfidence. *Don't push past three* when rounds stop producing p
 angle, same class of solution — that's a signal to stop and reframe, not to try a fourth time. See "When You're
 Stuck" for the specific escalation pattern.
 
-### Reactive Scope Changes
+### Reactive Scope Changes (Agent-Initiated)
 
 Sometimes implementation reveals a gap the plan didn't anticipate — a core assumption is wrong, a critical capability is
 missing, or real-app testing exposes a problem that changes the milestone's shape.
@@ -105,6 +115,21 @@ theme, extend and log.
 
 **In Entrusted mode** (human reviewing at gates), prefer creating a new milestone over extending the current one. The
 plan doc is the contract — unilateral scope expansion undermines the verification framework.
+
+### Human-Initiated Scope Changes
+
+Sometimes the human adds work mid-session — "while we're at it, also do X." Two cases:
+
+- **End-loaded growth** (the new work fits after current milestones; doesn't reshape them) — **absorb silently
+  and keep working.** Spiral iteration discovers; the conversation about whether to add the work has already
+  happened (the human just made it). Don't make the session about bookkeeping rather than the work.
+- **Disruption** (the new work reshapes planned milestones, breaks existing scope contracts) — surface, confirm,
+  then proceed. Replan if needed.
+
+The check: *does this disrupt planned milestones, or does it add at the end?* And: *to whom does it matter?*
+(Solo project → mostly nobody; multi-author → may affect committed plans.) Default to absorb.
+
+(Connects to *The Process Serves the Work* and *Clarify before Asserting*.)
 
 ### Evidence Before Claims
 

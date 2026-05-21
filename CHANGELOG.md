@@ -9,6 +9,78 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.05.20] - 2026-05-20
+
+This release simplifies the document structure (sidebar folds into epic) and reshapes how the toolkit
+frames skill choice and scope discipline. Workshop, planning, and session are now distinguished by the
+mental work they ask of you rather than by ceremony level; several skills are now explicit that when the
+human has picked a skill or set scope, the agent executes — it doesn't re-debate the choice. Also adds a
+pattern for splitting `STATUS.md` across epics when the project has multiple authors or many concurrent
+efforts.
+
+### Added
+
+- **`## Trust the Human's Framing` — new top-level sections in `michi-planning` and `michi-session`.**
+  When the human has picked a skill (workshop vs. planning vs. session) and set scope, the agent's job is
+  to execute, not re-triage the choice. Specific concerns are still surfaced (an assumption that seems
+  wrong, a verification gap, a contract change) — but the choice of skill or shape of scope isn't
+  re-argued. Addresses a repeated failure mode where agents argued "is this actually a sidebar or an
+  epic?" or "should this be workshop or session?" against the human's explicit choice.
+
+- **`### Human-Initiated Scope Changes` — new subsection in `michi-session`** alongside the existing
+  Reactive Scope Changes (now renamed *Reactive Scope Changes (Agent-Initiated)* for symmetry). Names the
+  case where the human adds work mid-session: end-loaded growth (work that fits after current milestones)
+  gets absorbed silently — spiral iteration discovers things, and conversation about adding the work has
+  already happened. Only *disruption* (rearranging or invalidating planned milestones) gets surfaced and
+  confirmed.
+
+- **`## STATUS at Scale` — new section in `toolkit/docs-structure.md`.** A pattern for projects where
+  multiple authors or many concurrent epics make a single root `STATUS.md` a merge or scannability
+  burden: split status by epic. Each active epic carries its own `STATUS.md`; the root file becomes a
+  thin index using `@`-references to per-epic files. Verified at three levels of `@`-ref transitivity.
+  Merge conflicts localize to per-epic files; the root index changes only when epics start or close.
+
+- **Bootstrap-generated CLAUDE.md template now includes a Tooling & Permissions section.** Imports
+  `.claude/settings.json` (and optionally `.claude/settings.local.json`) so the agent picks up project
+  permission rules at session start, with a one-line nudge to prefer granted tools over those that prompt.
+  Optional — the template instructs to delete the section if the project has no `.claude/settings.json`.
+
+### Changed
+
+- **`michi-workshop` reframed around the mental work it asks of you, not its ceremony level.** Workshop
+  is where you hold "what does done mean" and "how to build it" in one head. Planning + session is where
+  you deliberately separate those modes — define requirements and verification first, then implement.
+  Use workshop when that separation isn't earning its weight; escalate when it is. Size correlates
+  (smaller work usually doesn't need the split) but isn't the criterion. The prior framing leaned on
+  size and ceremony scaling, which read as a softer-version-of-the-full-process; the new framing names
+  the specific cognitive split the planning/session pair exists to support.
+
+- **`michi-workshop`'s "Know When to Escalate" rewritten as "Know When to Surface (the Human Decides)."**
+  Signals that the planning/session split would help are listed — scope expanded beyond what the
+  contract names, decisions landing that affect work outside this task, verification infrastructure
+  calling for explicit design, the two modes getting tangled in one head — but the agent's job is to
+  surface what it's seeing, not to triage unilaterally. Explicit: don't argue if the human says stay in
+  workshop. The framework is for the human's use, not for the agent to apply against the human's choice.
+
+- **Epic framing in `toolkit/docs-structure.md` rewritten as "About Epics."** Epic is now the universal
+  unit of named work — anything substantive enough to track gets one, scaling from a single file
+  (`docs/epics/<topic>.md`) to a subdirectory when the work accumulates multiple milestones, supporting
+  docs, or multiple authors. Multiple concurrent epics is normal; "which one is main" is signaled by
+  STATUS and README, not by a separate doc tier.
+
+### Removed
+
+- **Sidebar as a distinct document tier — folded into epic.** Research, spikes, library evaluations,
+  scope discussions — work that previously went to `docs/sidebars/<topic>.md` — now goes to
+  `docs/epics/<topic>.md`, typically as a flat-file epic that grows to a subdirectory only if the work
+  deepens. The position signal sidebars provided ("this isn't the main thrust") was already eroded in
+  multi-author contexts and imperfect solo; the main-thrust answer lives in STATUS and README. The
+  *Sidebars* section is removed from `toolkit/docs-structure.md`; references across `michi-workshop`,
+  `michi-explore`, `michi-debrief`, `michi-sustainability`, and `michi-bootstrap` are updated to point
+  at epics. Existing `docs/sidebars/` directories in projects remain — they drain through normal
+  archive and sustainability work; the `michi-sustainability` Archive Candidates sub-mode still
+  surfaces them.
+
 ## [2026.05.13] - 2026-05-13
 
 This release adds a public surface for sharing in-progress Michi work outside the regular toolkit, and reorganizes an

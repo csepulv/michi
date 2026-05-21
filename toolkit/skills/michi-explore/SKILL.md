@@ -21,7 +21,6 @@ decisions). See `references/principles.md`.
 - **Research** — evaluating options, surveying tools, understanding a codebase area.
 - **Brainstorming** — sketching ideas, exploring directions, thinking through tradeoffs.
 - **Pre-planning** — you need to explore before you know enough to write a plan.
-- **Sidebars** — investigative work that informs epics but isn't an epic.
 
 ## Peek Mode
 
@@ -64,8 +63,8 @@ might open with one:
 
 - **"What are you hoping to take away from this?"** — what would make this time well spent?
 - **"Do you have an agenda, or should we find one?"** — some explorations have a direction; others discover it.
-- **"Where should we capture this?"** — suggest `docs/sidebars/<topic>.md` as default. Could also be a journal entry, a
-  section in an existing doc, or just shared understanding.
+- **"Where should we capture this?"** — suggest `docs/epics/<topic>.md` as default (flat-file epic, grows if it
+  earns one). Could also be a journal entry, a section in an existing doc, or just shared understanding.
 - **Read `docs/memory.md` if it exists.** Collaboration context — how we work together, active threads, landmarks.
   Internalize it, don't just scan it.
 
@@ -153,7 +152,7 @@ Brief, built-in — not a separate debrief:
 
 ### Update STATUS.md (and journal)
 
-If the exploration produced a sidebar, decision, or shift in what's active or next, update STATUS.md before closing
+If the exploration produced an epic doc, decision, or shift in what's active or next, update STATUS.md before closing
 out — and the relevant `journal.md` if you wrote to it. (Peek mode produces no changes and skips this step.)
 
 **Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context

@@ -51,7 +51,7 @@ The debrief follows the work's home:
 | Context | Location |
 | --- | --- |
 | Epic milestone | `docs/epics/<epic>/debriefs/mN-debrief.md` |
-| Sidebar with its own directory | `docs/sidebars/<sidebar>/debriefs/` (or `docs/epics/<epic>/sidebars/<sidebar>/debriefs/`) |
+| Flat-file epic | `docs/epics/<epic>/debriefs/<epic>-debrief.md` (alongside the flat file; grows to subdir if the epic does) |
 | Freeform / workshop / small session | `docs/journal.md` entry (short debrief) |
 
 ## Common Rationalizations

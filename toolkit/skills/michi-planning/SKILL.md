@@ -22,6 +22,19 @@ is for (the umbrella = ROOT, or a named sub-project). Plans/specs/scenarios live
 - **ROOT (umbrella):** `docs/ROOT/epics/<epic>/plans/`, `spec.md`, `verification/scenarios.md`.
 - **Sub-project:** `docs/<name>/epics/<epic>/plans/`, `spec.md`, `verification/scenarios.md`.
 
+## Trust the Human's Framing
+
+The framework — planning vs. session vs. workshop, scope, milestones, what counts as an epic — is for the human's
+use, and for the agent when the human hasn't decided. When the human *has* picked a skill and set scope, your job
+is to execute, not re-triage the choice.
+
+Surface concerns about specific decisions (an assumption that seems wrong, a verification gap, a missing
+prerequisite). Don't argue with the choice of skill, the size of scope, or whether something "should" be its own
+milestone or a separate epic. The human has context the agent doesn't.
+
+This is *Clarify before Asserting* applied to scope and skill choice — anticipating "the right way" to organize
+work is the *impulse to help* pull. Match the depth of your work to the depth of the ask.
+
 ## Inputs
 
 Before starting:

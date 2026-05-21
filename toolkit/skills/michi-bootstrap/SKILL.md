@@ -197,8 +197,7 @@ each sub-project. This modifies both greenfield and brownfield paths — it's no
    conventions/build/test AND the repo-wide layer (cross-project rules, project index including ROOT, Michi marker
    with `multi-project: true`, pointer to per-sub-project CLAUDE.mds). No separate `docs/ROOT/CLAUDE.md` — the
    umbrella's identity docs (CLAUDE.md, PROJECT.md, STATUS.md, ARCHITECTURE.md, README.md) live at repo root.
-   `docs/ROOT/` holds only the umbrella's *working* docs (`epics/`, `sidebars/`, `journal.md`, `memory.md`,
-   `reference/`).
+   `docs/ROOT/` holds only the umbrella's *working* docs (`epics/`, `journal.md`, `memory.md`, `reference/`).
 
 **Present recommendations as a table:**
 
@@ -277,14 +276,12 @@ When `multi-project: yes`, the per-artifact draft-review-approve flow runs **per
    the repo-wide layer (cross-project rules, project index including ROOT, Michi marker with `multi-project: true`,
    pointer convention for per-sub-project CLAUDE.mds). Do this first so umbrella + repo-wide framing is in place
    before per-project work starts.
-2. **`docs/ROOT/`** — the umbrella's working docs. `epics/`, `sidebars/`, `journal.md`, `memory.md`, `reference/`
-   scaled to the umbrella's tier. No CLAUDE.md/PROJECT.md/STATUS.md/ARCHITECTURE.md in this dir — those are at
-   repo root.
+2. **`docs/ROOT/`** — the umbrella's working docs. `epics/`, `journal.md`, `memory.md`, `reference/` scaled to the
+   umbrella's tier. No CLAUDE.md/PROJECT.md/STATUS.md/ARCHITECTURE.md in this dir — those are at repo root.
 3. **Each sub-project** — iterate in user-chosen order (or alphabetical if unspecified). Apply the greenfield or
    brownfield flow at the sub-project's chosen tier. Sub-projects DO get their identity docs under
    `docs/<name>/`: `docs/<name>/CLAUDE.md` (sub-project conventions), `docs/<name>/PROJECT.md`,
-   `docs/<name>/STATUS.md`, `docs/<name>/ARCHITECTURE.md` — plus working docs (`epics/`, `sidebars/`,
-   `journal.md`) per tier.
+   `docs/<name>/STATUS.md`, `docs/<name>/ARCHITECTURE.md` — plus working docs (`epics/`, `journal.md`) per tier.
 
 Sub-project CLAUDE.md files are NOT added as `@`-refs to repo-root CLAUDE.md — they're read explicitly when that
 sub-project is the session's subject. The repo-root CLAUDE.md points at the convention in prose, not via auto-load.
@@ -371,9 +368,9 @@ Migrate a single-project Michi repo to multi-project layout. One-time, mechanica
 
 ### Steps
 
-1. **Confirm the repo is currently single-project Michi.** Verify `docs/epics/`, `docs/sidebars/`, `docs/journal.md`
-   live at the root of `docs/` (not under `docs/ROOT/` or `docs/<name>/` already). If the repo is already
-   multi-project, stop and direct to regular `/michi-bootstrap`.
+1. **Confirm the repo is currently single-project Michi.** Verify `docs/epics/` and `docs/journal.md` live at the
+   root of `docs/` (not under `docs/ROOT/` or `docs/<name>/` already). If the repo is already multi-project, stop
+   and direct to regular `/michi-bootstrap`.
 
 2. **Confirm `multi-project: true` intent.** Ask the user which sub-projects they're introducing, in addition to the
    umbrella's existing work. Record the sub-project list.
@@ -383,7 +380,6 @@ Migrate a single-project Michi repo to multi-project layout. One-time, mechanica
 
    ```
    docs/epics/         → docs/ROOT/epics/
-   docs/sidebars/      → docs/ROOT/sidebars/
    docs/reference/     → docs/ROOT/reference/
    docs/journal.md     → docs/ROOT/journal.md
    docs/memory.md      → docs/ROOT/memory.md
@@ -413,16 +409,16 @@ Migrate a single-project Michi repo to multi-project layout. One-time, mechanica
 
 6. **Create per-sub-project stubs.** For each sub-project the user named, create `docs/<name>/` with at minimum a
    `CLAUDE.md` stub. Sub-projects get full mini-Michi inside their dir (CLAUDE.md, PROJECT.md, STATUS.md,
-   ARCHITECTURE.md, epics/, sidebars/, journal.md) per their chosen tier — unlike the umbrella, sub-projects
-   don't have a "repo root" to themselves, so all their identity docs live at `docs/<name>/`. Ask about tier per
-   sub-project (single-file / S / M / L) and scaffold accordingly — same as Phase 2/3 Multi-Project Branch.
+   ARCHITECTURE.md, epics/, journal.md) per their chosen tier — unlike the umbrella, sub-projects don't have a
+   "repo root" to themselves, so all their identity docs live at `docs/<name>/`. Ask about tier per sub-project
+   (single-file / S / M / L) and scaffold accordingly — same as Phase 2/3 Multi-Project Branch.
 
 7. **Verify.** Ask the user to spot-check the resulting structure:
    - `ls` at repo root: CLAUDE.md / PROJECT.md / STATUS.md / ARCHITECTURE.md / README.md / `docs/` — same shape
      as a single-project Michi repo.
    - `ls docs/`: `ROOT/` first, then sub-projects.
-   - `docs/ROOT/`: contains only `epics/`, `sidebars/`, `journal.md`, `memory.md`, `reference/` — no CLAUDE.md,
-     no PROJECT.md, no STATUS.md, no ARCHITECTURE.md.
+   - `docs/ROOT/`: contains `epics/`, `journal.md`, `memory.md`, `reference/` — no CLAUDE.md, no PROJECT.md,
+     no STATUS.md, no ARCHITECTURE.md.
    - `docs/<sub-project>/`: has its own CLAUDE.md/PROJECT.md/STATUS.md/ARCHITECTURE.md/epics/.
    - Repo-root CLAUDE.md should read as umbrella conventions + repo-wide rules + project index + pointer.
 

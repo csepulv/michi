@@ -198,10 +198,10 @@ record that the audit was actually thorough.
 
 ## Optional: Doc Compress
 
-Epic-close (or closing-sidebar) compression. Pairs with Archive Candidates as a two-step closing flow:
-**compress → archive**. Use when "this epic is done," before the directory moves to `docs/archive/`.
+Epic-close compression. Pairs with Archive Candidates as a two-step closing flow: **compress → archive**.
+Use when "this epic is done," before the directory moves to `docs/archive/`.
 
-Most Michi docs support work-in-progress — plans, per-milestone debriefs, journal entries, scratch sidebars,
+Most Michi docs support work-in-progress — plans, per-milestone debriefs, journal entries, scratch notes,
 drafts of decisions. They earn their weight *during* the epic. After the epic ships, that weight competes with
 active work for the reader's attention and adds nothing the code itself doesn't already convey.
 
@@ -210,8 +210,8 @@ tax on future sessions — agent and human alike. Compression cuts the tax. What
 deliver: a primer pointing at where key things live, an explanation of *why* a decision was made, context that
 wouldn't be obvious from reading the diff.
 
-**Scope:** the closing epic's `docs/epics/<epic>/` tree, or a similarly closing `docs/sidebars/<topic>/` if the
-sidebar has accumulated comparable doc mass.
+**Scope:** the closing epic's `docs/epics/<epic>/` tree, or any analogous closing directory with comparable
+doc mass.
 
 ### What Survives
 
@@ -222,12 +222,12 @@ Only these:
   plan). Captures result, not the messy path that got there.
 - **Revised `verification.md`** — overview of how the epic was verified. Light on details; the automated tests
   are the long-lived artifact, and this doc points at them and explains the approach.
-- **`memory.md`, `journal.md`, `STATUS.md` if local to the epic/sidebar** — preserved as historical record of
-  how the work unfolded.
+- **`memory.md`, `journal.md`, `STATUS.md` if local to the epic** — preserved as historical record of how the work
+  unfolded.
 
 Everything else gets cut: per-milestone plans with checked-off steps, individual milestone debriefs, drafts of
-decisions that have since landed in code, scratch sidebars, exploration docs whose conclusions have been
-absorbed elsewhere.
+decisions that have since landed in code, scratch notes, exploration docs whose conclusions have been absorbed
+elsewhere.
 
 ### The Test
 
@@ -253,7 +253,7 @@ Work through these in order:
    Drop original-plan detail that didn't survive.
 4. **Revise `verification.md`** — light overview of the verification approach. Point at the long-lived
    automated tests rather than restating them.
-5. **Cut** plans, per-milestone debriefs, scratch sidebars, in-progress discussion docs that have served their
+5. **Cut** plans, per-milestone debriefs, scratch notes, in-progress discussion docs that have served their
    purpose. Keep any epic-local `memory.md` / `journal.md` / `STATUS.md`.
 6. **Present the compressed directory for human review.** Surface what survived, what was promoted where, and
    what was cut. Human approves before Archive Candidates runs.
@@ -271,8 +271,8 @@ a debrief one — debriefs are scoped to the just-shipped milestone and rarely c
 epic from three months ago." The longer the gap between archive sweeps, the more accumulation sits next to active
 work, making it harder to see what's current.
 
-**Scope of this sub-mode:** `docs/epics/`, `docs/sidebars/`, `docs/reference/`. **Not** memory.md or STATUS.md —
-those have their own hygiene and belong to debriefs. Don't lump them in here.
+**Scope of this sub-mode:** `docs/epics/`, `docs/reference/`, and `docs/sidebars/` if it exists in this project.
+**Not** memory.md or STATUS.md — those have their own hygiene and belong to debriefs. Don't lump them in here.
 
 **Signals worth a scan:**
 

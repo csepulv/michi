@@ -9,9 +9,14 @@ description:
 
 The everyday carry tool. Same discipline as the full michi software factory, less ceremony. Strong on rigor, flexible on process.
 
-**When the pocket Leatherman is enough, don't go to the factory.** Bug fixes, small features, quick investigations,
-focused improvements. Escalate to full Michi (planning → session → debrief) when **the ceremony needs to scale up** —
-not when the work feels risky. Risk is handled inside workshop via *Mind the Complexity and Uncertainty* (see below).
+**Workshop holds "what does done mean" and "how to build it" in one head.** Planning + session deliberately separates
+those modes — defining requirements and verification first, then implementing. Use workshop when that separation
+isn't earning its weight; escalate when it is. Size correlates (smaller work usually doesn't need the split) but
+isn't the criterion. Risk is a separate axis, handled inside workshop via *Mind the Complexity and Uncertainty*
+(see below).
+
+Bug fixes, small features, quick investigations, focused improvements — these are workshop's natural shape.
+**When the pocket Leatherman is enough, don't go to the factory.**
 
 **This skill encodes the questions Michi asks, not the artifacts Michi produces.** Artifacts emerge when the work demands
 them.
@@ -56,8 +61,8 @@ small; the discipline tightens.
 Always make a plan. Always get agreement before working. The plan scales to the work:
 
 - **Small:** A few bullets in the conversation. "Here's what I'll do: X, Y, Z."
-- **Medium:** A brief written plan saved alongside the work — a sidebar (`docs/sidebars/<topic>.md`), the active
-  epic's plan dir, or a journal entry.
+- **Medium:** A brief written plan saved alongside the work — a flat-file epic (`docs/epics/<topic>.md`), the
+  active epic's plan dir, or a journal entry.
 - **Large:** If you need a formal plan doc with exit criteria and verification scenarios — you need the full factory,
   not the workshop.
 
@@ -75,23 +80,24 @@ aren't paperwork — they're the verification.
 ### Capture Decisions
 
 When a choice is made, note what was decided, what the alternatives were, and why. Doesn't need a formal template — a
-few sentences or bullet points in the doc you're keeping (sidebar, journal entry, or epic plan) is fine. But captured,
+few sentences or bullet points in the doc you're keeping (journal entry or epic doc) is fine. But captured,
 not lost.
 
-### Know When to Escalate
+### Know When to Surface (the Human Decides)
 
-The hardest discipline. Recognize when **the ceremony level needs to scale up** — this is about ceremony,
-not about risk. (For risk, see *Mind the Complexity and Uncertainty* above.)
+Sometimes work grows in ways where the planning + session split would help — separating "what is done" from "how to
+build it" deserves its own pass. Signals worth *surfacing* (not triaging unilaterally):
 
-Signals that workshop ceremony is insufficient:
+- The scope just expanded — and the new shape would benefit from an explicit contract on what's done
+- Decisions are landing that affect things outside this task
+- Verification infrastructure is calling for explicit design (scenarios, test plans, fixtures)
+- The two modes ("what does done mean" and "how to build it") are getting tangled
 
-- The scope just expanded beyond what you planned
-- You're making decisions that affect things outside this task
-- The work needs an explicit contract with the human about scope, acceptance, or deliverables
-- You need verification infrastructure that requires explicit design (scenarios, test plans, fixtures)
-- The workshop doc is growing past a page
+Mention what you're seeing; the human decides. **Don't argue if the human says "stay in workshop."** They have
+context the agent doesn't — and the framework is for their use, not for the agent to apply against their choice.
 
-Flag it: "This is getting bigger than workshop — should we switch to a full session?" The human decides.
+(For risk inside workshop — High C/U pacing — see *Mind the Complexity and Uncertainty* above; ceremony scaling
+is separate from risk.)
 
 ## Bug-Fix Mode
 
@@ -103,8 +109,8 @@ appropriate to bug fixes:
 - **Verify with a regression test.** The reproduction case becomes the test. The full suite still runs before
   declaring done.
 - **Light docs by default.** A `docs/journal.md` entry is usually enough — date, what broke, root cause, fix in one
-  line, regression test added. **Confirm with the user** if uncertain whether more is warranted (a sidebar, an
-  epic-journal entry, or a pattern in `docs/reference/patterns.md`). When in doubt, ask.
+  line, regression test added. **Confirm with the user** if uncertain whether more is warranted (a flat-file epic,
+  an epic-journal entry, or a pattern in `docs/reference/patterns.md`). When in doubt, ask.
 - **Escalate if it stops being a bug fix.** Scope creep ("while I'm in here…") is the failure mode. If the diagnosis
   reveals the fix needs explicit design discussion or touches multiple subsystems, surface that and offer to switch to
   a full session.
@@ -143,21 +149,22 @@ freshness contract on root docs.
 
 ## Output
 
-Workshop work doesn't get its own document tier. It rolls up into the existing structure based on scope:
+Workshop work doesn't get its own document tier. It rolls up based on scope:
 
 - **Inside an active epic:** the epic's `journal.md` for learnings; `plans/<plan>.md` if the work is a discrete
-  milestone-sized step; `sidebars/<topic>.md` for research that emerged inside the epic.
-- **Standalone workshop with substantive design decisions:** a sidebar — `docs/sidebars/<topic>.md` — same shape as
-  any other sidebar. Decisions, alternatives considered, what shipped, open follow-ups.
+  milestone-sized step.
+- **Substantive workshop with standalone design decisions:** an epic — flat file `docs/epics/<topic>.md`, grows
+  to a subdirectory if it earns one. Same structure as any other epic — decisions, alternatives considered, what
+  shipped, open follow-ups.
 - **Bug fixes and small workshops:** a `docs/journal.md` entry is enough (see Bug-Fix Mode above).
 - **Sometimes the code and commits are the whole artifact.** A typo fix, a one-line bug, a renamed variable — capture
   may be the commit message itself.
 
-There's no `docs/workshop/` directory. If you find yourself reaching for one, either the work belongs in an epic
-(escalate via `/michi-planning`) or it belongs as a sidebar.
+There's no `docs/workshop/` directory. If you find yourself reaching for one, the work belongs in an epic
+(use `/michi-planning` to scope it out) or already fits inside an existing one.
 
 Don't rationalize away the importance of capture — err on the side of documentation, not laziness. But match the
-artifact to the work: a sidebar for substantive workshops, a journal entry for small ones, nothing for trivial fixes
+artifact to the work: an epic for substantive workshops, a journal entry for small ones, nothing for trivial fixes
 beyond the commit.
 
 ### What's Next

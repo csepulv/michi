@@ -8,7 +8,7 @@ containing the docs it depends on.
 | Skill                                                           | Type     | When to Use                                                                                                                              |
 | --------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | [michi-bootstrap](michi-bootstrap/SKILL.md)                         | Flexible | Before first Michi session — onboard a project, assess gaps, scaffold docs                                                                 |
-| [michi-explore](michi-explore/SKILL.md)                             | Flexible | Structured conversation for investigative work — cold starts, research, brainstorming, pre-planning, sidebars                            |
+| [michi-explore](michi-explore/SKILL.md)                             | Flexible | Structured conversation for investigative work — cold starts, research, brainstorming, pre-planning                                       |
 | [michi-planning](michi-planning/SKILL.md)                           | Flexible | Before implementation — prepare the milestone plan, explore codebase, surface assumptions, define acceptance criteria                    |
 | [michi-session](michi-session/SKILL.md)                             | Rigid    | During implementation — execute the milestone with mandatory verification, decision logging, sustainability check, and commit discipline |
 | [michi-debrief](michi-debrief/SKILL.md)                             | Flexible | After implementation — review decisions, capture learnings, update applied coding principles, calibrate trust                            |
@@ -97,7 +97,7 @@ michi-bootstrap
 michi-explore
   ├── Reads: codebase, existing docs, whatever the investigation requires
   ├── Maintains: Michi discipline (assumptions, decisions, drift awareness)
-  ├── Captures: findings in agreed location (default: docs/sidebars/<topic>.md)
+  ├── Captures: findings in agreed location (default: docs/epics/<topic>.md)
   └── Produces: artifact + mini-reflection (learnings, decisions, what's next)
 
 michi-planning
@@ -129,8 +129,8 @@ michi-debrief
 michi-workshop
   ├── Reads: relevant code, context
   ├── Maintains: Michi discipline (assumptions, verification, decisions)
-  ├── Scales: from a few bullets in conversation to a sidebar/journal entry
-  └── Produces: working code + journal entry, sidebar, or epic plan (no separate workshop tier)
+  ├── Scales: from a few bullets in conversation to a journal entry or flat-file epic
+  └── Produces: working code + journal entry or epic doc (no separate workshop tier)
 ```
 
 ## Shared References
