@@ -3,6 +3,10 @@
 Reference for how Michi projects organize documentation. Used by the planning, session, and debrief skills to
 determine where information goes and when it's read.
 
+> This doc covers the **production lane** (epic → milestone, converging on a known deliverable). **Learning-mode
+> work** — open-ended, Entrusted, spiral exploration where the end isn't known — probably uses the **expedition** lane and its
+> charter / campaign / portrait organization. See [`expedition-structure.md`](expedition-structure.md).
+
 ---
 
 ## Principles

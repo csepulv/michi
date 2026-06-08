@@ -9,6 +9,52 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.06.08] - 2026-06-08
+
+This release adds Michi's **learning-mode lane** — a way to run open-ended, exploratory work (research, data
+exploration, prototypes) where you don't know the deliverable up front, as a sibling to the existing
+plan → implement → review production lane. It also adds guidance and a template for running a Michi agent on a
+harness other than Claude Code.
+
+### Added
+
+- **`michi-expedition` skill — a new lane for open-ended, exploratory work.** Where the existing skills march toward
+  a known deliverable, an expedition spirals toward clarity: research, hypothesis, experiment, prototype, iterate. The
+  "end" is replaced by an accreting picture (a *portrait*) plus periodic readouts. Five modes: `charter` (open or
+  revise a durable mission), `campaign` (set the run's contract — scope, budget, when-to-stop), `run` (the autonomous
+  spiral), `review` (the paired close where findings are promoted), and `exhibit` (render a finding so it's easy to
+  review). Use it when the goal is to *discover*, not to build something whose shape you already know.
+
+- **`expedition-structure.md` — the document and artifact structure for the lane.** Defines where every output lives
+  (charters, dated campaigns, the accreting portrait, an open-questions queue, a backlog) and the naming conventions,
+  mirroring the production document structure with learning-mode names.
+
+- **`michi-bootstrap` gains an `expedition` mode** — scaffolds an expedition workspace so a new exploration has
+  somewhere to run.
+
+- **`soul-template.md` and `working-with-hermes.md` — running a Michi agent on a harness other than Claude Code.**
+  Claude Code auto-loads your conventions and lets you interrupt mid-turn; a different harness (the worked example is
+  Hermes, a long-running container agent) provides neither. `soul-template.md` is a copyable identity file that carries
+  the Michi way — principles, modes, working register — into that empty character slot; `working-with-hermes.md`
+  explains what changes and how to install it. The template generalizes to other harnesses.
+
+### Changed
+
+- **`michi-explore` now hands off to the expedition lane** — when an investigation turns out to be open-ended
+  exploration rather than a bounded question, it points you to `michi-expedition`.
+
+- **`docs-structure.md` notes the expedition lane** as the learning-mode sibling to the production document structure.
+
+- **`build.sh` propagates the new shared files** — `expedition-structure.md` into the bootstrap and expedition skills,
+  and the harness files (`working-with-hermes.md`, `soul-template.md`) into the expedition skill's `references/`.
+
+### Fixed
+
+- **`michi-docs-site`: pages no longer render their title twice.** When the docs-site generator derived a page's title
+  from its first heading, that heading was left in the body too, so the rendered page showed the title twice. The
+  generator now strips the duplicated heading; static landing-page templates were fixed the same way, and a
+  duplicate-title check was added.
+
 ## [2026.05.20] - 2026-05-20
 
 This release simplifies the document structure (sidebar folds into epic) and reshapes how the toolkit

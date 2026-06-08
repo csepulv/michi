@@ -24,6 +24,12 @@ skills:
     disable-model-invocation: false
     last_fetched: null
     sync_hash: null
+  - name: michi-expedition
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-expedition
+    category: contextual
+    disable-model-invocation: false
+    last_fetched: null
+    sync_hash: null
   - name: michi-explore
     source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-explore
     category: contextual

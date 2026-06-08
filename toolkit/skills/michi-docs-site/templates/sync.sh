@@ -45,21 +45,29 @@ inject_title() {
   local sidebar_fm
   sidebar_fm=$(printf 'sidebar:\n  label: "%s"' "$sidebar_label")
 
+  # Starlight renders the frontmatter `title:` as the page H1. When we derive that
+  # title from the file's own first `# heading`, drop that heading from the body so
+  # the title doesn't appear twice. (Source files are untouched — this only affects
+  # the synced copy.)
+  strip_first_h1() {
+    awk 'BEGIN{done=0} /^# /&&!done{done=1; next} {print}'
+  }
+
   # Check if file already has frontmatter
   if head -1 "$src" | grep -q "^---"; then
     # Has frontmatter — check if title already exists
     local has_title
     has_title=$(awk 'NR==1 && /^---/{fm=1; next} fm && /^---/{exit} fm && /^title:/{print "yes"}' "$src")
     if [ "$has_title" = "yes" ]; then
-      # Inject sidebar label after opening ---
+      # Title already in frontmatter — leave body as the author wrote it
       { echo "---"; printf '%s\n' "$sidebar_fm"; tail -n +2 "$src"; } > "$dest"
     else
-      # Inject title and sidebar label after opening ---
-      { echo "---"; printf 'title: "%s"\n%s\n' "$title" "$sidebar_fm"; tail -n +2 "$src"; } > "$dest"
+      # Inject title from the H1, then strip that H1 from the remaining body
+      { echo "---"; printf 'title: "%s"\n%s\n' "$title" "$sidebar_fm"; tail -n +2 "$src" | strip_first_h1; } > "$dest"
     fi
   else
-    # No frontmatter — prepend it
-    { printf -- '---\ntitle: "%s"\n%s\n---\n' "$title" "$sidebar_fm"; cat "$src"; } > "$dest"
+    # No frontmatter — prepend it, and strip the H1 we used as the title
+    { printf -- '---\ntitle: "%s"\n%s\n---\n' "$title" "$sidebar_fm"; strip_first_h1 < "$src"; } > "$dest"
   fi
 }
 

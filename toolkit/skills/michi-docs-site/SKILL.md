@@ -190,14 +190,15 @@ because npm/git don't include dotfiles in templates cleanly).
 
 ### Step 3: Additional files
 
-**`<site-dir>/src/index.md`** — landing page, generated based on discovery. Structure:
+**`<site-dir>/src/index.md`** — landing page, generated based on discovery. Static pages are copied
+as-is by `sync.sh` (they don't flow through `inject_title`), so **do not add a body `# heading`** —
+Starlight promotes the frontmatter `title:` to the page H1, and a body H1 would render a second time.
+Structure:
 
 ```markdown
 ---
 title: <Project> Internal
 ---
-
-# <Project> — Internal Docs
 
 Browse the project documentation.
 
@@ -249,6 +250,10 @@ Report issues to the user if recovery isn't obvious.
 - Dev server starts and serves pages
 - Sidebar reflects the agreed structure
 - Search works (Pagefind indexes content)
+- **No duplicate page titles** — spot-check a few rendered pages plus the landing page. Each should show
+  exactly one H1. A page showing its title twice means a body `# heading` survived alongside the
+  frontmatter `title:` (Starlight promotes `title:` to H1). `sync.sh` strips the derived H1 from synced
+  pages; static pages (`src/index.md` and any hand-added page) must not carry a body H1 of their own.
 
 ### Capture
 

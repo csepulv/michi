@@ -165,4 +165,7 @@ freshness contract on root docs.
 
 If the exploration produced a clear direction for implementation, the natural next step is `/michi-planning` to scope a
 milestone. If there's more to investigate, another `/michi-explore` session. If the work is small and self-contained,
-`/michi-workshop` may be enough. See `references/michi-skill-guide.md` for the full map.
+`/michi-workshop` may be enough. If the work is **open-ended exploration** — the end isn't known and it wants a
+spiral / feedback-flywheel rather than a planned milestone (mapping a data corpus, surveying a field, sustained
+research) — hand off to `/michi-expedition charter` (the learning-mode lane). See `references/michi-skill-guide.md`
+for the full map.

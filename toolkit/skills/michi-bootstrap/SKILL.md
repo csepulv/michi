@@ -423,3 +423,42 @@ Migrate a single-project Michi repo to multi-project layout. One-time, mechanica
    - Repo-root CLAUDE.md should read as umbrella conventions + repo-wide rules + project index + pointer.
 
 8. **Update STATUS.md** (repo-root) with a note that the repo transitioned to multi-project on `<date>`.
+
+---
+
+## Expedition Mode
+
+**Invocation:** `/michi-bootstrap expedition [name]`
+
+Stand up the **learning-mode (expedition) lane** for open-ended, spiral exploration — scaffold the expedition root
+and capture the substrate, so `/michi-expedition` has a root to operate from. (The expedition modes assume the root
+and the substrate notes already exist; this creates them.) Canonical layout: `references/expedition-structure.md`.
+
+**Core principles, same as the rest of bootstrap: draft with the user, don't generate and dump. Don't assume — ask.**
+
+### Steps
+
+1. **Locate the expedition root.** Standalone effort → `expeditions/` at repo root. Inside a Michi repo → a learning
+   epic at `docs/epics/<name>/`. Confirm with the user.
+
+2. **Scaffold the structure** (per `references/expedition-structure.md`), as stubs with `**Last updated:**` stamps:
+   - `STATUS.md` — current state per charter (active/paused/dormant).
+   - `iteration-log.md` — the chronological spine (header row: `date · charter · report · human verdict · next`).
+   - `backlog.yaml` — the living queue (seed with the schema from `michi-expedition`'s
+     `references/expedition-templates.md`; define the project's `type` vocabulary with the user).
+   - `ruminations.md` — the open/murky companion to the portraits.
+   - `charters/`, `portraits/`, `campaigns/`, `reference/` — empty dirs (with a `.gitkeep` if needed).
+
+3. **First-contact substrate capture** (the step the loop presupposes). With the user, capture the substrate's
+   operational facts to global `reference/` — how to access it, where it lives, query traps, what's read-only vs.
+   writable. For a data corpus: read paths, partitioning, key gotchas. For external research: the source set and any
+   access notes. This is the "find and document the substrate" pass; without it the first `run` can't query.
+
+4. **Project-specifics → `extensions.md`.** If the project has substrate-specific vocabulary, seeds, or conventions
+   that should override toolkit defaults, run/point to `/michi-bootstrap customize` to create `extensions.md`. The
+   expedition *pattern* stays in the toolkit; the substrate specifics live here.
+
+5. **Hand off.** The root is now ready — direct the user to `/michi-expedition charter` to define the first mission.
+   Don't author the charter here (charters are Paired and belong to `michi-expedition`).
+
+Wait for the user at the root-location and substrate-capture checkpoints — those are the judgment calls.
