@@ -9,6 +9,46 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.07.13] - 2026-07-13
+
+This release adds Michi's third lane: **autonomous loops**. Where the production lane marches toward a known
+deliverable with a human in the loop, and the expedition lane spirals through open-ended learning, `michi-loop`
+runs *convergent* work unattended — lights-off — under explicit discipline. The release also repairs the
+toolkit's own catalog: every shipped skill now appears in the overview, getting-started, and skill-guide docs.
+
+### Added
+
+- **`michi-loop` skill — discipline for autonomous, lights-off loops.** Run a task unattended: the agent works in
+  a loop, checks its output against a verifier, and stops on defined conditions. The skill doesn't run the loop
+  (Claude Code ships the runners — `/goal`, `/loop`, `claude -p`, `Workflow`); it adds the judgment around it:
+  whether this work has *earned* autonomy, a measurable "done when ___" contract, a verifier the agent cannot
+  talk its way past (a criterion the environment can't exercise is a hole, not a pass), non-negotiable stop
+  conditions, an environment readiness check before launch, and a launch decision that belongs to the human.
+  Ends with a review and a debrief. Invoke explicitly (`/michi-loop`); it won't trigger on its own.
+
+### Changed
+
+- **The toolkit's docs now list every shipped skill.** The overview, getting-started guide, skills README, and
+  the explore skill's transition guide had drifted — the expedition skill was missing from all of them since its
+  release. All catalog surfaces now cover the full skill set, and the transition guide explains the three lanes —
+  production (plan → implement → review), expedition (open-ended learning), loop (convergent + autonomous) —
+  routed by which question you can answer: "how do I know I'm done?" or only "am I making progress?"
+- **Holdout verification and loops are cross-linked.** The scenario-test-builder's guidance on holdout scenarios
+  (verification the implementing agent never sees) now points at `michi-loop` as where that pattern pays off, and
+  the loop skill points back.
+- **`patterns.md`: the long-session editing anti-pattern was modernized.** The old entry described outdated
+  Claude Code cache behavior and workarounds; it now states the durable rule — re-read a file before editing it
+  if it hasn't been read recently — without the stale mitigation advice.
+- **`working-with-hermes.md` notes that the SOUL template deliberately carries three of the four North Stars** —
+  *Minimize Latency* is omitted because the non-Claude-Code harness case is mostly exploratory work, where pace
+  and care beat throughput.
+
+### Fixed
+
+- Stale cross-references in shipped docs: a broken link in `patterns.md`, a renamed section still referenced in
+  `michi-workshop`, an outdated principle name in the session skill's optimization reference, and leftover
+  editing artifacts in its verification-strategy reference.
+
 ## [2026.06.08] - 2026-06-08
 
 This release adds Michi's **learning-mode lane** — a way to run open-ended, exploratory work (research, data

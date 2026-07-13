@@ -4,7 +4,7 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
-**Current version:** `v2026.06.08` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+**Current version:** `v2026.07.13` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and
 declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable
@@ -15,13 +15,14 @@ agent coding and found it powerful but inconsistent, this is the structure that 
 
 ## Skills
 
-Eleven Claude Code skills covering the full development lifecycle:
+Claude Code skills covering the full development lifecycle:
 
 | Skill                         | When                  | What it does                                                                        |
 |-------------------------------|-----------------------|-------------------------------------------------------------------------------------|
 | `michi-bootstrap`             | Before first session  | Survey project, assess docs gaps, scaffold Michi structure interactively            |
 | `michi-explore`               | Investigative work    | Structured conversation for research, orientation, and brainstorming                |
 | `michi-expedition`            | Open-ended discovery  | Learning-mode lane — spiral exploration where the end isn't known (research, data, prototypes) |
+| `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
 | `michi-planning`              | Before implementation | Explore codebase, surface assumptions, co-design verification, write the plan doc   |
 | `michi-session`               | During implementation | Rigid execution — implement, test after every change, log decisions, verify, commit |
 | `michi-workshop`              | Small work            | Lighter discipline for bug fixes, small features, and quick explorations            |
@@ -35,7 +36,9 @@ The core loop is **bootstrap → planning → session → debrief**. Everything 
 
 That's the *production* lane — work that converges on a known deliverable. For open-ended work where you're trying to
 *discover* the deliverable rather than build a known one — research, data exploration, prototypes — `michi-expedition`
-is the **learning-mode lane**: a spiral with a feedback flywheel instead of a march toward a fixed end.
+is the **learning-mode lane**: a spiral with a feedback flywheel instead of a march toward a fixed end. And when
+convergent work has measurable done-criteria, a verifier you trust, and earned autonomy, `michi-loop` is the
+**autonomous lane**: it runs lights-off under a disciplined contract, with the human owning the launch.
 
 ## Getting started
 
