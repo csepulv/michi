@@ -1,7 +1,7 @@
 # Optimization Discipline
 
-Guidance for recognizing and resisting premature optimization during implementation. Implements the "Essential Over
-Incidental" principle from `references/principles.md`.
+Guidance for recognizing and resisting premature optimization during implementation. Implements the *Essential,
+Incidental, and Noise* and *Avoid Premature Optimization* principles from `references/principles.md`.
 
 ## The Problem
 

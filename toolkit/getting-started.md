@@ -18,7 +18,7 @@ Copy the skill directories into your project's `.claude/skills/`:
 cp -r <michi-path>/toolkit/skills/michi-* .claude/skills/
 ```
 
-This installs all ten skills. Copy only specific skill directories if you want a narrower subset. Each skill is self-contained — its `references/` folder includes everything it needs.
+This installs all the skills. Copy only specific skill directories if you want a narrower subset. Each skill is self-contained — its `references/` folder includes everything it needs.
 
 ### Alternate: install via agent-sync
 
@@ -77,12 +77,18 @@ This feeds into the plan doc's Scenarios section.
 
 ### Other skills
 
-Four additional skills cover work that doesn't fit the core lifecycle:
+Additional skills cover work that doesn't fit the core lifecycle:
 
 - **`michi-explore`** — Structured conversation for investigative work: orienting on a new area, researching options,
   brainstorming. Lighter than planning; no implementation required.
 - **`michi-workshop`** — A lighter-weight alternative to the full planning → session → debrief cycle. For bug fixes,
   small features, and quick explorations where the ceremony of a full epic is overkill.
+- **`michi-expedition`** — The learning-mode lane: open-ended, Entrusted exploration where the end isn't known (mapping
+  a data corpus, surveying a field, sustained research). Charter a mission, run bounded campaigns, accrete findings
+  into a portrait. Scaffold the workspace first with `/michi-bootstrap expedition`.
+- **`michi-loop`** — Discipline for autonomous, lights-off loops. When work is convergent ("done when ___" is statable)
+  and a trustworthy verifier exists, this skill gates readiness, defines the goal/verifier/stop contract, and hands off
+  to a loop runner. Explicit invocation only.
 - **`michi-pr-prep`** — Prepares a companion PR review guide: what reviewers are looking at, why key decisions were
   made, and where to focus attention. Invoke before requesting PR review.
 - **`michi-docs-site`** — Scaffolds an internal Astro + Starlight docs browser for browsing project docs, or generates

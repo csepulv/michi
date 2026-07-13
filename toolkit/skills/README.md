@@ -15,73 +15,40 @@ containing the docs it depends on.
 | [michi-sustainability](michi-sustainability/SKILL.md)               | Flexible | Between milestones or epics — assess code quality, test quality, architectural alignment, knowledge gaps                                 |
 | [michi-scenario-test-builder](michi-scenario-test-builder/SKILL.md) | Flexible | During planning — generate Kaner-style verification scenarios, build test plans, define acceptance criteria                              |
 | [michi-workshop](michi-workshop/SKILL.md)                           | Flexible | Everyday work — bug fixes, small features, quick explorations with Michi discipline                                                        |
+| [michi-expedition](michi-expedition/SKILL.md)                       | Flexible | Learning-mode work — open-ended, Entrusted, spiral exploration where the end isn't known                                                  |
+| [michi-loop](michi-loop/SKILL.md)                                   | Rigid    | Autonomous loops — gate readiness, define the goal/verifier/stop contract, launch lights-off, review at halt                              |
+| [michi-pr-prep](michi-pr-prep/SKILL.md)                             | Flexible | Before requesting PR review — prepare a companion review guide                                                                             |
+| [michi-docs-site](michi-docs-site/SKILL.md)                         | Flexible | Docs infrastructure — scaffold an internal docs browser or generate a PDF build recipe                                                    |
 
 ## Structure
 
+Every skill is a directory with a `SKILL.md` and a `references/` folder. References come in two kinds:
+
+- **Shared references, synced by `build.sh`.** Three files go to every skill: `principles.md`, `docs-structure.md`,
+  and `ground-rules.md`. A few are synced to specific skills only: `patterns.md` (session, debrief),
+  `expedition-structure.md` (bootstrap, expedition), and the harness files `working-with-hermes.md` +
+  `soul-template.md` (expedition). The canonical copies live in `toolkit/`; run `build.sh` after editing any of them.
+- **Skill-local references**, authored in place — templates (bootstrap's CLAUDE.md/PROJECT.md templates, planning's
+  plan template), the session skill's target references (`target-code.md`, `target-non-code.md`,
+  `verification-strategy.md`, `open-source-preference.md`, `optimization-discipline.md`), the scenario builder's Kaner
+  references, the expedition skill's templates and recipes, and the explore skill's `michi-skill-guide.md`.
+
+Example shape:
+
 ```
 skills/
-  build.sh                        # Syncs shared references (principles.md, docs-structure.md)
-                                   # to all skill references/ directories. Run after editing
-                                   # toolkit/principles.md or toolkit/docs-structure.md.
-
-  michi-bootstrap/
-    SKILL.md
-    references/
-      principles.md               # Shared: north-star principles
-      docs-structure.md            # Shared: target structure to assess against
-      CLAUDE-MD-template.md        # Template for CLAUDE.md
-      PROJECT-template.md          # Template for PROJECT.md
-
-  michi-explore/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-
-  michi-planning/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-      plan-template.md             # Milestone plan template
-
+  build.sh                        # Syncs shared references. Run after editing any canonical toolkit file.
   michi-session/
     SKILL.md
     references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-      target-code.md               # Core loop and verification for code deliverables
-      target-non-code.md           # Core loop and exit criteria for non-code deliverables
-      patterns.md                  # Patterns and anti-patterns to check against
-      verification-strategy.md     # The 5-layer verification approach
-
-  michi-debrief/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-      patterns.md                  # Patterns to update during debrief
-
-  michi-sustainability/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-
-  michi-scenario-test-builder/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
-      kaner-methodology.md         # Kaner's five criteria and philosophy
-      kaner-techniques.md          # Twelve techniques for generating scenarios
-      michi-adaptation.md   # Patterns for autonomous agent verification
-
-  michi-workshop/
-    SKILL.md
-    references/
-      principles.md               # Shared
-      docs-structure.md            # Shared
+      principles.md               # Shared (synced)
+      docs-structure.md           # Shared (synced)
+      ground-rules.md             # Shared (synced)
+      patterns.md                 # Shared with debrief (synced)
+      target-code.md              # Skill-local
+      target-non-code.md          # Skill-local
+      verification-strategy.md    # Skill-local
+      ...
 ```
 
 ## Skill Flow
@@ -131,18 +98,38 @@ michi-workshop
   ├── Maintains: Michi discipline (assumptions, verification, decisions)
   ├── Scales: from a few bullets in conversation to a journal entry or flat-file epic
   └── Produces: working code + journal entry or epic doc (no separate workshop tier)
+
+michi-expedition
+  ├── Reads: STATUS, expedition structure, active charter + portrait, campaign mandate
+  ├── Modes: charter (mission) → campaign (mandate) → run (Entrusted spiral) → review (Paired) → exhibit
+  ├── Maintains: care calibration, finding-verification before promotion, surfacing over parking
+  └── Produces: reports, an accreting portrait, ruminations/backlog threads
+
+michi-loop
+  ├── Reads: the target work, prior Paired alignment, the environment's capabilities
+  ├── Walks: gate → contract → verifier → stop conditions → readiness → launch → review
+  ├── Maintains: verifier with teeth (not self-graded), human owns the runner choice + launch
+  └── Produces: a launched lights-off loop + a reviewed result (verified done, or abort)
+
+michi-pr-prep
+  ├── Reads: plan doc decisions/notes, session context or the diff cold
+  └── Produces: PR review guide (TLDR + Details, or TLDR only)
+
+michi-docs-site
+  ├── Reads: the project's docs landscape (or an existing Starlight site for PDF mode)
+  └── Produces: internal Astro + Starlight docs browser, or a validated pdf-recipe.yaml
 ```
 
 ## Shared References
 
-`principles.md` and `docs-structure.md` are maintained in `toolkit/` and copied to each skill's `references/` for
-portability. After editing either canonical file:
+Shared reference files are maintained in `toolkit/` and copied to each skill's `references/` for
+portability (see Structure above for which files go where). After editing any canonical file:
 
 ```bash
 toolkit/skills/build.sh
 ```
 
-When creating a new skill, add it to the `SKILLS` array in `build.sh`.
+When creating a new skill, add it to the `SKILLS` array in `build.sh` and to `toolkit/skills-directory.yaml`.
 
 ## Installation
 

@@ -116,7 +116,7 @@ appropriate to bug fixes:
   a full session.
 
 The disciplines (Surface Assumptions, Mind the Complexity and Uncertainty, Plan and Agree, Verify Before Claiming
-Done, Capture Decisions, Know When to Escalate) all still apply. Bug-fix mode adjusts the *output ceremony*, not the
+Done, Capture Decisions, Know When to Surface) all still apply. Bug-fix mode adjusts the *output ceremony*, not the
 *process rigor*.
 
 ## Flow

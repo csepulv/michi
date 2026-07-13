@@ -29,8 +29,8 @@ rather than building a genuinely correct solution.
 Write scenarios the implementing agent never sees. After the agent completes work, a separate verification process runs
 holdout scenarios against the output.
 
-**When to use:** Level 3-4 autonomy (autonomous loops, self-improving systems). Inspired by machine learning
-holdout/test sets.
+**When to use:** Level 3-4 autonomy (autonomous loops, self-improving systems) — e.g., as the
+independent-judgment verifier for a `michi-loop` run. Inspired by machine learning holdout/test sets.
 
 **Strength:** The agent can't game what it can't see. Catches "teaching to the test." **Weakness:** Requires
 infrastructure to separate implementing and verifying contexts. Holdout scenarios need separate maintenance.

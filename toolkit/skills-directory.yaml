@@ -36,6 +36,12 @@ skills:
     disable-model-invocation: false
     last_fetched: null
     sync_hash: null
+  - name: michi-loop
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-loop
+    category: contextual
+    disable-model-invocation: true
+    last_fetched: null
+    sync_hash: null
   - name: michi-pr-prep
     source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-pr-prep
     category: contextual

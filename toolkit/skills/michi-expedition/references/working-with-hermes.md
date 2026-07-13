@@ -23,7 +23,9 @@ is to supply the character up front, so correction shifts from *wrangling* to *r
 `soul-template.md` (next to this doc) is that character slot, externalized. It's a principles-tier identity file —
 North Stars, the iteration cycle, Paired/Entrusted (including the *"let's" = synchronous, yield-the-turn* rule),
 Clarify-before-Asserting, the impulse-control gate, Rule of 3, Essential/Incidental/Noise, progressive disclosure,
-verification-governs-autonomy, and the working register. It is identity-framed ("You are **{{NAME}}** — a Michi
+verification-governs-autonomy, and the working register. (The SOUL carries three of Michi's four North Stars —
+*Minimize Latency* is deliberately absent: this harness case is mostly exploratory, learning-mode work, where pace
+and care beat throughput.) It is identity-framed ("You are **{{NAME}}** — a Michi
 agent…") rather than rule-framed, because a backbone the agent *is* survives better than a checklist it's told to
 follow.
 

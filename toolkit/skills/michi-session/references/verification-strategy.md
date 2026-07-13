@@ -9,9 +9,8 @@ Reference for the michi session skill. Why verification works the way it does an
 An autonomous agent writes code and writes tests for that code. The tests validate the agent's implementation against
 the agent's understanding. This is circular — the agent is grading its own homework.
 
-In the a development run: 221 tests passed, 0 failures at completion, 2 bugs found by a human running the code for real.
-Both were
-integration-boundary bugs — cross-package gaps the agent's tests couldn't catch.
+In one development run: 221 tests passed with 0 failures at completion, yet 2 bugs were found by a human running the
+code for real. Both were integration-boundary bugs — cross-package gaps the agent's tests couldn't catch.
 
 ---
 
@@ -29,8 +28,9 @@ The difference:
   integration-boundary bugs live.
 - The agent writes unit tests from its understanding of the code. Scenarios are co-designed with the human from
   understanding of user intent.
-- A scenario like "user syncs chats and finds them searchable" tests the full pipeline. An actual bug would have
-  been caught because the real API call would have hit the Zod validation error.
+- A scenario like "user syncs chats and finds them searchable" tests the full pipeline. A real API call exercises the
+  validation layer (e.g., a Zod schema) that unit tests with mocked boundaries never touch — exactly where escaped
+  bugs have lived.
 
 ### Verification Levels
 

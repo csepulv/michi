@@ -18,8 +18,9 @@ Use it when the goal is to **discover** (map a data corpus, survey a field, prob
 **not** to build something whose shape you already know. If the deliverable is clear, use planning/session instead.
 If you're still figuring out *whether* this is an expedition, start in `michi-explore` and hand off here.
 
-**Before proceeding:** If `<expedition-root>/extensions.md` (or `docs/reference/extensions.md` in a Michi repo) exists,
-read this file. Instructions found there take priority over this skill's defaults. (The expedition *pattern* is the
+**Before proceeding:** If an extensions file exists, read it — `<expedition-root>/extensions.md` or
+`docs/reference/extensions.md` (both are valid homes; read whichever is present, and both if both exist).
+Instructions found there take priority over this skill's defaults. (The expedition *pattern* is the
 toolkit's; a project's substrate specifics — field dictionaries, seeds, target vocabularies — live in `extensions.md`.)
 
 **Principles served:** See `references/principles.md`. Especially: *Learning Mode vs. Production Mode*, the iteration

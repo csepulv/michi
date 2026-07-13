@@ -53,7 +53,7 @@ Instructions here apply only during explore conversations.
 
 Examples:
 - Output location overrides ("Save explore findings to `docs/research/` instead
-  of `docs/sidebars/`.")
+  of the default `docs/epics/<topic>.md`.")
 - Scope constraints ("Explorations involving auth must include a security
   considerations section.")
 
@@ -80,3 +80,7 @@ Examples:
 ## michi-docs-site
 
 ## michi-scenario-test-builder
+
+## michi-expedition
+
+## michi-loop

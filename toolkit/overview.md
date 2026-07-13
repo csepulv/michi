@@ -59,7 +59,7 @@ isn't regression. It's knowing when to slow down.
 
 ### The Skills
 
-Ten Claude Code skills covering the full development lifecycle:
+Claude Code skills covering the full development lifecycle:
 
 | Skill                         | When                  | What it does                                                                            |
 | ----------------------------- | --------------------- | --------------------------------------------------------------------------------------- |
@@ -71,6 +71,8 @@ Ten Claude Code skills covering the full development lifecycle:
 | `michi-debrief`               | After implementation  | Review decisions, promote learnings, curate scenarios, calibrate trust                  |
 | `michi-sustainability`        | At checkpoints        | Scaled health checks — within-milestone, between-milestone, between-epic                |
 | `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                           |
+| `michi-expedition`            | Learning-mode work    | Open-ended, Entrusted, spiral exploration — charter a mission, run campaigns, accrete a portrait |
+| `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why                |
 | `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe     |
 
@@ -81,6 +83,12 @@ point. The debrief closes the loop by curating what was learned and evolving ver
 Sustainability runs alongside the core loop at scaled intervals — light checks within a milestone, deeper assessments
 between milestones and epics. The scenario test builder feeds into planning, producing verification scenarios that are
 co-designed, not afterthoughts.
+
+Two skills open lanes beyond the production loop. **Expedition** is the learning-mode lane — open-ended exploration
+where the end isn't known and the work spirals toward clarity instead of marching toward a deliverable. **Loop** is the
+convergent + autonomous lane — when "done" is statable and a trustworthy verifier exists, the work can run lights-off
+under a disciplined contract. The form of verification you can answer routes between them: convergent ("how do I know
+I'm done?") fits planning/session or a loop; progress-only ("am I making progress, or spinning?") is an expedition.
 
 Explore, workshop, pr-prep, and docs-site are supplementary — investigative work (explore), lighter-weight sessions for
 small work (workshop), PR handoff (pr-prep), and docs-site scaffolding (docs-site).

@@ -116,7 +116,7 @@ After adding a CLI flag, schema change, environment variable, or public-API chan
 
 The agent writes code. The agent writes tests for that code. The tests validate the agent's implementation against the agent's understanding. This is circular.
 
-**Fix:** Layer 3+ verification (smoke tests with real API calls, holdout tests, human verification). See [Verification Strategy](verification-strategy.md). See also principles.md — "Verification Governs Autonomy."
+**Fix:** Layer 3+ verification (smoke tests with real API calls, holdout tests, human verification). See the verification strategy reference (`michi-session`'s `references/verification-strategy.md`). See also principles.md — "Verification Governs Autonomy."
 
 ### Exploring the wrong branch
 
@@ -142,18 +142,11 @@ Milestones rushed through a single autonomous stretch accumulate bugs that full 
 
 **Fix:** Each milestone gets full treatment. If you're batching, you're scoping wrong.
 
-### Edit tool in late-session context
+### Editing from a stale read in long sessions
 
-**Confidence:** High — known Claude Code behavior in long sessions
+**Confidence:** Medium — harness behavior improves over time; the underlying risk remains
 
-Context compaction evicts Read tool cache. Edit requires a preceding Read. In late sessions: re-read before every edit, or fall back to Bash sed/Write.
-
-**Mitigation options:**
-
-- Shorter sessions (one milestone per session)
-- Write (full file replacement) instead of Edit in late sessions
-- Batch related edits into a single Bash heredoc
-- Explicit re-read checkpoints
+In long sessions, context compaction can evict earlier file reads. An edit based on a stale recollection of the file then misses, mismatches, or clobbers newer content. Re-read a file before editing it if it hasn't been read recently in the current context — don't edit from memory.
 
 ### Mocked MongoDB tests for operator semantics
 
