@@ -49,6 +49,20 @@ Don't argue with the choice of skill or the shape of scope.
 (Connects to *Clarify before Asserting* — the *impulse to help* pull. See also Reactive Scope Changes below for
 agent-initiated mid-implementation discoveries, and Human-Initiated Scope Changes for human additions.)
 
+## Report Register
+
+The plan doc is the report; chat is the summary. Progress detail — steps completed, gate numbers, decision logs,
+deviations — is written to the plan doc as it happens. Chat output per turn is S-sized: what changed, anything
+surprising, what's next, and any question (self-contained, ending the turn — see *Addressing the Human* in
+`references/ground-rules.md`). Reply size follows the ask: "is it done?" gets a yes/no with a line of support, not a
+report.
+
+Propose commit messages at milestone close (Ready to Commit), not every turn.
+
+Ceremony volume is the human's dial. The verification discipline (Iron Law, evidence before claims) is not
+negotiable — but the *reporting* of it is. If the human asks for less narration, the discipline continues and the
+narration shrinks.
+
 ## Target Deliverable
 
 The milestone's deliverable determines which reference to load:

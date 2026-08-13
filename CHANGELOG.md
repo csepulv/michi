@@ -9,6 +9,26 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.08.13] - 2026-08-13
+
+### Changed
+
+- **Skills now separate the report from the chat reply.** `michi-session` writes progress detail (steps completed,
+  gate results, decision logs) to the milestone plan doc and keeps chat replies short: what changed, anything
+  surprising, what's next, and any question. Commit proposals come at milestone close, not every turn.
+  `michi-debrief` likewise writes the full assessment to the debrief artifact and reports in chat only the few
+  findings that change what happens next. `michi-planning` asks clarifying questions one at a time, each
+  self-contained.
+- **New "Addressing the Human" section in `ground-rules.md`** — rules for how the agent writes to the person
+  driving the session: reply size follows the ask (a yes/no question gets a yes/no answer); questions end the
+  turn, carrying enough context to answer without scrolling back; internal shorthand gets defined before use;
+  pacing and session lifecycle belong to the human — the agent doesn't propose stopping or invent budgets to
+  wind down.
+- **`principles.md` gains "Verify at the moment of the claim"** under *Clarify before Asserting*: before stating
+  a fact about code, data, or an external system, read the source or run the measurement in the same turn — or
+  label the statement as unverified recollection. The same gate applies before escalating a decision to the
+  human: first verify the question actually exists.
+
 ## [2026.07.13] - 2026-07-13
 
 This release adds Michi's third lane: **autonomous loops**. Where the production lane marches toward a known

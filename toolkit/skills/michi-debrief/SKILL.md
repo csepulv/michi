@@ -44,6 +44,10 @@ required — staleness doesn't care about session size.
 **When in doubt, ask the user.** Present the options: "Full debrief in `debriefs/`? Short summary in journal? Skip?"
 The human knows how much ceremony the work warrants.
 
+**The artifact carries the assessment; chat carries the summary.** Write the full debrief to the artifact, then
+report S-sized in chat: the two or three findings that change what happens next, and any questions (self-contained,
+ending the turn). Don't restate the artifact in chat.
+
 ### Where debriefs live
 
 The debrief follows the work's home:

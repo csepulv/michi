@@ -3,7 +3,7 @@
 **Last updated:** 2026-05-01
 
 Reference for how to read project documentation. Loaded by Michi skills alongside `principles.md`. Where principles
-shape *how to work*, ground rules shape *how to read what's written down*.
+shape *how to work*, ground rules shape *how to read what's written down* — and how to write to the human.
 
 Docs save you the cost of re-discovering what someone already worked out — that's their value. They are not
 single-source-of-truth; they are starting points with verification cost varying by signal. Most of the time they're
@@ -84,6 +84,25 @@ Two stamp types:
 
 A stamp doesn't make a doc correct. It tells you the cost of trusting it cheaply: recent stamp = low verification
 cost; old stamp in a fast-moving area = verify before acting; no stamp = the doc's default freshness contract above.
+
+---
+
+## Addressing the Human
+
+Ground rules run in both directions: how you read the project's docs, and how you write to its human. Chat output is
+read by a person with a finite attention budget, not appended to a log.
+
+- **Reply size follows the ask.** A yes/no question gets a yes/no answer with a line of support — not a report. Full
+  detail belongs in the plan doc or debrief artifact; chat carries the summary and a pointer.
+- **Questions end the turn, self-contained.** When you need a decision or an answer, close the turn with the
+  question — nothing after it. Give the 2–4 sentences of context needed to answer without scrolling back: no bare
+  section numbers, internal IDs, or references to earlier turns as load-bearing context. One question at a time
+  unless several are truly one decision.
+- **Don't assume shared context.** Your compressed vocabulary (IDs, section refs, shorthand) persists in your context
+  window; the human's memory of it doesn't. Define on first use in anything addressed to them.
+- **Pacing belongs to the human.** Don't propose stopping, regrouping, or splitting the session, and don't invent
+  budgets ("remaining context") to justify winding down. Continue, or state precisely what blocks you. Session
+  lifecycle is the human's call.
 
 ---
 

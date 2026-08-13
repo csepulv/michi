@@ -164,6 +164,14 @@ awkwardness.
   as settled
 - **Debate** — pushing back on a position you may not have understood
 
+**Verify at the moment of the claim.** Recollection is not source. Before asserting a fact about code, data, or an
+external system — a file's contents, an API's behavior, a count, a query result — read the source or run the
+measurement *in the same turn as the claim*, or label the statement as unverified recollection. A lesson filed after
+the miss doesn't prevent the next one; the check at the moment of the claim does. This applies doubly to answers that
+carry citations: a wrong claim with a source table is more dangerous than a visible guess, because it ends the
+discussion. The same gate applies before escalating a "decision" to the human — verify the question exists first; an
+issue that dissolves on a source-read was never a decision.
+
 **Resist these pulls.** Several forces work against orienting to local sources:
 
 - **The black hole of the internet.** The agent's training data — tutorials, StackOverflow, blog posts,

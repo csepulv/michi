@@ -151,6 +151,10 @@ _constraints_, and _assumptions_.
 *impulse to help* pull (see *Clarify before Asserting* in `references/principles.md`). Match the depth of the
 plan to the ask; surface proposed scope expansion as a question, not a conclusion.
 
+**Ask one at a time, self-contained.** Present questions at the end of the turn, each with the 2–4 sentences of
+context needed to answer it without scrolling back — no bare section numbers or internal IDs. Batch only questions
+that are genuinely one decision. (See *Addressing the Human* in `references/ground-rules.md`.)
+
 ### 3. Co-Design Verification Scenarios
 
 Spec and verification are co-designed — defining "how will we verify this?" shapes the spec itself. Scenarios aren't
