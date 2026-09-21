@@ -18,6 +18,7 @@ human decides when to move.
 | `michi-expedition` | Open-ended learning work — the end isn't known; spiral toward clarity with a feedback flywheel | `/michi-expedition charter` |
 | `michi-loop` | Convergent work with a trustworthy verifier — design and launch a lights-off autonomous loop | `/michi-loop` |
 | `michi-pr-prep` | PR ready for review — prepare the reviewer's companion guide | `/michi-pr-prep` |
+| `michi-docs` | Work has to be understood by someone who wasn't in the sessions — reader-facing project docs or a handoff | `/michi-docs project` |
 | `michi-docs-site` | Docs infrastructure — scaffold an internal docs browser, or a PDF build recipe | `/michi-docs-site` |
 
 ## The Natural Flow

@@ -267,7 +267,7 @@ the spine → `iteration-log.md`; current state → `STATUS.md`; data artifacts 
 ### Update STATUS.md
 
 After a campaign or review that shifts what's active, update `STATUS.md` (per-charter state: active / paused /
-dormant) — read-cold-and-update is the reflex, and stamp it. See `references/ground-rules.md`.
+dormant) — follow the **STATUS reflex** in `references/ground-rules.md`: fix, subtract, stamp.
 
 ## What's Next
 

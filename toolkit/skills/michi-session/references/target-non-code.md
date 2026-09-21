@@ -65,6 +65,8 @@ Before declaring complete:
 - **Check for intent** — did you synthesize structure and intent, or just structure? The deliverable should reflect why
   the work matters, not just what it contains.
 
+If you use a reviewer or parallel workers, brief them per *Briefing a Reviewer or Worker* in the session skill.
+
 ## Verification: Exit Criteria
 
 Non-code milestones use exit criteria instead of test suites, defined in the plan doc.

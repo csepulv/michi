@@ -72,7 +72,10 @@ not its own self-assessment.
 - **Independent judgment second:** a fresh-context reviewer (a separate agent, denied the builder's
   context) for what a gate can't assert. Holdout scenarios — verification the builder never sees —
   are the strongest form; see `michi-scenario-test-builder`'s `references/michi-adaptation.md`
-  (Pattern 2: Scenarios as Holdout Verification).
+  (Pattern 2: Scenarios as Holdout Verification). Brief it per *Briefing a Reviewer or Worker* in
+  `michi-session` — the contract's criteria as written, never narrowed by the launcher.
+- **Teeth are demonstrated, not assumed.** Before launch, make the verifier reject a representative
+  wrong result and note the break (`proved-red-by:`). A verifier that has never gone red is a hope.
 - Keep it structurally separate from the generator. *Verification governs autonomy* — the loop's reach
   is bounded by what this verifier actually catches.
 - **Unverifiable = not done.** If the environment can't *exercise* a done-criterion (missing service,

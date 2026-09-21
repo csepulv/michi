@@ -4,7 +4,7 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
-**Current version:** `v2026.08.13` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+**Current version:** `v2026.09.21` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and
 declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable
@@ -30,6 +30,7 @@ Claude Code skills covering the full development lifecycle:
 | `michi-sustainability`        | At checkpoints        | Scaled health checks — within-milestone, between-milestone, between-epic            |
 | `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                       |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why            |
+| `michi-docs`                  | At handoff            | Turn agent-facing working docs into reader-facing ones — project docs, or a standalone handoff |
 | `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe |
 
 The core loop is **bootstrap → planning → session → debrief**. Everything else is supplementary.

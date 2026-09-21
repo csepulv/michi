@@ -74,6 +74,7 @@ Claude Code skills covering the full development lifecycle:
 | `michi-expedition`            | Learning-mode work    | Open-ended, Entrusted, spiral exploration — charter a mission, run campaigns, accrete a portrait |
 | `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why                |
+| `michi-docs`                  | At handoff            | Turn agent-facing working docs into reader-facing ones — project docs, or a standalone handoff |
 | `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe     |
 
 The core loop is **Bootstrap → Planning → Session → Debrief**. Bootstrap is one-time setup (or re-run to close gaps).
@@ -90,8 +91,9 @@ convergent + autonomous lane — when "done" is statable and a trustworthy verif
 under a disciplined contract. The form of verification you can answer routes between them: convergent ("how do I know
 I'm done?") fits planning/session or a loop; progress-only ("am I making progress, or spinning?") is an expedition.
 
-Explore, workshop, pr-prep, and docs-site are supplementary — investigative work (explore), lighter-weight sessions for
-small work (workshop), PR handoff (pr-prep), and docs-site scaffolding (docs-site).
+Explore, workshop, pr-prep, docs, and docs-site are supplementary — investigative work (explore), lighter-weight
+sessions for small work (workshop), PR handoff (pr-prep), documentation for readers who weren't in the sessions (docs),
+and docs-site scaffolding (docs-site).
 
 ### Progressive Detail
 

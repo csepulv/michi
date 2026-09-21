@@ -77,6 +77,8 @@ Examples:
 
 ## michi-pr-prep
 
+## michi-docs
+
 ## michi-docs-site
 
 ## michi-scenario-test-builder

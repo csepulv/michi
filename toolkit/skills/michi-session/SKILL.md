@@ -220,6 +220,23 @@ If you catch yourself thinking any of these, stop and follow the process:
 | "I can combine these steps"                         | Each step exists for a reason. Combining hides skipped verification.                     |
 | "The human will catch it in the debrief"            | The debrief reviews decisions, not bugs. Verification is your job.                       |
 | "I'm following the spirit, just adapting the steps" | The steps ARE the spirit. See the Iron Law.                                              |
+| "They said X, but given the code they must mean Y"  | Their words are the fixed term. Ask, or log the conflict as open. Don't reinterpret.     |
+| "I noted the limitation, so the conclusion stands"  | A limitation that doesn't change the claim or the next step is decoration.               |
+
+## Briefing a Reviewer or Worker
+
+Whenever you hand work to another agent — a reviewer, a parallel judge, an explorer — under either target:
+
+- **Criteria come from the accepted source, as written.** Give a reviewer the plan doc and its acceptance criteria.
+  Your brief may add focus. It may not subtract a criterion, declare anything out of scope, or say what should not
+  block approval. A scope change is the human's to make, not the brief's.
+- **Withhold your reasoning.** No implementation rationale or decision context — the reviewer evaluates
+  independently.
+- **One writer per output path.** Give each worker its own path and a tool that can write there. If a worker cannot
+  write, the brief is wrong — fix the brief rather than accept the report inline.
+- **Workers return a pointer, not the report:** the path, headline counts, at most ten lines.
+- **Read after completion, not during.** Don't count, diff or judge an output before the worker's completion
+  message. A later edit is a new version and needs a new check.
 
 ## Post-Milestone Verification
 
@@ -276,11 +293,8 @@ Git policy is global (agent doesn't run mutations; human commits).
 After every milestone that produced commits, decisions, or shifts in what's next, update STATUS.md before declaring the
 milestone done — and the active epic's `journal.md` if you wrote to it.
 
-**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
-recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
-
-Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
-freshness contract on root docs.
+Follow the **STATUS reflex** in `references/ground-rules.md` — fix, subtract, stamp. Not conditional on "anything
+significant changed."
 
 ## Between Milestones
 

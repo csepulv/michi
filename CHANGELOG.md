@@ -9,6 +9,60 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.09.21] - 2026-09-21
+
+This release targets two recurring problems: the agent reinterpreting what the human asked for, and project docs that
+grow every session until they crowd the context. It also adds a skill for the moment work has to be handed to someone
+who wasn't there.
+
+### Added
+
+- **`michi-docs` — documentation for a reader who wasn't in the sessions.** Michi's working docs (epics, plans,
+  debriefs, journals) are written for the agent: dense and shaped like a decision log. This skill derives the
+  reader-facing layer from them without rewriting them. Three targets: `/michi-docs project` brings the root docs
+  (README, `PROJECT.md`, `ARCHITECTURE.md`, `STATUS.md`) up to date in place; `/michi-docs scope <thing>` writes a
+  standalone handoff for a feature, module or branch; `/michi-docs audit` diagnoses and changes nothing. It checks for
+  five common failures first — prose addressed to the operator, the agent's correction history left in the text,
+  status before structure, references a reader can't resolve, no start-here — and verifies every structural claim
+  against the repo before calling the docs done.
+- **Rules for handing work to another agent** — a new "Briefing a Reviewer or Worker" section in `michi-session`. A
+  reviewer gets the plan's acceptance criteria as written; the brief may add focus but may not remove a criterion or
+  declare anything out of scope. The agent doesn't pass along its own reasoning. Each worker writes to its own file
+  and returns the path and a short summary rather than the full report, and its output isn't counted or judged until
+  it says it is finished. Replaces the separate code-review instructions that were spread across the session
+  references.
+- **Two additions to `principles.md`.** A fourth failure mode, *Misread*: resolving a conflict between what the human
+  said and a plan, the code or a doc by deciding what they "must have meant." Their words are the fixed term — ask, or
+  record the conflict as open. And an *Are you sure?* check: sure you've interpreted what was said, sure what the work
+  is, sure you aren't assuming or extrapolating — and *why* are you sure?
+- **The sustainability doc audit can now measure weight, not only accuracy.** It asks you to paste the output of
+  `/context`, records how much is loaded into every session before any work starts (the "token tax"), compares it with
+  the last measurement, and flags docs that are growing or oversized. Cuts follow one rule — what is essential stays;
+  stale, wrong or duplicated content goes — and you approve before anything is removed.
+
+### Changed
+
+- **A check has to be seen failing before it is trusted.** In `michi-session` and `michi-loop`, any check the agent
+  builds — a gate, a script, a search, not only unit tests — is first run against a known-bad case, and what was
+  broken is recorded (`proved-red-by:`). A verdict word may not claim more than its mechanism tests.
+- **Plans quote the human where their words govern.** The plan template asks for the person's own phrase on outcome,
+  scope and constraints, marks the agent's additions as *(mine)*, and sends any conflict it notices to `## Discussion`
+  as open rather than resolving it — only where a misreading would change what gets built.
+- **The end-of-session `STATUS.md` update now trims as well as corrects.** Finished work leaves the active list as one
+  line and a pointer; detail that repeats a plan or journal is cut; and the agent reports the file's length before
+  and after. The instruction lives once, in `ground-rules.md`, and eight skills point to it instead of carrying
+  copies.
+- **Debriefs revise before they append.** When adding to `code-style.md` or `patterns.md`, the debrief first looks for
+  an entry to sharpen, merge or retire.
+- **"Did anything get dropped?" checks ask what survived, not how much was written.** In debrief, planning, explore
+  and sustainability the check looks for decisions, constraints, open uncertainties and evidence, and no longer
+  treats a short output as a defect.
+- **Loading defaults.** The bootstrap `CLAUDE.md` template no longer imports `ARCHITECTURE.md` — it is read when the
+  work touches design. `code-style.md` stays auto-loaded, and can become a short index once it grows large: the index
+  is loaded, the files it points to are read when needed.
+- **Closing an epic keeps unmet requirements visible.** When sustainability compresses an epic's docs, a requirement
+  that was dropped, narrowed or deferred stays marked as not met rather than being written out of the record.
+
 ## [2026.08.13] - 2026-08-13
 
 ### Changed

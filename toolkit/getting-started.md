@@ -91,6 +91,10 @@ Additional skills cover work that doesn't fit the core lifecycle:
   to a loop runner. Explicit invocation only.
 - **`michi-pr-prep`** — Prepares a companion PR review guide: what reviewers are looking at, why key decisions were
   made, and where to focus attention. Invoke before requesting PR review.
+- **`michi-docs`** — Produces documentation for a reader who wasn't in the sessions. Michi's working docs are written
+  for the agent — dense and decision-log shaped; this skill derives the reader-facing layer from them: the project's
+  living docs (`/michi-docs project`), a standalone handoff for a feature or module (`/michi-docs scope <thing>`), or a
+  diagnosis only (`/michi-docs audit`).
 - **`michi-docs-site`** — Scaffolds an internal Astro + Starlight docs browser for browsing project docs, or generates
   a PDF build recipe for an existing Starlight site.
 

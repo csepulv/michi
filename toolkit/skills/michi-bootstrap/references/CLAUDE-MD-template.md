@@ -4,7 +4,8 @@
 
 @./PROJECT.md
 @./STATUS.md
-@./ARCHITECTURE.md
+
+`ARCHITECTURE.md` — not imported. Read it when the work touches design.
 
 ## Michi
 
@@ -100,7 +101,8 @@ When adding a new entry point (CLI, extension, worker, API route) to an existing
 ### Code Review
 
 For milestones touching multiple packages or modifying schemas: launch a code-reviewer subagent with the diff and spec.
-Do not provide your implementation reasoning — let the reviewer evaluate independently.
+Do not provide your implementation reasoning — let the reviewer evaluate independently. Give the reviewer the
+acceptance criteria as written — the brief may add focus, never subtract criteria or declare scope.
 
 ### Git
 

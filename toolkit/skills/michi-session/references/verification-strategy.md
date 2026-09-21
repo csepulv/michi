@@ -95,19 +95,6 @@ After completing verification, compare diff against `## Scope`:
 
 ---
 
-## Code Review (Subagent)
-
-For milestones touching multiple packages, introducing new types/callers, or modifying schemas — launch a code-reviewer
-subagent:
-
-- **Provide:** the diff, the plan doc, the acceptance criteria
-- **Do NOT provide:** your implementation reasoning or decision context — the reviewer evaluates independently
-- **The reviewer checks for:** bugs, logic errors, security issues, missed edge cases, convention violations
-
-For single-package, low-risk milestones: self-review is sufficient. Use judgment, but err toward reviewing.
-
----
-
 ## Why This Matters
 
 Verification quality constrains autonomy. You can only be trusted with as much independence as verification can catch.

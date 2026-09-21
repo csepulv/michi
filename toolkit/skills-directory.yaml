@@ -18,6 +18,12 @@ skills:
     disable-model-invocation: false
     last_fetched: null
     sync_hash: null
+  - name: michi-docs
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-docs
+    category: contextual
+    disable-model-invocation: false
+    last_fetched: null
+    sync_hash: null
   - name: michi-docs-site
     source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-docs-site
     category: contextual

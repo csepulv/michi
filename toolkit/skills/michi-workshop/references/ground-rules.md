@@ -37,6 +37,16 @@ Current project state. **Updated by reflex** on every session that changes the a
 at the top is the truth signal. Trust it for "what's happening now." If the stamp is older than the latest commit on
 `main`, fill the gap with `git log` — the doc is behind reality.
 
+**The STATUS reflex — updating it is two moves.** *Fix:* re-open the file and read each line against current
+reality, not against your recollection; correct what is stale; update the `Last updated:` stamp. *Subtract:* finished
+work leaves `Active` — one line and a pointer to where the record lives (the epic, its journal, the debrief). Detail
+that repeats a plan, a journal or a debrief is cut rather than kept in sync. Older entries need not be preserved in
+full; the record is elsewhere. What is essential to knowing *what is happening now* stays.
+
+This is a reflex, not conditional on "anything significant changed." And it should be visible: say in the hand-off
+how long STATUS was before and after. A STATUS that grew while nothing new came into flight is a finding, not a
+formality.
+
 ### CLAUDE.md — Standing rules
 
 Conventions, agent rules, gotchas the agent should always know. **Durable rules only — not a journal.** Treat as binding

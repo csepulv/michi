@@ -179,6 +179,7 @@ debriefs missed.
 - A human or agent recently encountered a stale doc by accident (the IDE flagged it; a question revealed it; a
   cold-start session got tripped up)
 - ARCHITECTURE.md hasn't been touched in 2+ epics
+- The auto-loaded docs have grown since they were last measured, or have never been measured
 
 If none of these, skip — the per-debrief Pass 2 is doing its job.
 
@@ -191,7 +192,25 @@ If none of these, skip — the per-debrief Pass 2 is doing its job.
    - **Wrong** — the doc states something contradicted by current reality. Fix or flag.
    - **Stale-ish** — the doc isn't wrong but is missing recent additions. Note for next debrief.
    - **Stamp-only** — the doc is correct; refresh the `last-verified:` stamp.
+   - **Growing / Oversized** — from the measurement below.
 4. **Output:** a findings list (per-doc, per-finding) plus a summary table — "audited / wrong / stale-ish / current."
+
+**Measure the token tax.** Correctness is half of currency; the other half is weight. The token tax is what sits in
+context on every turn before any work starts — system prompt, tools, skills, and the auto-loaded docs. Ask the human
+to run `/context` and paste it: the agent cannot run it, and it is the real number, where a byte count is an estimate.
+The *Memory files* section shows the whole doc chain — `CLAUDE.md` and its `@`-refs, `.claude/rules/` pointers, the
+user profile. The docs are the part this audit can change; keep the whole tax in view while working on them.
+
+- Record one dated line in the project journal: the total at session start, the memory-files figure, the project's
+  share of it, the three largest files.
+- Compare with the last recorded line. **Growing** — larger than last time with no matching growth in what is in
+  flight. **Oversized** — one file dominating the chain, or a doc loading that no current work needs. (A rough guide,
+  not a rule: a tax under ~50k tokens is comfortable; toward ~80k it is worth attention.)
+- For each finding, propose the cut by the same rule every time: what is essential stays; stale, wrong or duplicated
+  content goes; content in the wrong place moves to the right one; older material need not be preserved in full. The
+  human approves before anything is removed.
+- Anything in the list that is not this project's — another profile's instructions, a stray import — is a finding for
+  the human. It cannot be fixed in the docs.
 
 The skipped table discipline applies — record what you read and judged current, not just what you fixed. That's the
 record that the audit was actually thorough.
@@ -219,7 +238,9 @@ Only these:
 
 - **Revised `spec.md`** — rewritten to reflect what was *actually delivered*, not what was originally proposed.
   Overview of the real requirements; summary of the final milestones (which often diverge from the original
-  plan). Captures result, not the messy path that got there.
+  plan). Captures result, not the messy path that got there — **and what was asked for and not delivered.** A
+  requirement that was dropped, narrowed or deferred stays visible as such, with the reason if it is known.
+  Compression shortens the record; it does not turn an unmet requirement into a success.
 - **Revised `verification.md`** — overview of how the epic was verified. Light on details; the automated tests
   are the long-lived artifact, and this doc points at them and explains the approach.
 - **`memory.md`, `journal.md`, `STATUS.md` if local to the epic** — preserved as historical record of how the work
@@ -250,7 +271,8 @@ Work through these in order:
    - Landmarks and durable decisions → project-level `docs/memory.md` Landmarks section or
      `docs/reference/key-decisions.md`.
 3. **Revise `spec.md`** — rewrite as an overview of actual requirements and the milestones actually shipped.
-   Drop original-plan detail that didn't survive.
+   Drop original-plan *detail* that didn't survive. Keep any original *requirement* that was not met, marked as
+   not met.
 4. **Revise `verification.md`** — light overview of the verification approach. Point at the long-lived
    automated tests rather than restating them.
 5. **Cut** plans, per-milestone debriefs, scratch notes, in-progress discussion docs that have served their
@@ -328,19 +350,18 @@ The sustainability check produces:
 4. **Process observations** — insights about methodology → epic's `journal.md`
 
 **Inputs-vs-outputs check before finalizing.** Sustainability checks often read substantial source material — recent
-commits, multiple files, journals, prior debriefs. Before closing out, verify the findings reflect what was reviewed.
-If you read 13 files and produced 3 bullet points, something was likely dropped. Use the inputs as a checklist.
+commits, multiple files, journals, prior debriefs. Before closing out, ask of each significant source what it held that
+must survive — a decision, a constraint, an open uncertainty, a piece of evidence — and check each is in the findings.
+Use the inputs as a checklist for those, not for volume: three findings that kept them beat thirteen that restate
+what was read.
 
 ### Update STATUS.md (and journal)
 
 If the sustainability check produced findings that shift what's active or what's next, or if it changed the project's
 health picture, update STATUS.md before closing out — and the relevant `journal.md` if you wrote to it.
 
-**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
-recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
-
-Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
-freshness contract on root docs.
+Follow the **STATUS reflex** in `references/ground-rules.md` — fix, subtract, stamp. Not conditional on "anything
+significant changed."
 
 For deeper checkpoint-style outputs (readiness assessments, milestone-end reviews), `toolkit/checkpoint-doc-formats.md`
 offers optional structured formats — Readiness Checklist, Assessment-doc tables, Operational Guide. Use when the

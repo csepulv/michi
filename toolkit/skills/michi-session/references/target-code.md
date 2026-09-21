@@ -14,6 +14,10 @@ place by the time the code is done. That's cheaper than writing code and then ba
 already-committed-to design.
 
 - **Write the failing test before the implementation.** Red first, then green.
+- **Red-first applies to every check you build, not only unit tests.** A gate, scenario runner, differential or
+  guard is trusted only after it has rejected a representative wrong result. Note the break in the plan doc —
+  `proved-red-by: <what you broke>`. And name a verdict for what it tests: a verdict word must not claim more than
+  its mechanism checks.
 - **Run the full suite after every file change.** Not after every step — after every file. The fast feedback
   loop is the primary quality gate.
 - **If tests fail (other than the one you just wrote), fix before moving on.** Do not accumulate broken tests.
@@ -65,12 +69,9 @@ Check against the plan's acceptance criteria. Look for:
 ## Code Review (subagent)
 
 For milestones touching multiple packages, introducing new types/callers, or modifying schemas — launch a code-reviewer
-subagent:
-
-- Provide: the diff (`git diff` output), the plan doc, the acceptance criteria
-- Do NOT provide: your implementation reasoning or decision context (the reviewer evaluates independently)
-- The reviewer checks for: bugs, logic errors, security issues, missed edge cases, convention violations
-- Address high-confidence issues before proceeding
+subagent with the diff (`git diff` output), briefed per *Briefing a Reviewer or Worker* in the session skill. The
+reviewer checks for bugs, logic errors, security issues, missed edge cases and convention violations. Address
+high-confidence issues before proceeding.
 
 For single-package, low-risk milestones: self-review is sufficient. Use judgment, but err toward reviewing.
 

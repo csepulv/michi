@@ -105,14 +105,16 @@ The `@`-reference mechanism in CLAUDE.md controls what loads at session start:
 # CLAUDE.md
 @./PROJECT.md          # M — always loaded
 @./STATUS.md           # S — always loaded
-@./ARCHITECTURE.md     # L — loaded but could be large
+
+`ARCHITECTURE.md` — L. Not imported; read it when the work touches design.
 
 ## Current Work
 @./docs/epics/chat-plugin/plans/m7-cli-scanner.md    # M — current milestone plan
 ```
 
 The "always" tier is `@`-referenced. The "for this work" tier is added/removed as milestones change. L and XL tiers are
-findable but not auto-loaded.
+findable but not auto-loaded. An `@`-import is a load, however the file is split — moving text into an imported file
+does not reduce context.
 
 ---
 
@@ -137,11 +139,11 @@ project; attention to currency does not. Two conventions help make staleness vis
 Two docs carry a top-of-doc stamp, edited on every change:
 
 - **STATUS.md** — `**Last updated:** YYYY-MM-DD` at the top. Updated by every skill that produces commits, decisions,
-  or changes to what's active. Read-cold-and-update is the reflex, not "update if changed."
+  or changes to what's active. The reflex is *fix, subtract, stamp* — not "update if changed."
 - **journal.md** (project-level and active epic's) — same stamp at the top. Updated when entries are added.
 
-The skills (workshop, session, planning, debrief, sustainability, explore) all carry an "Update STATUS.md (and
-journal)" step that lands these stamps. The reflex is uniform across skills.
+The skills all carry an "Update STATUS.md" step that points at one text: the **STATUS reflex** in
+`toolkit/ground-rules.md`. It has a subtract half on purpose — a doc that only ever gets corrected only ever grows.
 
 ### Section-level `last-verified:` stamp (recommended)
 
@@ -204,7 +206,7 @@ when epics start or end.
 **Multi-project repos compose this.** Each sub-project keeps its own `docs/<name>/STATUS.md`; if a sub-project's epics
 warrant the split, the same pattern applies inside `docs/<name>/epics/`.
 
-**Reading discipline.** When working in an active epic, the read-cold-and-update reflex applies to whichever STATUS the
+**Reading discipline.** When working in an active epic, the STATUS reflex applies to whichever STATUS the
 session touched — usually the epic's, sometimes the root index too (when an epic starts, closes, or shifts priority).
 
 Single-author single-epic projects don't need this — keep root STATUS as the canonical file.
@@ -312,9 +314,14 @@ Referenced from `.claude/rules/` so it's auto-loaded:
 The content lives in `docs/` (version-controlled, reviewable, project-scoped). The rules file is a thin pointer. For
 cross-project principles, the rules file can also reference global rules (`@~/.claude/rules/react-patterns.md`).
 
-**Lifecycle:** Starts sparse during bootstrap. Grows incrementally through debriefs and sustainability checks. Each
-entry is an applied example, not an abstract principle — the abstract version already lives in CLAUDE.md or global
-rules.
+**Lifecycle:** Starts sparse during bootstrap. Changes through debriefs and sustainability checks — an entry is
+revised, merged or retired before a new one is added. Each entry is an applied example, not an abstract principle — the
+abstract version already lives in CLAUDE.md or global rules.
+
+**If it grows too large, it can become an index.** `code-style.md` is essential and stays auto-loaded. When it
+outgrows that, keep a short index in its place — one line per judgment, with a plain path to the detail — and move the
+detail to `docs/reference/code-style/<topic>.md`. The index is context; what it points to is read when the work calls
+for it. Use plain paths, not `@`-imports: an import loads the file.
 
 ### Workshop work (no separate tier)
 

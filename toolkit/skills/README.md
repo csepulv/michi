@@ -18,6 +18,7 @@ containing the docs it depends on.
 | [michi-expedition](michi-expedition/SKILL.md)                       | Flexible | Learning-mode work — open-ended, Entrusted, spiral exploration where the end isn't known                                                  |
 | [michi-loop](michi-loop/SKILL.md)                                   | Rigid    | Autonomous loops — gate readiness, define the goal/verifier/stop contract, launch lights-off, review at halt                              |
 | [michi-pr-prep](michi-pr-prep/SKILL.md)                             | Flexible | Before requesting PR review — prepare a companion review guide                                                                             |
+| [michi-docs](michi-docs/SKILL.md)                                   | Flexible | At handoff — turn agent-facing working docs into reader-facing project docs or a standalone handoff                                       |
 | [michi-docs-site](michi-docs-site/SKILL.md)                         | Flexible | Docs infrastructure — scaffold an internal docs browser or generate a PDF build recipe                                                    |
 
 ## Structure
@@ -114,6 +115,11 @@ michi-loop
 michi-pr-prep
   ├── Reads: plan doc decisions/notes, session context or the diff cold
   └── Produces: PR review guide (TLDR + Details, or TLDR only)
+
+michi-docs
+  ├── Reads: the agent-facing sources (epics, plans, debriefs, journals) and the existing root docs
+  ├── Checks: five failure modes, then reader tests — every claim verified against the repo
+  └── Produces: reader-facing project docs (promoted in place), a standalone handoff, or an audit report
 
 michi-docs-site
   ├── Reads: the project's docs landscape (or an existing Starlight site for PDF mode)

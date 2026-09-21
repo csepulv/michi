@@ -8,6 +8,11 @@
 
 [What this milestone delivers]
 
+[Where the human's own words govern — the outcome, a scope boundary, a constraint — quote the phrase inline. Tag
+anything you added that they did not say *(mine)*. Do this only where a misreading would change what gets built;
+don't quote the trivial. A conflict you notice between their words and anything else goes in ## Discussion as open —
+it is not yours to resolve. The same applies to Acceptance Criteria.]
+
 **Out of scope:** [What it explicitly does NOT include]
 
 ## Acceptance Criteria

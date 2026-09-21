@@ -249,9 +249,9 @@ Before presenting to the human, review with fresh eyes:
 4. **Assumption audit:** Are assumptions from step 2 reflected in the plan? New assumptions introduced by implementation
    steps?
 5. **Inputs-vs-outputs check:** Planning often reads substantial source material — spec, prior journals, scenario
-   catalog, referenced docs, codebase areas. Verify each significant source is reflected in the plan (scope, steps,
-   scenarios, or assumptions). A plan that feels thin after heavy reading has likely dropped material. Use the inputs
-   as a checklist.
+   catalog, referenced docs, codebase areas. For each significant source ask what it held that the plan must carry: a
+   decision, a constraint, an open uncertainty, a piece of evidence. Check each landed (scope, steps, scenarios, or
+   assumptions). Use the inputs as a checklist for those — not for volume; a short plan that kept them is a good one.
 
 Fix issues inline. Don't re-review — fix and move on.
 
@@ -287,11 +287,8 @@ Present the plan to the human for review. The plan is a contract — implementat
 If planning produced a new plan doc, shifted what's "next," or added/changed an active milestone, update STATUS.md
 before closing out — and the active epic's `journal.md` if you wrote to it.
 
-**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
-recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
-
-Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
-freshness contract on root docs.
+Follow the **STATUS reflex** in `references/ground-rules.md` — fix, subtract, stamp. Not conditional on "anything
+significant changed."
 
 ### What's Next
 

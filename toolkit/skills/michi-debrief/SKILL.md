@@ -249,6 +249,7 @@ Check `docs/reference/patterns.md` (seed from `references/patterns.md` if it doe
 - New patterns to add?
 - Existing patterns needing revision based on this session?
 - Anti-patterns validated or invalidated?
+- Patterns to merge, or to retire?
 
 #### Applied Coding Principles
 
@@ -262,8 +263,10 @@ For each, capture the **applied example** in `docs/reference/code-style.md` — 
 in CLAUDE.md or global rules), but the concrete judgment: when the principle applies, the trigger, what the result looks
 like.
 
-If `docs/reference/code-style.md` doesn't exist, create it. If it does, append. This file grows incrementally through
-debriefs — the project's calibration data for code quality judgment.
+If `docs/reference/code-style.md` doesn't exist, create it. If it does, first look for an entry this example sharpens,
+replaces or contradicts — revise that one. Add a new entry only when the judgment is new, and remove an entry the
+project has outgrown. The file is the project's calibration data for code quality judgment, and it is auto-loaded:
+it earns its size.
 
 #### Memory: New Entries
 
@@ -350,18 +353,12 @@ be archived.
 
 ### 3.1 STATUS.md — Read Cold (Mandatory)
 
-Open `STATUS.md` and read it as if you've never seen the project before. For every line:
+Open `STATUS.md` and read it as if you've never seen the project before, then run the **STATUS reflex** in
+`references/ground-rules.md` — fix, subtract, stamp. The debrief is where the subtract half matters most: what just
+shipped leaves `Active` as one line and a pointer, and the detail stays in the debrief and the journal.
 
-- Is this still true after this session?
-- If not, rewrite or remove.
-
-Then:
-
-- Update the active section to reflect what just shipped, what's next, what's deferred.
-- Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
-
-This step is **not conditional on "anything significant changed."** The reflex is read-cold-and-update, every debrief.
-If you find yourself thinking "STATUS doesn't really need updating," see the Common Rationalizations.
+This step is **not conditional on "anything significant changed."** If you find yourself thinking "STATUS doesn't
+really need updating," see the Common Rationalizations.
 
 ### 3.2 journal.md — Timestamp
 
@@ -400,9 +397,11 @@ Note candidates in the debrief artifact; the human decides what gets moved.
 ### 3.6 Inputs-vs-Outputs Check
 
 Before producing the debrief artifact, scan what was read — the plan doc's `## Decisions`, `## Notes`, `## Discussion`,
-`## Scenarios`, commit history, session transcript. Verify each significant source is reflected somewhere in the output
-chain (the debrief itself, the journal, patterns.md, CLAUDE.md, memory). A debrief that pulls from a thick plan doc but
-produces thin outputs has likely dropped material. Use the inputs as a checklist.
+`## Scenarios`, commit history, session transcript. For each significant source ask what it held that must survive: a
+**decision**, a **constraint**, an **open uncertainty**, a piece of **evidence**. Check each is somewhere in the output
+chain (the debrief itself, the journal, patterns.md, CLAUDE.md, memory). Use the inputs as a checklist for *those* —
+not for volume. A short output that kept them is a good one; a long one that restates the inputs has added weight,
+not value.
 
 ---
 

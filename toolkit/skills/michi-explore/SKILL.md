@@ -131,8 +131,9 @@ Write findings to the agreed location. Structure follows what emerged — don't 
 - **Brainstorm:** ideas generated, promising directions, initial assessment
 
 **Inputs-vs-outputs check.** If substantial source material was read during exploration (multiple docs, a codebase
-area, a stack of reference files), verify each significant source is reflected somewhere in the artifact — even if just
-as a pointer. A thin artifact after heavy reading is a signal that something was dropped. Use the inputs as a checklist.
+area, a stack of reference files), ask of each significant source what it held that must survive — a decision, a
+constraint, an open uncertainty, a piece of evidence — and check each is in the artifact, even if just as a pointer.
+Use the inputs as a checklist for those, not for volume: a short artifact that kept them is a good one.
 
 ### Not Ready is a Valid Outcome
 
@@ -155,11 +156,8 @@ Brief, built-in — not a separate debrief:
 If the exploration produced an epic doc, decision, or shift in what's active or next, update STATUS.md before closing
 out — and the relevant `journal.md` if you wrote to it. (Peek mode produces no changes and skips this step.)
 
-**Read STATUS.md cold** — re-open the file and read each line against current reality, not against your in-context
-recollection. Edit anything stale. Update the `**Last updated:** YYYY-MM-DD` stamp at the top.
-
-Not "if anything significant changed" — the reflex is read-cold-and-update. See `references/ground-rules.md` for the
-freshness contract on root docs.
+Follow the **STATUS reflex** in `references/ground-rules.md` — fix, subtract, stamp. Not conditional on "anything
+significant changed."
 
 ### What's Next
 
