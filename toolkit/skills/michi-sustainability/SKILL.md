@@ -202,7 +202,8 @@ The *Memory files* section shows the whole doc chain — `CLAUDE.md` and its `@`
 user profile. The docs are the part this audit can change; keep the whole tax in view while working on them.
 
 - Record one dated line in the project journal: the total at session start, the memory-files figure, the project's
-  share of it, the three largest files.
+  share, the three largest files, the active profile and mechanisms attaching the measured material, and the
+  effective client/model/effort. Mark unavailable fields unknown; do not infer them.
 - Compare with the last recorded line. **Growing** — larger than last time with no matching growth in what is in
   flight. **Oversized** — one file dominating the chain, or a doc loading that no current work needs. (A rough guide,
   not a rule: a tax under ~50k tokens is comfortable; toward ~80k it is worth attention.)

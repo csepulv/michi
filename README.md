@@ -4,7 +4,7 @@ Methodology and tooling for running autonomous Claude Code agents against real c
 
 **Full documentation:** [michi.tools](https://michi.tools)
 
-**Current version:** `v2026.09.21` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
+**Current version:** `v2026.09.22` — see [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 AI coding agents are powerful and unreliable at scale. They grade their own homework, drift without structure, and
 declare "done" prematurely. Michi provides the process, skills, and templates that make autonomous agent work repeatable
@@ -23,6 +23,7 @@ Claude Code skills covering the full development lifecycle:
 | `michi-explore`               | Investigative work    | Structured conversation for research, orientation, and brainstorming                |
 | `michi-expedition`            | Open-ended discovery  | Learning-mode lane — spiral exploration where the end isn't known (research, data, prototypes) |
 | `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
+| `michi-second-look`           | Independent review    | A second pair of eyes from a separate session — delivered work checked against the accepted criteria, read-only |
 | `michi-planning`              | Before implementation | Explore codebase, surface assumptions, co-design verification, write the plan doc   |
 | `michi-session`               | During implementation | Rigid execution — implement, test after every change, log decisions, verify, commit |
 | `michi-workshop`              | Small work            | Lighter discipline for bug fixes, small features, and quick explorations            |

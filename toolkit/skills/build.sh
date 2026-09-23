@@ -32,6 +32,7 @@ SKILLS=(
   "michi-portal"
   "michi-pr-prep"
   "michi-scenario-test-builder"
+  "michi-second-look"
   "michi-session"
   "michi-sustainability"
   "michi-workshop"

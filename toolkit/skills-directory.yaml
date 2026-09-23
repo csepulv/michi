@@ -66,6 +66,12 @@ skills:
     disable-model-invocation: false
     last_fetched: null
     sync_hash: null
+  - name: michi-second-look
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-second-look
+    category: contextual
+    disable-model-invocation: true
+    last_fetched: null
+    sync_hash: null
   - name: michi-debrief
     source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-debrief
     category: contextual

@@ -17,6 +17,7 @@ containing the docs it depends on.
 | [michi-workshop](michi-workshop/SKILL.md)                           | Flexible | Everyday work — bug fixes, small features, quick explorations with Michi discipline                                                        |
 | [michi-expedition](michi-expedition/SKILL.md)                       | Flexible | Learning-mode work — open-ended, Entrusted, spiral exploration where the end isn't known                                                  |
 | [michi-loop](michi-loop/SKILL.md)                                   | Rigid    | Autonomous loops — gate readiness, define the goal/verifier/stop contract, launch lights-off, review at halt                              |
+| [michi-second-look](michi-second-look/SKILL.md)                     | Rigid    | Independent review from a separate session — requested vs observed, claims, design, process; read-only, findings by ID                   |
 | [michi-pr-prep](michi-pr-prep/SKILL.md)                             | Flexible | Before requesting PR review — prepare a companion review guide                                                                             |
 | [michi-docs](michi-docs/SKILL.md)                                   | Flexible | At handoff — turn agent-facing working docs into reader-facing project docs or a standalone handoff                                       |
 | [michi-docs-site](michi-docs-site/SKILL.md)                         | Flexible | Docs infrastructure — scaffold an internal docs browser or generate a PDF build recipe                                                    |
@@ -111,6 +112,13 @@ michi-loop
   ├── Walks: gate → contract → verifier → stop conditions → readiness → launch → review
   ├── Maintains: verifier with teeth (not self-graded), human owns the runner choice + launch
   └── Produces: a launched lights-off loop + a reviewed result (verified done, or abort)
+
+michi-second-look
+  ├── Runs in: a separate session that did none of the work — no brief from the builder
+  ├── Reads: the accepted criteria as written, then the artifact itself; plan/STATUS claims are things to check
+  ├── Runs: the project's own gates, read-only, in a scratch copy
+  ├── Judges: requested vs observed, claims, design (against Michi's bar), process
+  └── Produces: one report (tl;dr → findings by ID → detail); the builder answers each finding by ID
 
 michi-pr-prep
   ├── Reads: plan doc decisions/notes, session context or the diff cold

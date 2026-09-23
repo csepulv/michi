@@ -73,6 +73,7 @@ Claude Code skills covering the full development lifecycle:
 | `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                           |
 | `michi-expedition`            | Learning-mode work    | Open-ended, Entrusted, spiral exploration — charter a mission, run campaigns, accrete a portrait |
 | `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
+| `michi-second-look`           | Independent review    | A second pair of eyes from a separate session — checks delivered work against the accepted criteria, read-only |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why                |
 | `michi-docs`                  | At handoff            | Turn agent-facing working docs into reader-facing ones — project docs, or a standalone handoff |
 | `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe     |
@@ -94,6 +95,12 @@ I'm done?") fits planning/session or a loop; progress-only ("am I making progres
 Explore, workshop, pr-prep, docs, and docs-site are supplementary — investigative work (explore), lighter-weight
 sessions for small work (workshop), PR handoff (pr-prep), documentation for readers who weren't in the sessions (docs),
 and docs-site scaffolding (docs-site).
+
+**Second-look** is the one check that runs from outside the building session. The session's own review subagent,
+the debrief and the sustainability check are all graded from inside the session that did the work. Second-look is
+run by an agent that was not there: it takes the acceptance criteria from the accepted source rather than from the
+builder's brief, reads plan and status claims as claims to verify, runs the project's gates read-only, and returns
+one report the human reads first and the builder answers finding by finding.
 
 ### Progressive Detail
 

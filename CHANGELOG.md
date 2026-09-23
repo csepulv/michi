@@ -9,6 +9,30 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.09.22] - 2026-09-22
+
+This release adds a check that runs from outside the session that did the work.
+
+### Added
+
+- **`michi-second-look` — a second pair of eyes on delivered work.** Every existing check in Michi (the session's
+  review subagent, the debrief, the sustainability check) is graded from inside the session that built the work.
+  This skill is run by an agent that was not there: open a separate session (any harness — the skill file and its
+  references are the whole prompt) and point it at a milestone plan, an epic directory or the project. It takes the
+  acceptance criteria as written from the spec or plan rather than from the builder, reads plan and status claims
+  as things to check, runs the project's tests and gates read-only in a scratch copy, and writes one report — a
+  short summary, a findings table with IDs and evidence, every criterion marked met / unmet / could-not-verify,
+  and a record of what was examined and judged sound. It proposes corrections; it never edits. When the report
+  reaches the session that built the work, each finding gets a written answer by ID: accept (naming the
+  measurement that confirmed it), contest with evidence, or defer. Explicit invocation only.
+
+### Changed
+
+- **The sustainability doc audit records what produced each measurement.** The dated line it writes after a
+  `/context` paste now also captures the active profile, which mechanisms attached each part, and the effective
+  client, model and effort, with unknown fields marked unknown rather than guessed. Two readings taken under
+  different setups can otherwise look like doc growth or shrinkage. Found by the first second-look run.
+
 ## [2026.09.21] - 2026-09-21
 
 This release targets two recurring problems: the agent reinterpreting what the human asked for, and project docs that
