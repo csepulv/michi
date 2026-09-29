@@ -21,6 +21,7 @@ PATTERNS_SKILLS=(
 )
 
 SKILLS=(
+  "michi-away"
   "michi-bootstrap"
   "michi-debrief"
   "michi-docs"

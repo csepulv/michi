@@ -89,11 +89,17 @@ Additional skills cover work that doesn't fit the core lifecycle:
 - **`michi-loop`** — Discipline for autonomous, lights-off loops. When work is convergent ("done when ___" is statable)
   and a trustworthy verifier exists, this skill gates readiness, defines the goal/verifier/stop contract, and hands off
   to a loop runner. Explicit invocation only.
+- **`michi-away`** — For when you step away mid-work. Invoke it before you leave: it records your instructions and
+  where the cycle stands, then keeps running debrief → planning → session Entrusted. Where it would ask you, it
+  guesses and logs the guess; where it would wait, it logs the block and moves on. Contract changes, north-star
+  trades and destructive or outward actions are always blocks. On return, you walk the away-log together. Explicit
+  invocation only.
 - **`michi-second-look`** — An independent review of a milestone, epic or project by an agent that was not in the
   session. Run it from a separate session (any harness): it takes the acceptance criteria as written, spot-checks the
   builder's claims, runs the project's gates read-only, and writes one report with findings by ID. The builder then
-  answers each finding — accept with the measurement that confirmed it, contest with evidence, or defer. Explicit
-  invocation only.
+  answers each finding — accept with the measurement that confirmed it, contest with evidence, or defer.
+  `/michi-second-look audit` asks the forward question instead — dependencies, design, test-suite health, patterns
+  worth adopting — as recommendations rated by effort and benefit. Explicit invocation only.
 - **`michi-pr-prep`** — Prepares a companion PR review guide: what reviewers are looking at, why key decisions were
   made, and where to focus attention. Invoke before requesting PR review.
 - **`michi-docs`** — Produces documentation for a reader who wasn't in the sessions. Michi's working docs are written

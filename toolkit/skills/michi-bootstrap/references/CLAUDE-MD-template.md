@@ -61,7 +61,9 @@ Consider what tools you have permission for when choosing a tool — prefer a gr
 
 ### Session Protocol
 
-1. **Before starting:** Read the plan doc for this milestone. Verify correct branch (`git branch`).
+1. **Before starting:** Read the plan doc for this milestone, and the epic's `north-stars.md` if it has one — the
+   human's fixed points for the epic; read it again at scope changes and before claiming done; never edit it. Verify
+   correct branch (`git branch`).
 2. **During implementation:** Run tests after every file change.
 3. **After implementation:** Run the full verification checklist in the plan doc.
 4. **After verification:** Hand off with a proposed commit message in `michi(mN): description` form. Update STATUS.md. Notify via Slack.

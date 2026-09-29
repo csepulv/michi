@@ -3,8 +3,9 @@ name: michi-second-look
 description: >-
   Independent review of a milestone, epic or project by an agent that was not in the session — a
   second pair of eyes. Checks requested-vs-observed against the accepted criteria, spot-checks the
-  builder's claims, judges design against Michi's bar. Read-only; corrections are proposed, not made.
-  Run from a separate session.
+  builder's claims, judges design against Michi's bar. An `audit` mode asks the forward question instead —
+  dependencies, architecture, test-suite health, patterns and libraries worth adopting — as rated
+  recommendations. Read-only; corrections are proposed, not made. Run from a separate session.
 disable-model-invocation: true
 ---
 
@@ -40,7 +41,8 @@ builder applies them. The reviewer's value is that it never became a second buil
 ## Invocation
 
 ```
-/michi-second-look <scope> [focus]
+/michi-second-look <scope> [focus]          → review: what was built, against what was accepted
+/michi-second-look audit [scope] [focus]    → audit: what should change — see *Audit mode* below
 ```
 
 `scope` is one of:
@@ -70,8 +72,9 @@ not a generic one. Read `ground-rules.md` for how much to trust each root doc.
 ### 2. Fix the accepted source
 
 Find where the requirements live — the spec, the plan's acceptance criteria, the goal for a loop, a
-charter for an expedition. **Quote the criteria as written.** This is the fixed term everything is
-diffed against.
+charter for an expedition, and the epic's `north-stars.md` if it has one (the human's fixed points for
+the epic; at epic and project scope they are part of the accepted source). **Quote the criteria as
+written.** This is the fixed term everything is diffed against.
 
 If there is no accepted source, or the criteria are too vague to assess, that is the first finding —
 not a reason to invent criteria. Say what you assessed against instead, and label it as yours.
@@ -179,6 +182,79 @@ of six criteria, the verdict is about three. If you read but could not run, say 
 Return a pointer, not the report: the path, the severity counts, at most ten lines. The human reads
 first.
 
+## Audit mode
+
+```
+/michi-second-look audit [scope] [focus]
+```
+
+The review asks *did we build what was accepted?* The audit asks *what should change?* — should
+dependencies be updated, does the design still hold, is the test suite healthy, are there patterns or
+libraries the project should now be using. Different question, same seat: not the builder, no brief,
+read-only, run in a scratch copy, evidence per item, dispositions on receipt. `scope` defaults to the
+project; a package or directory also works. Milestone scope rarely makes sense here.
+
+The review's pitfall *how you would have built it* does not apply — the audit is invited to say how it
+would build it now. Two others take its place, both from `references/principles.md`: **Avoid Premature
+Optimization** (a change must be defended, never assumed) and the **black hole of the internet** (the
+pull of training-data fashion on defaults). Every recommendation names the problem *in this codebase*
+it solves. A recommendation whose only reason is "this is what people do now" is not
+a recommendation; leave it out or put it under *Open questions*.
+
+### The bar
+
+There are no acceptance criteria to diff against. The accepted source is the project's **stated design
+intent**: `ARCHITECTURE.md`, `PROJECT.md` (constraints especially), `CLAUDE.md` conventions,
+`docs/reference/code-style.md` if present — plus Michi's principles. Quote it. Where intent is absent,
+stale or contradicts the tree, that is the first finding, and the reading you audit against instead is
+labelled *(mine)*, per step 2 of the review.
+
+### Four passes
+
+Say which you ran. Each points at existing material rather than restating it.
+
+1. **Dependencies.** In the scratch copy, install and run the ecosystem's own tools read-only — for
+   Node, `npm outdated` and `npm audit` (or the pnpm / yarn equivalents); other stacks have their
+   counterparts. Then judge, don't list: for each dependency worth raising, current → latest, the semver
+   gap, any advisory, a known breaking change, the runtime or its end-of-life. The output is *which
+   updates matter and why*, and which are deliberately left alone.
+2. **Architecture and design.** Stated intent against the tree: what has drifted, what has accreted,
+   where boundaries leak, what the design cannot express that the work now needs. Then
+   `michi-sustainability`'s *Architectural Alignment* and *Code Quality* menus, from this seat.
+3. **Test-suite health.** Run it; read the output. Then `michi-sustainability`'s *Test Quality* menu —
+   mocks at the wrong boundary, tests asserting on mechanism, obvious uncovered paths — plus what the
+   run itself shows: duration, flakiness, skipped or disabled tests, suites that pass without asserting.
+4. **Patterns and libraries.** `michi-sustainability`'s *Reuse Audit* signals (hand-rolled parsing,
+   duplicated merge/retry/glob logic, verbose I/O wrappers) and the ecosystem's current idioms. Each
+   candidate passes the Reuse Audit's own test: net simplification, removes duplication, well-maintained,
+   doesn't break the project's patterns or force a public-API change.
+
+### Recommendations, not findings
+
+A recommendation is rated on Michi's own scale, not by severity:
+
+```markdown
+## Recommendations
+| ID | Area | Recommendation | Effort | Benefit | Evidence | Risk |
+|---|---|---|---|---|---|---|
+| SL-A1 | deps | … | S / M / L / XL | S / M / L / XL | `path:line` / command + output | … |
+```
+
+*An L effort for S benefit is easy to decline; an S effort for L benefit is easy to accept* — the pair
+makes the tradeoff visible so the human can decide. **Effort and benefit are the reviewer's estimates;
+say so.** The rest of the report contract holds: the header (reviewed, ran, not run, passes used), a
+TL;DR that names the one thing to look at first, a *Detail* section per ID, *Examined and judged sound*
+— including dependencies and designs looked at and left alone — and *Open questions*. A defect found
+along the way (a failing test, a wrong claim) is still a finding with a severity; keep the two tables
+separate.
+
+### On receipt
+
+Dispositions as below, with one difference: **accept means *plan it*, not *do it*.** A recommendation is
+almost always larger than a fix. An accepted set larger than a workshop goes to `/michi-planning` as a
+milestone, with the recommendation IDs named in the plan. Do not carry the recommendations out in the
+dispositions pass.
+
 ## When the report reaches the builder
 
 This half runs in the **builder's** session, when the human presents the report. It is the part that
@@ -220,4 +296,5 @@ artifact that can come back wrong: the human can check it against the report.
 Not `michi-pr-prep` (the author writing *for* a reviewer). Not the session's code-review subagent
 (launched and briefed by the builder, milestone scope). Not `michi-debrief` (the builder's own
 retrospective). Not `michi-sustainability` (the builder's health check; this skill borrows its
-checklists). Those all run from the builder's seat. This one doesn't.
+checklists — audit mode is that health check asked from outside). Those all run from the builder's
+seat. This one doesn't.

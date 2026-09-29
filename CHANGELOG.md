@@ -9,6 +9,49 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.09.28] - 2026-09-28
+
+This release adds a way to keep work moving while you step away, a place for an epic's fixed goals,
+and a forward-looking audit to the independent-review skill.
+
+### Added
+
+- **`michi-away` — keep the work moving while you step away.** Invoke it before you leave. It records your
+  instructions word for word and where the plan → build → review cycle stands, then keeps running that cycle
+  (`michi-session`, `michi-debrief`, `michi-planning`) on a best-effort basis. Where a skill would normally ask
+  you, the agent makes its best guess and logs it with the alternatives and whether it's reversible. Where it
+  would wait, it logs the block and moves to other work. Some things are never guessed: changes to a public
+  API or schema, trade-offs against the epic's stated goals, and anything destructive or that leaves the
+  machine (including sending messages). Those are always logged as blocks. Verification is not relaxed. The
+  log (`docs/epics/<epic>/away-log.md`) holds the run's state, so the work survives context compaction; when
+  you return, you walk it together — blocks first, then guesses. Git behavior follows your project's own
+  rules; the skill asks at entry if they're unclear. Explicit invocation only.
+- **Epic north stars — an epic's fixed goals, in a file the agent re-reads.** An epic can now carry
+  `north-stars.md`: up to five lines, in the human's words, naming goals and constraints that must hold however
+  the milestones change. A goal stated at the start of a long session tends to get lost by the middle;
+  a file the skills re-read does not. Planning quotes the lines into each plan. The session re-reads the file
+  at a scope change, at any "simpler / interim / for now" proposal, and before claiming a milestone done,
+  and says which line the step serves or trades — a trade goes to the human, not into the work. The debrief
+  checks for trades; explore and planning offer to create the file when an epic opens. The agent never
+  edits it.
+- **`michi-second-look audit` — what should change, not just what was built.** The existing review checks
+  delivered work against what was accepted. The new audit mode asks the forward question from the same
+  independent, read-only seat: which dependency updates matter and why, where the design has drifted from its
+  stated intent, how healthy the test suite is, and which patterns or libraries would simplify the code.
+  Each recommendation is rated by effort against benefit and must name the problem it solves in this
+  codebase — "this is what people do now" doesn't qualify.
+- **A fifth way of misunderstanding the human, in `principles.md`.** *Extrapolate*: taking an answer given
+  about one thing as a rule for everything else. An answer's scope is the question it answered. To carry it
+  further, the human must have generalized it themselves, or the agent asks once — "you said X about Y; does
+  it hold for Z?" — and builds nothing on it until answered. A decision the human just made isn't reopened
+  by a new consideration; that goes to discussion.
+
+### Changed
+
+- **Questions to the human check their premise.** A question built on a generalization the human didn't
+  make ("given that X, which you said about Y, should Z…?") is the wrong question; ask about the
+  generalization itself, once, or don't ask.
+
 ## [2026.09.22] - 2026-09-22
 
 This release adds a check that runs from outside the session that did the work.

@@ -64,7 +64,9 @@ might open with one:
 - **"What are you hoping to take away from this?"** — what would make this time well spent?
 - **"Do you have an agenda, or should we find one?"** — some explorations have a direction; others discover it.
 - **"Where should we capture this?"** — suggest `docs/epics/<topic>.md` as default (flat-file epic, grows if it
-  earns one). Could also be a journal entry, a section in an existing doc, or just shared understanding.
+  earns one). Could also be a journal entry, a section in an existing doc, or just shared understanding. If the
+  exploration opens an epic and the human has stated goals or constraints that must hold throughout it, offer to
+  capture them as `north-stars.md` — in their words, ≤5 lines (see `references/docs-structure.md`).
 - **Read `docs/memory.md` if it exists.** Collaboration context — how we work together, active threads, landmarks.
   Internalize it, don't just scan it.
 

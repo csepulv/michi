@@ -246,6 +246,7 @@ project/
     epics/                               # Essential — organized by effort
       chat-plugin/
         spec.md (or specs/)              #   What to build (essential)
+        north-stars.md (optional)        #   The human's fixed points for this epic — ≤5 lines, their words
         verification/                    #   What "working" means + how to prove it
           scenarios.md (or scenarios/)   #     Essential: stories, intent, given-when-then
           test-plan.md                   #     Incidental: tooling, auth, strategy, infrastructure
@@ -294,6 +295,32 @@ README, not by a separate doc tier. If it's substantive enough to need a doc, it
 **Epics scale.** Start as a flat file (`docs/epics/<topic>.md`) for single-workshop or short-arc work; grow to a
 subdirectory when the work accumulates multiple milestones, supporting docs (specs, verification, plans, journal,
 debriefs), or multiple authors.
+
+### Epic North Stars (`docs/epics/<epic>/north-stars.md`)
+
+An epic can carry a short file of the human's **fixed points** — the goals and constraints that must not be traded
+away for near-term expedience, however the milestones evolve. *"D5 is the basis going forward — no expedient forks."*
+*"This is a new foundation; don't optimize for the next deliverable."* Constraints and non-goals belong here as much as
+goals.
+
+The failure it guards against: a goal stated in conversation at the outset, repeated, and still lost by mid-session — the
+agent optimizing a milestone locally against the epic's purpose. Conversation compacts; a file the skills re-read does
+not.
+
+Rules:
+
+- **≤ 5 lines, in the human's words.** The agent may propose candidates when the epic opens; the human accepts the
+  wording. The agent never edits the file. (Same rule as the light pen: the human's words are the fixed term.)
+- **Read, not remembered.** Skills read it at start and **re-read it from disk at decision points** — a scope change,
+  a "simpler / interim / for now" proposal, a completion claim — and say which north star the step serves or trades.
+  A trade goes to the plan's `## Discussion`, not into the work. Re-reading is what survives compaction.
+- **Quoted into plans.** Planning quotes the lines into each plan's `## Context`, so a plan that drifts from them is
+  visible on the page. Second-look treats them as part of the accepted source.
+- **Not auto-loaded.** With several epics open, an `@`-import per epic would grow every session's context; the skill
+  resolves the epic from the plan path and reads the file itself.
+
+The name is deliberate: the same idea as the toolkit's North Stars in `principles.md`, one zoom level down — an epic's
+fixed points rather than the practice's.
 
 ### Applied Coding Principles (`docs/reference/code-style.md`)
 

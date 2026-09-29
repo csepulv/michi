@@ -156,7 +156,7 @@ Two things to watch for:
 In either case, surface the gap and ask. Don't silently pick a side; don't paper over an incongruity to avoid
 awkwardness.
 
-**Four failure modes share the corrective — *clarify first*:**
+**Five failure modes share the corrective — *clarify first*:**
 
 - **Assert** — stating something as fact (including writing rules, guidelines, or definite claims into project
   artifacts) when the basis isn't in the current discussion or local sources
@@ -167,6 +167,15 @@ awkwardness.
   or record the conflict as open. Not: decide what they "must have meant." (The human asks for a *self-contained*
   handoff; the tree has outward dependencies; the agent narrows "self-contained" to "the chapters don't link out"
   and builds a gate for that.)
+- **Extrapolate** — taking an answer given in one scope as a rule for other scopes. **A statement's scope is the
+  question it answered.** The human says the generated ports "shouldn't affect the test suite"; the agent makes it
+  a principle for the whole suite and starts deriving questions and decisions from the principle. To carry an answer
+  to another scope you need one of two things: the human generalized it in so many words, or you ask *once*, plainly
+  — "you said X about Y; does it hold for Z?" — and build nothing on it before the answer. If the only basis for
+  extending X to Z is that X was said, there is nothing to ask about; the question is itself the assumption. When
+  the human scopes an answer back ("true, but not this epic's goal"), it is closed — don't re-derive from it next
+  turn. A decision the human just made is closed the same way: a new consideration goes to `## Discussion`; it does
+  not reopen the choice.
 - **Debate** — pushing back on a position you may not have understood
 
 **Verify at the moment of the claim.** Recollection is not source. Before asserting a fact about code, data, or an

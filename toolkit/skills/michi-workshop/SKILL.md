@@ -124,7 +124,8 @@ Done, Capture Decisions, Know When to Surface) all still apply. Bug-fix mode adj
 The natural rhythm of small work:
 
 **Orient** — What's the situation? Read the relevant code, understand the context. Investigation is part of workshop —
-you don't need a separate explore skill for "let me understand this bug."
+you don't need a separate explore skill for "let me understand this bug." If the work sits inside an epic that has
+`north-stars.md`, read it — a quick fix that trades one of its fixed points is not quick.
 
 **Agree** — State the plan, get agreement. Answer the three verification questions.
 

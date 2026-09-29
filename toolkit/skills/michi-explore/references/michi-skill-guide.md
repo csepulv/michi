@@ -17,7 +17,8 @@ human decides when to move.
 | `michi-workshop` | Small task — bug fix, quick feature, focused improvement. Full lifecycle is overkill. | `/michi-workshop` |
 | `michi-expedition` | Open-ended learning work — the end isn't known; spiral toward clarity with a feedback flywheel | `/michi-expedition charter` |
 | `michi-loop` | Convergent work with a trustworthy verifier — design and launch a lights-off autonomous loop | `/michi-loop` |
-| `michi-second-look` | Delivered work needs a second pair of eyes — independent review from a separate session, read-only | `/michi-second-look <scope>` |
+| `michi-away` | You need to step away mid-work — keep the cycle running Entrusted; guesses and blocks logged for your return | `/michi-away` (before you leave) |
+| `michi-second-look` | Delivered work needs a second pair of eyes — independent review from a separate session, read-only; or an outside audit of deps, design, tests and patterns | `/michi-second-look <scope>` · `/michi-second-look audit` |
 | `michi-pr-prep` | PR ready for review — prepare the reviewer's companion guide | `/michi-pr-prep` |
 | `michi-docs` | Work has to be understood by someone who wasn't in the sessions — reader-facing project docs or a handoff | `/michi-docs project` |
 | `michi-docs-site` | Docs infrastructure — scaffold an internal docs browser, or a PDF build recipe | `/michi-docs-site` |
@@ -67,6 +68,10 @@ launches the lights-off run; the human makes the launch call.
 **Milestone/Epic → Second look:** The work is delivered and the human wants a check the builder didn't grade. A
 *separate* session runs `/michi-second-look <scope>`; the building session receives the report afterwards and
 answers each finding by ID. Don't run it from the session that did the work — the seat is the point.
+
+**Any cycle step → Away:** The human needs to step away mid-work and wants progress meanwhile. Before they leave,
+`/michi-away` records their instructions and the cycle position, then runs debrief → planning → session Entrusted,
+logging guesses and blocks. On return, the away-log is walked together and the work goes back to Paired.
 
 **Any → Workshop:** The work is small enough to hold in your head. You don't need the full lifecycle — just the
 discipline.

@@ -40,6 +40,9 @@ work is the *impulse to help* pull. Match the depth of your work to the depth of
 Before starting:
 
 - The project's overall spec or feature plan (what are we building?)
+- The epic's `north-stars.md` if it has one — the human's fixed points for the epic (see *Epic North Stars* in
+  `references/docs-structure.md`). If the epic is new and has none, propose up to five candidates from the exploration
+  and the human's own words; the human accepts the wording. Never write it unasked.
 - The milestone scope (which slice of the work?)
 - Access to the codebase (to explore patterns, understand existing code)
 - Context reference package (optional, brownfield projects) — video recordings, HAR files, screenshots, workflow docs
@@ -194,7 +197,8 @@ verification.
 Create `docs/epics/<epic-name>/plans/<plan-file>.md` using the plan template (`references/plan-template.md`). Key
 sections:
 
-- **Context** — why this milestone exists
+- **Context** — why this milestone exists; the epic's north stars quoted, and a line on how this milestone serves
+  them (or which one it is in tension with — that goes to `## Discussion`)
 - **Scope** — what it delivers and what it explicitly does NOT include
 - **Acceptance Criteria** — explicit conditions for "done"
 - **Scenarios** — co-designed scenarios from step 3, with Given-When-Then (authored here, promoted to the epic's

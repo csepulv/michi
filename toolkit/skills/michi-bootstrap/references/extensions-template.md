@@ -88,3 +88,5 @@ Examples:
 ## michi-loop
 
 ## michi-second-look
+
+## michi-away

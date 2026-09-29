@@ -139,6 +139,8 @@ Read `## Decisions` and `## Discussion` from each milestone's plan doc.
 - Were there consequences the agent didn't anticipate?
 - Should it be reversed, refined, or accepted?
 - Does it create a repeating pattern? (If so, codify it)
+- If the epic has `north-stars.md`: did this decision trade one of its fixed points for near-term expedience? Quote
+  the line it strains against. This is the debrief's check on the session's north-star consults.
 
 **Flag decisions that should flow into CLAUDE.md** — things the agent should know for all future sessions, not just this
 milestone.

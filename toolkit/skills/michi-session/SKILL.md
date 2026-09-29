@@ -80,7 +80,8 @@ target.
 Before starting work:
 
 1. **Read the milestone plan doc.** This is your contract. If it doesn't exist, stop and use the `michi-planning`
-   skill first.
+   skill first. **Then the epic's `north-stars.md`**, if it exists (the plan path names the epic) — the human's
+   fixed points for the epic. See *Epic North Stars* below.
 2. **Verify branch.** Run `git branch` — confirm you're on the correct feature branch.
 3. **Verify environment.** Code targets: services running, seed data loaded, test suite passes from clean state.
    Non-code targets: source materials accessible, referenced docs loaded.
@@ -111,6 +112,19 @@ a real problem): do the whole pass, feed what you learned into the next round, r
 problems is overconfidence. *Don't push past three* when rounds stop producing progress — same fix from a different
 angle, same class of solution — that's a signal to stop and reframe, not to try a fourth time. See "When You're
 Stuck" for the specific escalation pattern.
+
+### Epic North Stars
+
+If the epic has `north-stars.md` (see `references/docs-structure.md`), **re-read it from disk** — don't recall it — at
+three points, and write one line in the plan doc naming which north star the step serves or trades:
+
+- a reactive scope change (below);
+- any proposal of a "simpler", "interim" or "for now" approach — the moment near-term expedience competes with the
+  epic's purpose;
+- the completion claim, before declaring the milestone done.
+
+A trade is a `## Discussion` item for the human, never a decision the agent makes. The file is the human's words;
+propose changes to it in `## Discussion`, don't edit it.
 
 ### Reactive Scope Changes (Agent-Initiated)
 
@@ -222,6 +236,8 @@ If you catch yourself thinking any of these, stop and follow the process:
 | "I'm following the spirit, just adapting the steps" | The steps ARE the spirit. See the Iron Law.                                              |
 | "They said X, but given the code they must mean Y"  | Their words are the fixed term. Ask, or log the conflict as open. Don't reinterpret.     |
 | "I noted the limitation, so the conclusion stands"  | A limitation that doesn't change the claim or the next step is decoration.               |
+| "They said X here, so X applies everywhere"         | The scope is the question it answered. Ask once, or leave it. Scoped back = closed.      |
+| "Given what they just said, the earlier choice…"    | A decision they just made is closed. Raise the new point in Discussion; don't reopen it. |
 
 ## Briefing a Reviewer or Worker
 

@@ -107,7 +107,9 @@ read by a person with a finite attention budget, not appended to a log.
 - **Questions end the turn, self-contained.** When you need a decision or an answer, close the turn with the
   question — nothing after it. Give the 2–4 sentences of context needed to answer without scrolling back: no bare
   section numbers, internal IDs, or references to earlier turns as load-bearing context. One question at a time
-  unless several are truly one decision.
+  unless several are truly one decision. And check the question's basis: a question built on a generalization the
+  human didn't make — "given that X (which they said about Y), should Z…?" — is the wrong question. Ask about the
+  generalization itself, once, or don't ask.
 - **Don't assume shared context.** Your compressed vocabulary (IDs, section refs, shorthand) persists in your context
   window; the human's memory of it doesn't. Define on first use in anything addressed to them.
 - **Pacing belongs to the human.** Don't propose stopping, regrouping, or splitting the session, and don't invent

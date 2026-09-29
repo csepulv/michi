@@ -17,7 +17,8 @@ containing the docs it depends on.
 | [michi-workshop](michi-workshop/SKILL.md)                           | Flexible | Everyday work — bug fixes, small features, quick explorations with Michi discipline                                                        |
 | [michi-expedition](michi-expedition/SKILL.md)                       | Flexible | Learning-mode work — open-ended, Entrusted, spiral exploration where the end isn't known                                                  |
 | [michi-loop](michi-loop/SKILL.md)                                   | Rigid    | Autonomous loops — gate readiness, define the goal/verifier/stop contract, launch lights-off, review at halt                              |
-| [michi-second-look](michi-second-look/SKILL.md)                     | Rigid    | Independent review from a separate session — requested vs observed, claims, design, process; read-only, findings by ID                   |
+| [michi-away](michi-away/SKILL.md)                                   | Flexible | Stepping away mid-work — keep the debrief → planning → session cycle running Entrusted; guesses and blocks logged for your return |
+| [michi-second-look](michi-second-look/SKILL.md)                     | Rigid    | Independent review from a separate session — requested vs observed, claims, design, process; `audit` mode for what should change |
 | [michi-pr-prep](michi-pr-prep/SKILL.md)                             | Flexible | Before requesting PR review — prepare a companion review guide                                                                             |
 | [michi-docs](michi-docs/SKILL.md)                                   | Flexible | At handoff — turn agent-facing working docs into reader-facing project docs or a standalone handoff                                       |
 | [michi-docs-site](michi-docs-site/SKILL.md)                         | Flexible | Docs infrastructure — scaffold an internal docs browser or generate a PDF build recipe                                                    |
@@ -112,6 +113,13 @@ michi-loop
   ├── Walks: gate → contract → verifier → stop conditions → readiness → launch → review
   ├── Maintains: verifier with teeth (not self-graded), human owns the runner choice + launch
   └── Produces: a launched lights-off loop + a reviewed result (verified done, or abort)
+
+michi-away
+  ├── Entry (still Paired): epic + cycle position, the operator's git rules, human's instructions quoted verbatim
+  ├── Runs: debrief → planning → session with the existing skills; ask → guess + log, wait → log block + move on
+  ├── Never guesses: contract changes, north-star trades, destructive or leaves-the-machine actions (logged as blocks)
+  ├── Stops: something unrecoverable, or nothing unblocked left; the away-log carries state across compaction
+  └── Produces: progress + docs/epics/<epic>/away-log.md, walked together on return (blocks, guesses, done)
 
 michi-second-look
   ├── Runs in: a separate session that did none of the work — no brief from the builder

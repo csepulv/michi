@@ -4,14 +4,18 @@
 
 [Why this milestone exists — the problem or need it addresses, what prompted it]
 
+[If the epic has `north-stars.md`, quote its lines here and say how this milestone serves them. A tension with one
+of them is a `## Discussion` item, not something the plan resolves.]
+
 ## Scope
 
 [What this milestone delivers]
 
 [Where the human's own words govern — the outcome, a scope boundary, a constraint — quote the phrase inline. Tag
-anything you added that they did not say *(mine)*. Do this only where a misreading would change what gets built;
-don't quote the trivial. A conflict you notice between their words and anything else goes in ## Discussion as open —
-it is not yours to resolve. The same applies to Acceptance Criteria.]
+anything you added that they did not say *(mine)*. Quote the question the phrase answered along with it — "(answering
+Q3, about the generated ports)" — so an answer carried beyond its scope is visible on the page. Do this only where a
+misreading would change what gets built; don't quote the trivial. A conflict you notice between their words and
+anything else goes in ## Discussion as open — it is not yours to resolve. The same applies to Acceptance Criteria.]
 
 **Out of scope:** [What it explicitly does NOT include]
 

@@ -73,6 +73,7 @@ Claude Code skills covering the full development lifecycle:
 | `michi-scenario-test-builder` | During planning       | Generate verification scenarios using Cem Kaner's methodology                           |
 | `michi-expedition`            | Learning-mode work    | Open-ended, Entrusted, spiral exploration — charter a mission, run campaigns, accrete a portrait |
 | `michi-loop`                  | Autonomous loops      | Design and launch a lights-off loop — gate readiness, done-contract, verifier with teeth, stop conditions |
+| `michi-away`                  | Stepping away         | Keep the debrief → planning → session cycle running Entrusted; guesses and blocks logged for your return |
 | `michi-second-look`           | Independent review    | A second pair of eyes from a separate session — checks delivered work against the accepted criteria, read-only |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why                |
 | `michi-docs`                  | At handoff            | Turn agent-facing working docs into reader-facing ones — project docs, or a standalone handoff |
@@ -101,6 +102,11 @@ the debrief and the sustainability check are all graded from inside the session 
 run by an agent that was not there: it takes the acceptance criteria from the accepted source rather than from the
 builder's brief, reads plan and status claims as claims to verify, runs the project's gates read-only, and returns
 one report the human reads first and the builder answers finding by finding.
+
+**Away** is Entrusted on short notice. When the human steps away mid-work, it keeps the production cycle running
+best-effort: where a skill would ask, the agent guesses and logs it; where it would wait, it logs the block and moves
+on. Contract changes, north-star trades and anything destructive or outward are never guessed. The away-log carries
+the state across compaction and becomes the agenda when the human returns.
 
 ### Progressive Detail
 
