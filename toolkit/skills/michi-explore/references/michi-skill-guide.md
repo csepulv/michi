@@ -20,7 +20,8 @@ human decides when to move.
 | `michi-away` | You need to step away mid-work — keep the cycle running Entrusted; guesses and blocks logged for your return | `/michi-away` (before you leave) |
 | `michi-second-look` | Delivered work needs a second pair of eyes — independent review from a separate session, read-only; or an outside audit of deps, design, tests and patterns | `/michi-second-look <scope>` · `/michi-second-look audit` |
 | `michi-pr-prep` | PR ready for review — prepare the reviewer's companion guide | `/michi-pr-prep` |
-| `michi-docs` | Work has to be understood by someone who wasn't in the sessions — reader-facing project docs or a handoff | `/michi-docs project` |
+| `michi-library` | Work has to be understood by someone who wasn't in the sessions — a project library by role, a handoff, or an epic overview | `/michi-library project <roles>` |
+| `michi-diagrams` | A doc needs a figure — a flow, hand-off, lifecycle, data model | `/michi-diagrams` |
 | `michi-docs-site` | Docs infrastructure — scaffold an internal docs browser, or a PDF build recipe | `/michi-docs-site` |
 
 ## The Natural Flow

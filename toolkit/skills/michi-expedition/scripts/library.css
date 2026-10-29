@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff; --bg-nav: #f6f8fa; --fg: #1f2328; --muted: #59636e; --link: #0969da;
+  --rule: #d1d9e0; --current-bg: #ddf4ff; --current-bar: #0969da;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117; --bg-nav: #151b23; --fg: #e6edf3; --muted: #9198a1; --link: #4493f8;
+    --rule: #3d444d; --current-bg: #1c2d41; --current-bar: #4493f8;
+  }
+}
+
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 16px/1.6 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+a { color: var(--link); }
+
+.site-header {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem;
+  padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--rule);
+}
+.site-name { font-weight: 700; color: var(--fg); text-decoration: none; }
+.site-name span { font-weight: 400; color: var(--muted); }
+.generated { margin: 0; font-size: 0.85rem; color: var(--muted); }
+
+.role-tabs {
+  display: flex; flex-wrap: wrap; max-width: 82rem; margin: 0 auto; padding: 0 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.role-tabs .tab {
+  padding: 0.75rem 1.25rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; border-bottom: 3px solid transparent; margin-bottom: -1px;
+}
+.role-tabs .tab:hover { color: var(--fg); }
+.role-tabs .tab[aria-current="true"] { color: var(--fg); border-bottom-color: var(--current-bar); }
+
+.site-nav .roles a { padding: 0.5rem 0.6rem; }
+.site-nav .roles small { display: block; color: var(--muted); font-weight: 400; }
+.first-time {
+  margin: 0 0 1.5rem; padding: 0.75rem 1rem; border-left: 4px solid var(--current-bar);
+  background: var(--current-bg); border-radius: 0 6px 6px 0;
+}
+.pager .end { width: 100%; }
+.pager .end p { margin: 0.25rem 0; }
+.pager .end a { margin-right: 1rem; }
+
+.layout {
+  display: grid; grid-template-columns: 15rem minmax(0, 46rem) 13rem; gap: 2.5rem;
+  max-width: 82rem; margin: 0 auto; padding: 1.5rem;
+}
+main { min-width: 0; }
+main h1 { margin-top: 0; line-height: 1.25; }
+
+.site-nav, .page-toc {
+  position: sticky; top: 1rem; align-self: start; max-height: calc(100vh - 2rem); overflow-y: auto;
+  font-size: 0.92rem;
+}
+.site-nav h2, .page-toc .label {
+  margin: 1.25rem 0 0.35rem; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+}
+.site-nav h2:first-child { margin-top: 0; }
+.site-nav h3.part { margin: 0.75rem 0 0.2rem 0.6rem; font-size: 0.85rem; font-weight: 600; color: var(--fg); }
+.site-nav ul.part { margin-left: 0.6rem; }
+.site-nav ul, .page-toc ul { list-style: none; margin: 0; padding: 0; }
+.site-nav a { display: block; padding: 0.3rem 0.6rem; border-left: 3px solid transparent; color: var(--fg); text-decoration: none; }
+.site-nav a:hover { background: var(--bg-nav); }
+.site-nav a[aria-current="page"] { background: var(--current-bg); border-left-color: var(--current-bar); font-weight: 600; }
+
+/* The table of contents starts with the page title; show only its sections. */
+.page-toc > ul > li > a { display: none; }
+.page-toc ul ul { padding: 0; }
+.page-toc a { display: block; padding: 0.2rem 0; color: var(--muted); text-decoration: none; }
+.page-toc a:hover { color: var(--link); }
+
+.pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.pager a { text-decoration: none; }
+.pager .next { margin-left: auto; text-align: right; }
+.pager small { display: block; color: var(--muted); }
+
+table { border-collapse: collapse; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--rule); padding: 0.35rem 0.6rem; text-align: left; vertical-align: top; }
+code { font-size: 0.9em; }
+pre { overflow-x: auto; padding: 0.75rem; background: var(--bg-nav); border-radius: 6px; }
+
+/* Diagrams are rendered once, for a light background; keep them on one in both themes. */
+img[src$=".svg"] {
+  display: block; max-width: 100%; height: auto; background: #ffffff; border-radius: 6px; padding: 0.75rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 72rem) {
+  .layout { grid-template-columns: 14rem minmax(0, 1fr); }
+  .page-toc { display: none; }
+}
+@media (max-width: 48rem) {
+  .layout { grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
+  .site-nav { position: static; max-height: none; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; }
+}

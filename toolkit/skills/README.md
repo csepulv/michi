@@ -20,15 +20,16 @@ containing the docs it depends on.
 | [michi-away](michi-away/SKILL.md)                                   | Flexible | Stepping away mid-work — keep the debrief → planning → session cycle running Entrusted; guesses and blocks logged for your return |
 | [michi-second-look](michi-second-look/SKILL.md)                     | Rigid    | Independent review from a separate session — requested vs observed, claims, design, process; `audit` mode for what should change |
 | [michi-pr-prep](michi-pr-prep/SKILL.md)                             | Flexible | Before requesting PR review — prepare a companion review guide                                                                             |
-| [michi-docs](michi-docs/SKILL.md)                                   | Flexible | At handoff — turn agent-facing working docs into reader-facing project docs or a standalone handoff                                       |
+| [michi-library](michi-library/SKILL.md)                             | Flexible | At handoff — a project library by role (with an HTML site), a standalone handoff, or an epic overview, from the working docs |
+| [michi-diagrams](michi-diagrams/SKILL.md)                           | Flexible | When a doc needs a figure — Mermaid diagrams true to the source, readable in light and dark on GitHub and in IDEs |
 | [michi-docs-site](michi-docs-site/SKILL.md)                         | Flexible | Docs infrastructure — scaffold an internal docs browser or generate a PDF build recipe                                                    |
 
 ## Structure
 
 Every skill is a directory with a `SKILL.md` and a `references/` folder. References come in two kinds:
 
-- **Shared references, synced by `build.sh`.** Three files go to every skill: `principles.md`, `docs-structure.md`,
-  and `ground-rules.md`. A few are synced to specific skills only: `patterns.md` (session, debrief),
+- **Shared references, synced by `build.sh`.** Four files go to every skill: `principles.md`, `docs-structure.md`,
+  `ground-rules.md`, and `writing-for-readability.md`. A few are synced to specific skills only: `patterns.md` (session, debrief),
   `expedition-structure.md` (bootstrap, expedition), and the harness files `working-with-hermes.md` +
   `soul-template.md` (expedition). The canonical copies live in `toolkit/`; run `build.sh` after editing any of them.
 - **Skill-local references**, authored in place — templates (bootstrap's CLAUDE.md/PROJECT.md templates, planning's
@@ -77,7 +78,7 @@ michi-planning
 
 michi-session
   ├── Reads: milestone plan doc, target reference (code or non-code)
-  ├── Code target: Implement → Test → Repeat (references/target-code.md)
+  ├── Code target: TDD — failing test → implement → pass → refactor (references/target-code.md)
   ├── Non-code target: Explore → Synthesize → Checkpoint (references/target-non-code.md)
   ├── Writes: decisions, notes, discussion items, verification results (in plan doc)
   ├── Runs: sustainability check (pre-commit)
@@ -132,10 +133,15 @@ michi-pr-prep
   ├── Reads: plan doc decisions/notes, session context or the diff cold
   └── Produces: PR review guide (TLDR + Details, or TLDR only)
 
-michi-docs
+michi-library
   ├── Reads: the agent-facing sources (epics, plans, debriefs, journals) and the existing root docs
   ├── Checks: five failure modes, then reader tests — every claim verified against the repo
-  └── Produces: reader-facing project docs (promoted in place), a standalone handoff, or an audit report
+  └── Produces: a project library by role (markdown + HTML), a standalone handoff, or an epic overview
+
+michi-diagrams
+  ├── Reads: the document the figure belongs to
+  ├── Checks: every node and edge traced to the source; rendered in light and dark and inspected
+  └── Produces: a Mermaid block with a one-sentence caption
 
 michi-docs-site
   ├── Reads: the project's docs landscape (or an existing Starlight site for PDF mode)

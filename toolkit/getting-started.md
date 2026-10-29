@@ -102,10 +102,12 @@ Additional skills cover work that doesn't fit the core lifecycle:
   worth adopting — as recommendations rated by effort and benefit. Explicit invocation only.
 - **`michi-pr-prep`** — Prepares a companion PR review guide: what reviewers are looking at, why key decisions were
   made, and where to focus attention. Invoke before requesting PR review.
-- **`michi-docs`** — Produces documentation for a reader who wasn't in the sessions. Michi's working docs are written
-  for the agent — dense and decision-log shaped; this skill derives the reader-facing layer from them: the project's
-  living docs (`/michi-docs project`), a standalone handoff for a feature or module (`/michi-docs scope <thing>`), or a
-  diagnosis only (`/michi-docs audit`).
+- **`michi-library`** — Produces documentation for a reader who wasn't in the sessions. Michi's working docs are written
+  for the agent — dense and decision-log shaped; this skill derives the reader-facing layer from them: a project
+  library for the roles you name, with an HTML site (`/michi-library project all`), a standalone handoff for a feature
+  or module (`/michi-library scope <thing>`), or an epic's cold-read overview (`/michi-library epic <epic>`).
+- **`michi-diagrams`** — Draws Mermaid diagrams for project docs: true to the source, rendered and inspected in light
+  and dark, readable the same on GitHub and in IDE previews. `michi-library` uses it for the library's figures.
 - **`michi-docs-site`** — Scaffolds an internal Astro + Starlight docs browser for browsing project docs, or generates
   a PDF build recipe for an existing Starlight site.
 

@@ -14,6 +14,8 @@ for a brand-new project or an existing one being prepared for Michi work.
 (sets up the S/M/L/XL document hierarchy). Sustain the system (docs infrastructure makes future iterations productive).
 See `references/principles.md`.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 ## When to Use
 
 - Setting up a new project for michi work
@@ -443,7 +445,8 @@ and the substrate notes already exist; this creates them.) Canonical layout: `re
 
 2. **Scaffold the structure** (per `references/expedition-structure.md`), as stubs with `**Last updated:**` stamps:
    - `STATUS.md` — current state per charter (active/paused/dormant).
-   - `iteration-log.md` — the chronological spine (header row: `date · charter · report · human verdict · next`).
+   - `iteration-log.md` — the chronological spine, newest first (header row: `date · charter · portrait · mode · pass ·
+     report · promoted · human verdict · next`).
    - `backlog.yaml` — the living queue (seed with the schema from `michi-expedition`'s
      `references/expedition-templates.md`; define the project's `type` vocabulary with the user).
    - `ruminations.md` — the open/murky companion to the portraits.

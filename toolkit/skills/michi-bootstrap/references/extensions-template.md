@@ -77,7 +77,9 @@ Examples:
 
 ## michi-pr-prep
 
-## michi-docs
+## michi-library
+
+## michi-diagrams
 
 ## michi-docs-site
 

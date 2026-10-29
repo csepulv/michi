@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sync shared reference files from toolkit/ into each skill's references/ directory.
 # Run this after updating toolkit/principles.md, toolkit/docs-structure.md, toolkit/ground-rules.md,
-# or toolkit/patterns.md.
+# toolkit/writing-for-readability.md, or toolkit/patterns.md, or michi-library's HTML build scripts.
 
 set -euo pipefail
 
@@ -12,6 +12,7 @@ SHARED_FILES=(
   "principles.md"
   "docs-structure.md"
   "ground-rules.md"
+  "writing-for-readability.md"
 )
 
 # Files shared with specific skills only
@@ -24,7 +25,8 @@ SKILLS=(
   "michi-away"
   "michi-bootstrap"
   "michi-debrief"
-  "michi-docs"
+  "michi-diagrams"
+  "michi-library"
   "michi-docs-site"
   "michi-expedition"
   "michi-explore"
@@ -99,6 +101,23 @@ for file in "${HARNESS_FILES[@]}"; do
     cp "$src" "$dest"
     echo "  michi-expedition/references/$file"
   fi
+done
+
+# Sync the library HTML build (michi-library is canonical) to the expedition skill, which builds the
+# portrait library with expedition.conf
+LIBRARY_BUILD_FILES=(
+  "build-html.sh"
+  "md-links.lua"
+  "library-template.html"
+  "library.css"
+  "project.conf"
+  "expedition.conf"
+)
+
+mkdir -p "$SCRIPT_DIR/michi-expedition/scripts"
+for file in "${LIBRARY_BUILD_FILES[@]}"; do
+  cp "$SCRIPT_DIR/michi-library/scripts/$file" "$SCRIPT_DIR/michi-expedition/scripts/$file"
+  echo "  michi-expedition/scripts/$file"
 done
 
 echo ""

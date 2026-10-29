@@ -20,6 +20,8 @@ does it stop?* You are invoked once, as the **designer and launcher** of a loop 
 It is the **convergent + autonomous** lane — the sibling of `michi-expedition` (emergent +
 Entrusted-spiral). The boundary between them is the *form of verification you can answer* (see the Gate).
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 ## When to use (and when not)
 
 **Use it when** the work is *convergent* (you can state "done when ___"), the verifier is *trustworthy*

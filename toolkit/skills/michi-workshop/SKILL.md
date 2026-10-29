@@ -26,6 +26,8 @@ verification governs autonomy, and sustain the system.
 
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 ## The Disciplines
 
 These always apply. They're what makes this Michi and not just winging it.

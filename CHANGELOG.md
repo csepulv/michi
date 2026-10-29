@@ -9,6 +9,58 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.10.28] - 2026-10-28
+
+This release reworks the documentation skill into a library of reader docs, adds a diagram skill, turns an
+expedition's findings into a readable library, and makes agent-written text easier for a person to follow.
+
+### Added
+
+- **`michi-library` — reader docs from your working docs, organized by who is reading.** Michi's working docs are
+  written for the agent; this skill writes the layer a person reads. It has three targets:
+  - `/michi-library project <roles>` writes a project library for the roles you name: an **observer** (what is it,
+    why, where is it going), a **practitioner** (how do I install and use it), a **contributor** (how do I work on
+    it). Each role gets its own set of documents, from a tl;dr and glossary every library has to getting started,
+    usage, reference and a contributor guide. A project with separate parts gets a folder per part. The library is
+    built into an HTML site with a tab per role, so an observer is never walked into the API reference (needs
+    `pandoc`; Node 22.13 or `mmdc` for diagrams).
+  - `/michi-library scope <thing>` writes a standalone handoff for one feature, module or branch.
+  - `/michi-library epic <epic>` writes a cold-read overview of one epic.
+
+  Some projects need documents the templates don't cover — what happens to the user's data, how the system is
+  operated, a catalog of routes or rules, how the project evolved. The skill asks before drafting and again before
+  closing whether anything else is needed, may propose one it finds a case for, and writes nothing extra without
+  your yes. Extras are listed in `<library>/library.conf` and appear in their role's sidebar. Existing docs are
+  source material; whether one is replaced is your call. Gaps the sources can't answer are reported, not filled.
+- **`michi-diagrams` — Mermaid diagrams that render the same everywhere.** Draws figures for docs that will be read
+  on GitHub and in IDE previews: every node and edge traced to the source, rendered in light and dark mode and
+  inspected before delivery, with a one-sentence caption saying what to notice. `michi-library` uses it for the
+  library's figures.
+- **An expedition's findings become a readable library.** `michi-expedition` now organizes its portraits (the
+  accumulated picture of what an exploration has learned) for two readers. Reviewers start at a tl;dr and read each
+  portrait, one finding per line, with its evidence in an appendix. Contributors — someone resuming, taking over or
+  joining — start at a contributor guide and each portrait's open questions and history. The iteration log, newest
+  first, is the listing of every campaign, and `review` checks it against the campaign folders so none goes missing.
+  The same HTML build produces a site with "For reviewers" and "For contributors" tabs.
+- **A writing guideline for agent-written text,** `writing-for-readability.md`, now shipped with every skill. An
+  internal ID gets its name in parentheses the first time it appears ("E5 (Starlight template CSS)", not a bare
+  "E5"); each reply or section opens with the point in plain sentences before the detail; one thing keeps one name.
+  The skills read it before writing anything a person will read.
+
+### Changed
+
+- **`michi-docs` is now `michi-library`.** If you installed `michi-docs`, remove it and install `michi-library` in its
+  place. The `project` target now writes the role-based library above instead of rewriting your root docs in place;
+  the `epic` target is new.
+- **The iteration log's columns changed** for new expeditions: `date · charter · portrait · mode · pass · report ·
+  promoted · human verdict · next`, newest first. `/michi-bootstrap expedition` creates it in that shape.
+
+### Removed
+
+- **`/michi-docs audit`** (a diagnosis of the docs with no changes). Each target runs its reader checks
+  before it claims done: a stranger read, claims checked against the repo, contradictions between documents, and,
+  for a project library, every link resolving.
+
 ## [2026.09.28] - 2026-09-28
 
 This release adds a way to keep work moving while you step away, a place for an epic's fixed goals,

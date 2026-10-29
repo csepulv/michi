@@ -22,6 +22,8 @@ builder's, found from outside). See `references/principles.md`.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read it. Instructions there take
 priority over this skill's defaults.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 ## The seat
 
 You are in a **separate session** from the one that built the target. Nobody from that session

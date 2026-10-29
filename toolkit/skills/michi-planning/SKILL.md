@@ -16,6 +16,8 @@ identification). Verification governs autonomy (co-design scenarios that constra
 
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, ask the user which project the plan
 is for (the umbrella = ROOT, or a named sub-project). Plans/specs/scenarios live under that project's epics:
 

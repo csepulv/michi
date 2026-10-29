@@ -1,0 +1,17 @@
+mermaid-doc-diagrams
+
+Original work, informed by (ideas only, no text reused) the design-first approach
+of mgranberry/mermaid-diagram-skill and trikitrok/mod-mermaid-diagram-skill
+(unlicensed; not copied) and by comparative testing of five community skills.
+
+Text adapted from MIT-licensed sources, used with attribution:
+- awesome-skills/mermaid-syntax-skill (MIT) — several parser traps in
+  references/layout-and-renderers.md
+- agent-skills-hub/agent-skills-hub, skills/markdown-mermaid-writing (MIT,
+  Clayton Young / Superior Byte Works) — group-to-group vs node-to-node guidance
+- ArvindChander/skill-lab, diagramming (MIT) — the "rendered and inspected" vs
+  "syntax reviewed" distinction
+
+The twelve techniques in references/visual-grammar.md are adapted, in new
+words with new examples, from Yugene Lee, "Your Markdown Diagrams Could Look
+Like This: 12 Mermaid Tricks Worth Copying" (Medium, 2026).

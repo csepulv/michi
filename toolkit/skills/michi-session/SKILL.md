@@ -19,6 +19,8 @@ verification). See `references/principles.md`.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take
 priority over this skill's defaults.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, ask the user which project the
 session is about (the umbrella = ROOT, or a named sub-project). File locations differ:
 
@@ -67,8 +69,8 @@ narration shrinks.
 
 The milestone's deliverable determines which reference to load:
 
-- **Code** — working software, tests, runnable code. Load `references/target-code.md` for the core loop (Implement →
-  Test → Repeat), verification checklist, code review, and sustainability checks.
+- **Code** — working software, tests, runnable code. Load `references/target-code.md` for the core loop (TDD by
+  default: Write failing test → Implement → Pass → Refactor), verification checklist, code review, and sustainability checks.
 - **Non-code** — artifacts, recommendations, decisions, research, design docs. Load `references/target-non-code.md` for
   the core loop (Explore → Synthesize → Checkpoint), exit criteria, and quality checks.
 

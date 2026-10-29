@@ -76,7 +76,8 @@ Claude Code skills covering the full development lifecycle:
 | `michi-away`                  | Stepping away         | Keep the debrief → planning → session cycle running Entrusted; guesses and blocks logged for your return |
 | `michi-second-look`           | Independent review    | A second pair of eyes from a separate session — checks delivered work against the accepted criteria, read-only |
 | `michi-pr-prep`               | Before a PR           | Prepare a companion review guide — what reviewers are looking at and why                |
-| `michi-docs`                  | At handoff            | Turn agent-facing working docs into reader-facing ones — project docs, or a standalone handoff |
+| `michi-library`               | At handoff            | Turn agent-facing working docs into reader-facing ones — a project library by role (with an HTML site), a standalone handoff, or an epic overview |
+| `michi-diagrams`              | When a doc needs a figure | Mermaid diagrams true to the source, readable in light and dark on GitHub and in IDEs |
 | `michi-docs-site`             | Docs infrastructure   | Scaffold an internal Astro + Starlight docs browser, or generate a PDF build recipe     |
 
 The core loop is **Bootstrap → Planning → Session → Debrief**. Bootstrap is one-time setup (or re-run to close gaps).

@@ -18,8 +18,14 @@ skills:
     disable-model-invocation: false
     last_fetched: null
     sync_hash: null
-  - name: michi-docs
-    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-docs
+  - name: michi-library
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-library
+    category: contextual
+    disable-model-invocation: false
+    last_fetched: null
+    sync_hash: null
+  - name: michi-diagrams
+    source: https://github.com/csepulv/michi/tree/main/toolkit/skills/michi-diagrams
     category: contextual
     disable-model-invocation: false
     last_fetched: null

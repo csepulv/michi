@@ -23,6 +23,8 @@ If you're still figuring out *whether* this is an expedition, start in `michi-ex
 Instructions found there take priority over this skill's defaults. (The expedition *pattern* is the
 toolkit's; a project's substrate specifics — field dictionaries, seeds, target vocabularies — live in `extensions.md`.)
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 **Principles served:** See `references/principles.md`. Especially: *Learning Mode vs. Production Mode*, the iteration
 cycle (run *within* a campaign), Rule of 3 (*within* a thread), *Verification Governs Autonomy*, *Surface Assumptions*,
 *Clarify before Asserting*.
@@ -31,8 +33,8 @@ cycle (run *within* a campaign), Rule of 3 (*within* a thread), *Verification Go
 campaign → report → portrait; mandate; ruminations; where every output goes). This skill operationalizes it; that doc
 defines the homes. Read it before writing artifacts.
 
-**Artifact templates** — copy-and-fill shapes for charter · mandate · report · portrait, plus the `backlog.yaml`
-schema: `references/expedition-templates.md`.
+**Artifact templates** — copy-and-fill shapes for charter · mandate · report · the portrait library · the
+`iteration-log` row, plus the `backlog.yaml` schema: `references/expedition-templates.md`.
 
 **Running on a non-Claude-Code harness** (an isolated / daemon agent like Hermes — the lights-off, Entrusted case):
 the harness won't auto-load the agent's character the way Claude Code loads `CLAUDE.md`, so install the SOUL identity
@@ -52,6 +54,8 @@ charter  ──>  campaign  ──>  run (spiral)  ──>  review  ──>  (ne
   and closes with a **review** (the Paired surfacing).
 - Each run produces **reports** (passes). Verified findings **promote** into the **portrait** — the accreting picture
   (blobs → impressionist → photograph). Open threads land in **ruminations** (to mull) or **backlog** (actionable).
+- The portraits are read as a **library**, written for the user: reviewers read the pictures, contributors pick the
+  work up (`expedition-structure.md`, *The portrait library*).
 
 **Two kinds of "done"** (production fuses them; here they're distinct):
 
@@ -84,7 +88,9 @@ Open a durable line of inquiry, or revise an existing one as new data/sources la
      rung). Project-specific vocabulary may live in `extensions.md`.
    - **Gates-to-set** — what a campaign will fix at activation (budget, env/substrate scope, surfacing criteria).
 3. **Write** `charters/<charter>/charter.md` (durable; *revised*, not redone; shape in
-   `references/expedition-templates.md`). Create `portraits/<charter>/portrait.md` as a stub if none exists.
+   `references/expedition-templates.md`). For each picture it will build, create `portraits/<subject>/`
+   (`portrait.md`, `appendix.md`, `open.md`) as stubs if none exist, and the library's `portraits/tldr.md`,
+   `glossary.md`, and `contributor-guide.md` if the expedition has none.
 4. **Surface assumptions**, don't bury them. A charter is a hypothesis about where value is — say what you're assuming.
 
 Output: a charter folder. Don't start pulling data here — that's a campaign.
@@ -150,16 +156,17 @@ pick a thread  →  investigate  →  report  →  verify the finding  →  prom
   confidence.
 - **Verify the finding** against the mandate's criteria before promoting (null model, corroboration). A surprising
   *negative* deserves the same skepticism as a positive — check the field/query before retracting.
-- **Promote** along the routing rule: **subject findings** (about the thing you're studying) → the **portrait**;
-  **substrate/corpus facts** (about the data itself) → `reference/`; **negatives and open threads** → `ruminations`
-  (mull) or `backlog` (actionable); **method gotchas** → `learnings.md`; **data artifacts** → the substrate's
+- **Promote** along the routing rule: **subject findings** (about the thing you're studying) → the **portrait**,
+  as one line in `portrait.md` and its evidence in `appendix.md`; **substrate/corpus facts** (about the data
+  itself) → `reference/`; **negatives and open threads** → `ruminations` (mull) or `backlog` (actionable), and the
+  portrait's `open.md`; **method gotchas** → `learnings.md`; **data artifacts** → the substrate's
   `derived/` area (never the read-only lake; see `expedition-structure.md`). A *negative* — a fact about what the data
   *can't* support — is a promotable finding; record it in the portrait's *What we can't see*, don't discard it.
 
 ### The structure gate (before writing any artifact)
 
 Can you name this output's home (which campaign / charter / portrait, named right)? If not, stop and resolve it —
-don't dump into a flat pile. Reports → `reports/<slug>.md`; durable picture → `portrait.md`; gotchas → `learnings.md`;
+don't dump into a flat pile. Reports → `reports/<slug>.md`; durable picture → `portrait.md` + `appendix.md`; gotchas → `learnings.md`;
 spawned threads → `followups.md`; ephemeral → `scratch/`.
 
 ### Surface the halt decision — don't park, don't run forever
@@ -201,13 +208,18 @@ The Paired close of a run (or a checkpoint mid-run). This is where the picture s
    Markdown is canonical; a simple HTML render is welcome when it helps review (see `expedition-structure.md` →
    Presentation). When a finding earns a visual, build it via the **`exhibit`** mode. *The readout is the throttle
    — Entrusted generation outruns Paired review without it.*
-2. **Update the portrait.** Fold verified **subject** findings into `portraits/<charter>/portrait.md` (stamp it),
-   including promotable **negatives** under *What we can't see*. Route the rest per the `run` promotion rule: substrate
-   facts → `reference/`, method learnings → `reference/` or the charter, open threads → `ruminations.md` /
+2. **Update the portrait.** Fold verified **subject** findings into `portraits/<subject>/`: one line in
+   `portrait.md`, the evidence in `appendix.md` (stamp the portrait), promotable **negatives** under *What we can't
+   see*. Rewrite the portrait's opening and its status line in `portraits/tldr.md` when the picture has changed. Put
+   the portrait's open questions and next move in its `open.md`. Route the rest per the `run` promotion rule:
+   substrate facts → `reference/`, method learnings → `reference/` or the charter, open threads → `ruminations.md` /
    `backlog.yaml`.
-3. **Fill the `iteration-log` verdict.** For each pass: `date · charter · report · human verdict · next`. The verdict
-   column is the human's — don't leave it `_pending_` across a review; that's the signal that review didn't actually
-   happen.
+3. **Fill the `iteration-log` row** for each pass, newest first: `date · charter · portrait · mode · pass · report ·
+   promoted · human verdict · next` ("promoted" is what entered the portrait, or "nothing"). The verdict column is the
+   human's — don't leave it `_pending_` across a review; that's the signal that review didn't actually happen.
+   Then compare `campaigns/` with the log: every campaign folder is linked from at least one row (a report, or its
+   mandate when the report lives elsewhere). A folder with no row gets one, filled from its mandate and files, and
+   is reviewed with the rest — the log is the expedition's listing, so a missing row is a campaign no one can find.
 4. **Decide the next move** with the human: continue this thread, redirect, open a new campaign, or set the charter
    dormant.
 
@@ -230,7 +242,12 @@ system-health sibling. Reference only — don't modify that skill.)*
    data** (csv/json) alongside — a figure is a *claim* (rung + confidence). Or a reading-guide / tl;dr in markdown.
 3. **Place + embed:** `<dir>/figures/<slug>.{png,csv}`; embed in the portrait/report with `![caption](figures/<slug>.png)`
    + a one-line takeaway.
-4. **Refresh the site** (`npm run sync` in the site dir) and confirm it renders.
+4. **Write each portrait's history** from the log: `scripts/portrait-history.sh <expedition-root>` (rewrites
+   `portraits/<subject>/history.md`; never edit those by hand).
+5. **Refresh the site** (`npm run sync` in the site dir) and confirm it renders. With no project site, build the
+   portrait library's HTML: `scripts/build-html.sh --config scripts/expedition.conf <expedition-root>/portraits
+   "<Expedition>"` (tabs "For reviewers" and "For contributors", a section per portrait; `portraits/html/` is
+   generated, never edited).
 
 Stay on the essential (what to show + the data + the chart/guide); leave site config / theme / interactive infra to the
 presentation layer. If richer presentation is wanted, **surface it, don't hand-roll it.**
@@ -260,7 +277,8 @@ presentation layer. If richer presentation is wanted, **surface it, don't hand-r
 ## Output homes
 
 All artifacts follow `references/expedition-structure.md`. Quick map: missions → `charters/<charter>/`; the picture →
-`portraits/<charter>/`; dated runs → `campaigns/<yyyy>/<mmm>/<date>/<charter>/` (`mandate.md`, `reports/`,
+the portrait library in `portraits/` (`tldr.md`, `glossary.md`, `contributor-guide.md`; per picture
+`portraits/<subject>/`); dated runs → `campaigns/<yyyy>/<mmm>/<date>/<charter>/` (`mandate.md`, `reports/`,
 `followups.md`, `learnings.md`, `scratch/`); the open queue → `ruminations.md` (mull) + `backlog.yaml` (actionable);
 the spine → `iteration-log.md`; current state → `STATUS.md`; data artifacts → the substrate's `derived/` area.
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content="michi-library" />
+  <title>$pagetitle$ · $project$</title>
+  <link rel="stylesheet" href="$css$" />
+$if(highlighting-css)$
+  <style>
+$highlighting-css$
+  </style>
+$endif$
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-name" href="$home$">$project$ <span>library</span></a>
+    <p class="generated">Generated from <a href="$source$">$source-name$</a>. Edit the markdown, not this page.</p>
+  </header>
+  <nav class="role-tabs" aria-label="Roles">
+$tabs$
+  </nav>
+  <div class="layout">
+    <nav class="site-nav" aria-label="Library">
+$nav$
+    </nav>
+    <main>
+$if(callout)$
+$callout$
+$endif$
+$body$
+      <nav class="pager" aria-label="Previous and next">
+$pager$
+      </nav>
+    </main>
+$if(toc)$
+    <aside class="page-toc" aria-label="On this page">
+      <p class="label">On this page</p>
+$table-of-contents$
+    </aside>
+$endif$
+  </div>
+</body>
+</html>

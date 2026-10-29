@@ -15,6 +15,8 @@ next iteration). Surface assumptions (identify drift or unchallenged assumptions
 
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
+**Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, name the scope at session start:
 
 - **Sub-project scope:** review code/docs/tests under `tools/<name>/` + `docs/<name>/`.
