@@ -87,7 +87,7 @@ just prose. Reports stay files (per-pass; they don't accrete).
           reports/<slug>.md  per-pass findings (+ optional <slug>.html render; markdown stays canonical)
           followups.md       threads THIS run spawned → promote durable ones up to backlog.yaml / ruminations.md
           learnings.md       method gotchas → promote durable ones up to reference/ or the charter
-          scratch/           ephemeral queries / probes (gitignorable)
+          scratch/           ephemeral queries / probes (gitignorable); a probe kept or rerun moves to the lab
 ```
 
 **Data artifacts live outside the repo.** Materialized aggregates, feature tables, derived Parquet, saved charts →
@@ -96,6 +96,13 @@ research). A report references the path; the repo holds narrative, not data.
 
 *Example: a `characterization` charter, its dated run at `campaigns/2026/may/20260531/characterization/`, and
 derived Parquet "producers" in `$CORPUS_ROOT/derived/characterizations/`.*
+
+**Code lives in the lab.** Committed code — a prototype, a reusable probe, a tool a charter keeps using — goes in the
+project's lab root (`lab/` by default; see "Lab Root" in `docs-structure.md`), not in a campaign folder. A campaign's
+`scratch/` holds only throwaway queries. Reports and the charter link to the lab entries they use; an entry's README
+links back. The layout inside `lab/` is the project's choice; grouping by charter (`lab/<charter>/<yyyymmdd>-<slug>/`)
+is a suggestion, since a charter outlives its campaigns. Like the rest of Lab Root, this is opt-in: an existing
+expedition with code in its campaigns doesn't migrate.
 
 ### How the structure answers "navigate by time vs. by topic"
 
@@ -156,13 +163,14 @@ glossary are for everyone. Each portrait is a part; a portrait's campaign histor
 ## Agent isolation — zones (container vs. host)
 
 When an expedition runs in an **isolated agent** (a long-running Docker container — the lights-off, Entrusted case), the
-repo splits into three zones. The cut lines are an isolation boundary, not just tidiness: the agent should see its
+repo splits into zones. The cut lines are an isolation boundary, not just tidiness: the agent should see its
 workspace and nothing more.
 
 | zone | what it holds | mounted into the agent? |
 | --- | --- | --- |
 | **Harness** | the agent's own container definition — mounts, home, process config (e.g. a `container/` definition dir) | **Never.** Mounting the agent's own config is circular and lets it edit its own escape hatch. |
 | **Expedition workspace** | the expedition-root (`charters/` `campaigns/` `portraits/` …) + its site render | **Yes** — this is the agent's project. Ideally a **single mount**. |
+| **Lab** | the expedition's code in the lab root (all of `lab/`, or only the expedition's part of it) | **Yes**, as its own mount, when the expedition has code. It is the agent's own work, so it sits inside the agent's lane. |
 | **Host-only** | the repo's outer identity and host-side tooling the agent doesn't use (Michi root docs, build/publish scripts) | **Never.** Out of the agent's lane; least privilege. |
 
 Separately, the **substrate / corpus** — the data the expedition reads and the derived artifacts it writes — already
@@ -171,7 +179,8 @@ distinct from the workspace.
 
 **Default for a new containerized expedition: co-locate the workspace so it's one mount.** Keep the expedition-root
 and its site under a single parent the agent mounts as its workspace; keep the harness and host-only material out.
-The convergence target is **one workspace mount + one corpus mount**, harness and host-only zones unmounted.
+The convergence target is **one workspace mount + one corpus mount** (plus a lab mount when the expedition has code),
+harness and host-only zones unmounted.
 Multiple ad-hoc mounts work and are a fine *starting* point while the shape is still being learned — just don't
 mistake the starting point for the structure.
 

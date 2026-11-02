@@ -229,6 +229,48 @@ docs-root: docs/michi     # project with external docs in docs/
 Bootstrap sets this during onboarding. All Michi skills read the configured path. If `docs-root` is not defined in
 CLAUDE.md, skills default to `docs/`.
 
+## Lab Root
+
+Experiment code — research probes, prototypes, spikes — lives in `lab/` at the repo root, not in the epic. The epic
+keeps what was learned; the lab holds the code, fixtures, and outputs. This keeps runnable code out of `docs/` and out
+of the source tree until it earns a place there.
+
+**Existing projects don't migrate.** `lab/` is opt-in. Experiment code that already lives inside epics stays where it
+is, and nothing needs to move. When a project has neither a `lab/` folder nor a `lab-root` setting, skills ask before
+creating `lab/`, and if the human declines they follow the project's existing practice. Bootstrap does not create
+`lab/` or add `lab-root` during onboarding unless asked; both are added when an experiment first needs them.
+
+CLAUDE.md can name a different folder:
+
+```markdown
+## Michi
+docs-root: docs
+lab-root: lab             # default
+```
+
+If `lab-root` is not defined, skills default to `lab/`. Everything in this section is a default; projects override any
+of it.
+
+- **Layout is the project's choice.** Any name works (`lab/my-spike/`). A suggested default, for projects that want
+  one: `lab/<epic>/<yyyymmdd>-<slug>/`.
+- **The epic lists its lab entries.** An epic (or an expedition charter) links to the entries it uses — one or several.
+  An entry can serve more than one epic. Each entry has a `README.md` with the question, the verdict, and links to the
+  epics that use it.
+- **Graduation.** A prototype that becomes real code moves into the source tree with `git mv`. Its README stays in
+  `lab/` and records where the code went, so the epic's links still resolve.
+- **Not built, not published.** `lab/` is never on a build, publish, or Docker path. Large data stays outside the repo;
+  an entry references it by path.
+- **Lifecycle is separate from the epic.** Closing an epic does not archive or delete its lab entries; the human
+  decides what happens to them.
+- **Using the app's dependencies.** A script with no `package.json` resolves the repo root's direct dependencies
+  through Node's normal lookup, which is enough for many probes. An entry that imports the app's own packages either
+  joins the workspace (simplest; it then takes part in root installs, builds, and tests) or stays standalone with a
+  `link:` to the app — and links shared stateful dependencies, such as React, to the app's copy, or it gets a second
+  instance.
+
+`lab/` is for committed code. Throwaway queries an expedition campaign runs once stay in that campaign's `scratch/`
+(see [`expedition-structure.md`](expedition-structure.md)); a scratch probe that gets kept or rerun moves to `lab/`.
+
 ## Single-Project Directory Structure
 
 This is the default Michi layout. Multi-project repos extend it — see
@@ -241,6 +283,7 @@ project/
   PROJECT.md                             # M  — goals, users, features
   ARCHITECTURE.md                        # L  — design overview
   STATUS.md                              # S  — current state, active work
+  lab/ (optional)                        # experiment code; lab-root (configurable in CLAUDE.md)
   docs/                                  # docs-root (configurable in CLAUDE.md)
     roadmap.md (optional)                # S-M — ideas, potential epics, future directions
     epics/                               # Essential — organized by effort

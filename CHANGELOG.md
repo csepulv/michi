@@ -9,6 +9,28 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.11.01] - 2026-11-01
+
+This release gives experiment code (research probes, prototypes, spikes) its own home, outside the docs and the
+source tree.
+
+### Added
+
+- **A `lab/` folder for experiment code.** Code written to answer a question — a probe, a prototype, a spike — now
+  has a default home: `lab/` at the repo root. The epic keeps what was learned and links to the lab entries it used;
+  each entry carries a short README with the question, the verdict, and links back. How you organize `lab/` is up to
+  you (`lab/my-spike/` is fine). A prototype that becomes real code moves into the source tree, leaving its README
+  behind to say where it went. Set `lab-root:` under `## Michi` in CLAUDE.md to use a different folder. It is
+  opt-in: existing projects don't migrate, bootstrap doesn't create it, and the agent asks before creating it the
+  first time an experiment needs a home. See *Lab Root* in `toolkit/docs-structure.md`.
+
+### Changed
+
+- **Expeditions put kept code in the lab.** In `michi-expedition`, a campaign's `scratch/` folder now holds only
+  throwaway queries; a probe that is kept or rerun, and any prototype, goes in the lab and is linked from the report.
+  For an expedition running in an isolated container, the lab is mounted as its own workspace mount
+  (`toolkit/expedition-structure.md`).
+
 ## [2026.10.28] - 2026-10-28
 
 This release reworks the documentation skill into a library of reader docs, adds a diagram skill, turns an

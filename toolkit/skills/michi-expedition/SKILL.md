@@ -160,14 +160,16 @@ pick a thread  →  investigate  →  report  →  verify the finding  →  prom
   as one line in `portrait.md` and its evidence in `appendix.md`; **substrate/corpus facts** (about the data
   itself) → `reference/`; **negatives and open threads** → `ruminations` (mull) or `backlog` (actionable), and the
   portrait's `open.md`; **method gotchas** → `learnings.md`; **data artifacts** → the substrate's
-  `derived/` area (never the read-only lake; see `expedition-structure.md`). A *negative* — a fact about what the data
+  `derived/` area (never the read-only lake; see `expedition-structure.md`); **committed code** (a prototype, a probe
+  worth keeping) → the project's lab root, linked from the report. A *negative* — a fact about what the data
   *can't* support — is a promotable finding; record it in the portrait's *What we can't see*, don't discard it.
 
 ### The structure gate (before writing any artifact)
 
 Can you name this output's home (which campaign / charter / portrait, named right)? If not, stop and resolve it —
 don't dump into a flat pile. Reports → `reports/<slug>.md`; durable picture → `portrait.md` + `appendix.md`; gotchas → `learnings.md`;
-spawned threads → `followups.md`; ephemeral → `scratch/`.
+spawned threads → `followups.md`; ephemeral → `scratch/`; committed code → the lab root (`lab/` by default; ask
+before creating it if the project has none).
 
 ### Surface the halt decision — don't park, don't run forever
 
@@ -280,7 +282,8 @@ All artifacts follow `references/expedition-structure.md`. Quick map: missions �
 the portrait library in `portraits/` (`tldr.md`, `glossary.md`, `contributor-guide.md`; per picture
 `portraits/<subject>/`); dated runs → `campaigns/<yyyy>/<mmm>/<date>/<charter>/` (`mandate.md`, `reports/`,
 `followups.md`, `learnings.md`, `scratch/`); the open queue → `ruminations.md` (mull) + `backlog.yaml` (actionable);
-the spine → `iteration-log.md`; current state → `STATUS.md`; data artifacts → the substrate's `derived/` area.
+the spine → `iteration-log.md`; current state → `STATUS.md`; data artifacts → the substrate's `derived/` area;
+committed code → the lab root.
 
 ### Update STATUS.md
 
