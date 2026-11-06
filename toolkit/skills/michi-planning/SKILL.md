@@ -1,8 +1,10 @@
 ---
 name: michi-planning
-description:
-  Prepare a project milestone for michi execution — write the plan, define acceptance criteria, set up
-  verification, and scope the work for autonomous agent implementation.
+description: >-
+  Prepare a milestone for a Michi implementation session — write the plan doc, define acceptance criteria,
+  co-design verification scenarios, and scope the work for autonomous agent implementation. Use when a milestone or
+  slice of an epic needs a plan before implementation, when the user asks to plan or scope the next milestone, or
+  after an exploration produces a clear direction.
 ---
 
 # Michi Planning
@@ -17,6 +19,8 @@ identification). Verification governs autonomy (co-design scenarios that constra
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, ask the user which project the plan
 is for (the umbrella = ROOT, or a named sub-project). Plans/specs/scenarios live under that project's epics:
@@ -103,11 +107,11 @@ When the deliverable is not code (research, roadmap, design review, backlog gene
   harvest inventory," "a comparison with recommendation"). If you can't name the deliverables, the scope isn't clear
   enough.
 - **Exit criteria replace verification scenarios.** Define how you'll know each deliverable is done — specific enough to
-  assess pass/fail. See `references/target-non-code.md` (loaded during the session skill).
+  assess pass/fail. See `references/target-non-code.md`.
 - **Exploration depth is bounded by the deliverable.** Read enough to form a best-guess plan, not everything. The goal
   is producing the named artifacts, not comprehensive understanding.
-- **Do not use superpowers skills** (brainstorming, writing-plans, executing-plans) for non-code milestones. They assume
-  code deliverables. Use Michi skills with the non-code target reference.
+- **Don't use generic planning skills that assume code deliverables** (such as superpowers' writing-plans) for
+  non-code milestones. Use Michi skills with the non-code target reference.
 
 The rest of this process still applies — surface assumptions, ask clarifying questions, write the plan doc. The plan
 template works for non-code; the `## Verification` section uses exit criteria instead of scenarios.
@@ -235,7 +239,7 @@ If the epic has a scenario catalog (e.g., `docs/epics/<epic>/scenarios.md`):
 
 ### 6. Assess Cross-Package Impact
 
-This is where Round 1 bugs came from. Explicitly check:
+Cross-package gaps are a common source of escaped bugs. Explicitly check:
 
 - Does this milestone introduce new types, enum values, or service names?
 - Does it add a new caller to an existing pipeline?

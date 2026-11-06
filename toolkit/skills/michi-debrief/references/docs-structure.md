@@ -1,7 +1,11 @@
 # Document Structure
 
-Reference for how Michi projects organize documentation. Used by the planning, session, and debrief skills to
-determine where information goes and when it's read.
+Reference for how Michi projects organize documentation. Used by the Michi skills to determine where information
+goes and when it's read.
+
+Contents: Principles · Document Types · Progressive Detail · File Naming · Doc Currency · STATUS at Scale · Docs Root ·
+Lab Root · Single-Project Directory Structure · Multi-Project Directory Structure · Information Flow · Notifications ·
+Timeliness States · Pragmatic Application
 
 > This doc covers the **production lane** (epic → milestone, converging on a known deliverable). **Learning-mode
 > work** — open-ended, Entrusted, spiral exploration where the end isn't known — probably uses the **expedition** lane and its
@@ -15,7 +19,7 @@ determine where information goes and when it's read.
    the essential unit — plans, verification, and journals are incidental structure within it.
 2. **Don't lose key information.** The goal is reducing re-discovery, not documentation perfection.
 3. **Progressive detail.** Not every reader needs every detail at every moment. Principles → guidance → checklists. Size
-   the document to its audience and moment. (See `toolkit/principles.md` — Progressive Detail.)
+   the document to its audience and moment. (See `principles.md` — Progressive Detail.)
 4. **Capture is continuous, curation is periodic.** The agent writes notes during implementation. The debrief curates
    them into the right places.
 5. **One source of truth.** Decisions live in plan docs. Learnings live in journal files. Don't duplicate across tiers —
@@ -79,7 +83,7 @@ Not every reader needs every detail at every moment. Load the right depth at the
 | Level  | Purpose                                    | Who reads                                      | When                   | Examples                                         |
 | ------ | ------------------------------------------ | ---------------------------------------------- | ---------------------- | ------------------------------------------------ |
 | **S**  | Orientation — what exists, where to look   | Everyone, every session                        | Always loaded          | `README.md`, `STATUS.md`                         |
-| **M**  | Working context — enough to act            | Agent at session start, human reviewing        | Loaded on demand       | `CLAUDE.md`, `PROJECT.md`, current plan doc      |
+| **M**  | Working context — enough to act            | Agent at session start, human reviewing        | At session start, or on demand | `CLAUDE.md`, `PROJECT.md`, current plan doc |
 | **L**  | Full detail — implementation depth         | Agent during implementation, human deep-diving | Referenced when needed | `ARCHITECTURE.md`, verification scenarios, specs |
 | **XL** | Posterity — minimize loss, may rarely read | Future sessions, retrospectives                | Stored, not loaded     | Journals, archived plans, session transcripts    |
 
@@ -87,7 +91,7 @@ Not every reader needs every detail at every moment. Load the right depth at the
 
 | Level          | Purpose                                            | When loaded               | Examples                                          |
 | -------------- | -------------------------------------------------- | ------------------------- | ------------------------------------------------- |
-| **Principles** | The "why" — always in context                      | Always (`@`-referenced)   | `toolkit/principles.md`, project-level principles |
+| **Principles** | The "why" — always in context                      | At the start of any Michi skill, or `@`-referenced | `toolkit/principles.md`, project-level principles |
 | **Guidance**   | The "what and when" — loaded when entering a phase | On demand, at phase start | Skill preambles, reference docs                   |
 | **Checklists** | The "how exactly" — referenced during execution    | During execution          | Skill bodies, templates, verification steps       |
 
@@ -95,7 +99,7 @@ The agent internalizes principles, loads guidance when entering a phase, referen
 a human engineer works: know the principles by heart, understand the guidance for the current phase, reference the
 checklist when doing the work.
 
-See `toolkit/principles.md` for full principle definitions.
+See `principles.md` for full principle definitions.
 
 ### How This Maps to CLAUDE.md
 
@@ -143,7 +147,7 @@ Two docs carry a top-of-doc stamp, edited on every change:
 - **journal.md** (project-level and active epic's) — same stamp at the top. Updated when entries are added.
 
 The skills all carry an "Update STATUS.md" step that points at one text: the **STATUS reflex** in
-`toolkit/ground-rules.md`. It has a subtract half on purpose — a doc that only ever gets corrected only ever grows.
+`ground-rules.md`. It has a subtract half on purpose — a doc that only ever gets corrected only ever grows.
 
 ### Section-level `last-verified:` stamp (recommended)
 
@@ -171,7 +175,7 @@ session close.
 
 ### Reading Posture
 
-Per-doc reading guidelines — what to trust, where to verify, how to read each root doc — live in `toolkit/ground-rules.md`.
+Per-doc reading guidelines — what to trust, where to verify, how to read each root doc — live in `ground-rules.md`.
 That doc is the companion to `principles.md`: where principles shape *how to work*, ground rules shape *how to read
 what's written down*. Loaded by every Michi skill alongside principles.
 
@@ -353,7 +357,7 @@ not.
 Rules:
 
 - **≤ 5 lines, in the human's words.** The agent may propose candidates when the epic opens; the human accepts the
-  wording. The agent never edits the file. (Same rule as the light pen: the human's words are the fixed term.)
+  wording. The agent never edits the file. (The human's words are the fixed term.)
 - **Read, not remembered.** Skills read it at start and **re-read it from disk at decision points** — a scope change,
   a "simpler / interim / for now" proposal, a completion claim — and say which north star the step serves or trades.
   A trade goes to the plan's `## Discussion`, not into the work. Re-reading is what survives compaction.
@@ -514,8 +518,6 @@ UPPERCASE files stay in place:
 
 Bootstrap provides a subcommand for this (`/michi-bootstrap multi-project`).
 
-See `docs/archive/sidebars/multi-project-doc-structure-050226.md` for the full rationale and options considered.
-
 ---
 
 ## Information Flow
@@ -630,7 +632,7 @@ sub-mode surfaces what should move; the human approves and runs the `git mv` (pe
 
 ## Pragmatic Application
 
-This structure is a target, not a prerequisite. For Round 2:
+This structure is a target, not a prerequisite. To adopt it incrementally:
 
 1. **Add `PROJECT.md`** to the target project if it doesn't exist
 2. **Capitalize the top-tier docs** — signal what's always-read

@@ -120,8 +120,8 @@ acceptance criteria as written — the brief may add focus, never subtract crite
 
 ### Non-Code Work
 
-For non-code deliverables (research, roadmaps, design reviews, backlog generation), do not use superpowers skills
-(brainstorming, writing-plans, executing-plans). They assume code deliverables. Use Michi skills with the non-code target
+For non-code deliverables (research, roadmaps, design reviews, backlog generation), don't use generic planning skills
+that assume code deliverables (such as superpowers' writing-plans). Use Michi skills with the non-code target
 reference.
 
 ### Learnings

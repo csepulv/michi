@@ -1,13 +1,15 @@
 ---
 name: michi-workshop
-description:
-  Lightweight Michi discipline for everyday work — bug fixes, small features, quick explorations. Same rigor, less
-  ceremony. The EDC of software development.
+description: >-
+  Lightweight Michi discipline for everyday work — bug fixes, small features, quick investigations, focused
+  improvements. Same rigor as planning plus session, less ceremony; `bugfix` mode is leaner still. Use for work too
+  small to need a separate plan and session, or when the user asks to fix a bug, make a small change, or quickly
+  look into something.
 ---
 
 # Michi Workshop
 
-The everyday carry tool. Same discipline as the full michi software factory, less ceremony. Strong on rigor, flexible on process.
+The everyday carry tool. Same discipline as planning plus session, less ceremony. Strong on rigor, flexible on process.
 
 **Workshop holds "what does done mean" and "how to build it" in one head.** Planning + session deliberately separates
 those modes — defining requirements and verification first, then implementing. Use workshop when that separation
@@ -16,7 +18,7 @@ isn't the criterion. Risk is a separate axis, handled inside workshop via *Mind 
 (see below).
 
 Bug fixes, small features, quick investigations, focused improvements — these are workshop's natural shape.
-**When the pocket Leatherman is enough, don't go to the factory.**
+**When the pocket Leatherman is enough, don't reach for the full cycle.**
 
 **This skill encodes the questions Michi asks, not the artifacts Michi produces.** Artifacts emerge when the work demands
 them.
@@ -27,6 +29,8 @@ verification governs autonomy, and sustain the system.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ## The Disciplines
 
@@ -65,8 +69,8 @@ Always make a plan. Always get agreement before working. The plan scales to the 
 - **Small:** A few bullets in the conversation. "Here's what I'll do: X, Y, Z."
 - **Medium:** A brief written plan saved alongside the work — a flat-file epic (`docs/epics/<topic>.md`), the
   active epic's plan dir, or a journal entry.
-- **Large:** If you need a formal plan doc with exit criteria and verification scenarios — you need the full factory,
-  not the workshop.
+- **Large:** If you need a formal plan doc with exit criteria and verification scenarios — you need planning and
+  session, not the workshop.
 
 ### Verify Before Claiming Done
 

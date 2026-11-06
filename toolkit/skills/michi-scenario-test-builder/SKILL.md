@@ -22,6 +22,8 @@ system before defining verification). See `references/principles.md`.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
 
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
+
 ## When to Use
 
 - **Discovering what to test** — before writing any test code, explore what scenarios matter
@@ -78,7 +80,7 @@ that fit.
 
 For each technique applied, generate 2-5 candidate scenarios. Each must include:
 
-```markdown
+````markdown
 ### Scenario: [Short descriptive name]
 
 **Technique**: [Which of Kaner's 12 techniques generated this]
@@ -95,7 +97,7 @@ Then [expected outcome]
 **How to evaluate**: [For Level C, or additional evaluation notes beyond Given-When-Then]
 **Priority**: [Critical / High / Medium / Low — likelihood × impact]
 **Credibility notes**: [Why a stakeholder would believe this is realistic]
-```
+````
 
 Scenarios bridge spec and test. The story communicates intent (spec side). The Given-When-Then steps can be executed
 (test side). Both are needed — the story ensures the test captures user intent, the steps ensure it's runnable.

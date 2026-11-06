@@ -1,8 +1,9 @@
 ---
 name: michi-docs-site
-description:
-  Scaffold an internal Astro + Starlight docs browser for any project, or generate a PDF build recipe for an
-  existing Starlight site. Workshop-style skill.
+description: >-
+  Scaffold an internal Astro + Starlight docs browser that renders a project's markdown as a searchable site, or
+  write and validate a `pdf-recipe.yaml` and build S/M/L/XL PDFs of an existing Starlight site. Use when the user
+  wants to browse or share project docs as a website, set up an internal docs site, or produce a PDF of a docs site.
 ---
 
 # Michi Docs Site
@@ -12,7 +13,7 @@ Two related modes:
 1. **Scaffold** (default) — build a self-contained Astro + Starlight site that renders a project's markdown
    files as a searchable, navigable website.
 2. **PDF recipe** (`pdf <target-site-dir>`) — generate, validate, or update a `pdf-recipe.yaml` for any
-   existing Starlight site. The recipe drives `tools/build-pdf.sh`.
+   existing Starlight site. The recipe drives this skill's `scripts/build-pdf.sh`.
 
 **Not limited to Michi-structured projects.** Discovery scans what actually exists — standard Michi docs layout,
 scattered markdown, hand-built sites. The skill adapts to what it finds.
@@ -26,6 +27,8 @@ the heavy lifting). See `references/principles.md`.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ---
 
@@ -86,8 +89,7 @@ Ask the user about each decision point. Present defaults, let them override.
 
 2. **Logo or text title?**
    - If logo candidates were found: "Found [file] — want to use it? Or just a text title?"
-   - If no logo: "No logo file found. What name should appear in the site header?" (e.g., "SEKKO INTERNAL",
-     "JUNKDRAWER DOCS")
+   - If no logo: "No logo file found. What name should appear in the site header?"
    - If they provide a logo path, note whether to use `replacesTitle: true` (logo only) or `false` (logo + text).
 
 3. **Install dependencies now?** "Should I run `npm install` now? Dependencies will be added as devDependencies."
@@ -151,7 +153,7 @@ Then `chmod +x sync.sh`.
 
 | Token | Replacement |
 | --- | --- |
-| `{{TITLE}}` | The title from confirmation (e.g., `Michi INTERNAL`, `SEKKO INTERNAL`) |
+| `{{TITLE}}` | The title from confirmation (e.g., `Michi INTERNAL`) |
 | `{{LOGO_LINE}}` | Logo config block (see variants below) or empty string |
 | `{{SIDEBAR_GROUPS}}` | Sidebar group objects (see examples below) |
 
@@ -260,7 +262,8 @@ Report issues to the user if recovery isn't obvious.
 ### Capture
 
 - If CLAUDE.md update was approved, add a section with dev/build commands
-- Update STATUS.md if appropriate
+- Update STATUS.md if the site changes what's active or next — follow the **STATUS reflex** in
+  `references/ground-rules.md`
 - Note any issues encountered or future improvements
 
 ### Present to user
@@ -293,7 +296,9 @@ If the user wants to customize further (theme, additional pages, deploy), that's
 # PDF Recipe Mode
 
 Invoked as `/michi-docs-site pdf <target-site-dir>`. Produces, validates, or updates a `pdf-recipe.yaml` in the
-target site directory. The recipe is consumed by `tools/build-pdf.sh` to build S/M/L/XL PDFs.
+target site directory. The recipe is consumed by `scripts/build-pdf.sh` (in this skill's directory, with its
+vendored assets in `scripts/pdf-assets/`) to build S/M/L/XL PDFs. The builder needs pandoc, xelatex, qpdf, yq and
+the eisvogel pandoc template; pre-flight checks for each and prints how to install what's missing.
 
 **Target is any Starlight site** — works on hand-built sites (e.g. michi's `website/`) and sites
 scaffolded by this skill (`internal-site/`) alike. It does not require the site to have been created by the
@@ -312,7 +317,7 @@ scaffold mode.
 Before doing anything, check the environment so we don't surprise the user with missing tools later.
 
 ```bash
-tools/build-pdf.sh --pre-flight
+scripts/build-pdf.sh --pre-flight
 ```
 
 If anything is missing, relay the output and stop. The recipe is useful without the toolchain, but the user
@@ -425,7 +430,7 @@ Show the current recipe for the affected size. Make the edit. Show the diff. Con
 Once the recipe is written or updated, offer to run a build as verification:
 
 ```bash
-tools/build-pdf.sh <target-site-dir> S
+scripts/build-pdf.sh <target-site-dir> S
 ```
 
 Start with the smallest size — fastest feedback if something is broken. If that works, the user can build
@@ -442,5 +447,6 @@ Expected outcomes to watch for:
 
 - Confirm the recipe is committed (or staged) if the user wants it in version control.
 - Note any decisions — e.g., "excluded The Story because it's a placeholder, add back after M3."
-- Update STATUS.md if this establishes a new capability.
+- Update STATUS.md if this establishes a new capability — follow the **STATUS reflex** in
+  `references/ground-rules.md`.
 - Short recap: recipe location, which sizes are defined, which builds verified.

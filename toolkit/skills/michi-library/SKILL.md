@@ -2,7 +2,7 @@
 name: michi-library
 description:
   Produce reader-facing documentation from agent-facing sources — a project's library of reader docs for the
-  roles you name (observer, practitioner, contributor), with HTML and diagrams; a self-contained handoff for a
+  roles the user names (observer, practitioner, contributor), with HTML and diagrams; a self-contained handoff for a
   feature, module, or branch; or an epic's cold-read overview. Use when work needs to be understood by someone
   who wasn't in the sessions.
 ---
@@ -30,18 +30,22 @@ take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
 
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
+
 ## Targets
 
 **The target decides the output shape.** Ask for it if the invocation doesn't say.
 
 ```
 /michi-library project <roles>      → the project library for those roles
+/michi-library project configure    → change the library's roles, editions, or location
 /michi-library scope <thing>        → a self-contained handoff artifact
 /michi-library epic <epic>          → a cold-read overview for one epic
 ```
 
 `<roles>` is `all`, one role, or a comma-separated list: `project all`, `project observer`,
-`project contributor, practitioner`. Ask for the roles if the invocation doesn't name them; never infer them.
+`project contributor, practitioner`. If the invocation doesn't name them, use the `roles|` line in
+`<library>/library.conf` when there is one, or ask; never infer them.
 
 | target | what it produces | touches root docs? |
 |---|---|---|
@@ -103,6 +107,15 @@ templates, the readers, and the rules are in `references/project-templates.md`; 
 
 To refresh the library later, re-run this target with the same roles; step 5 keeps what is still true. Other
 skills don't maintain it.
+
+**Configure** (`project configure`) changes the library's settings: its roles (the `roles|` line in
+`library.conf`), its editions, and its location. For a new edition, ask only the roles and the visibility, unless the
+user asks to set a name, parts, or documents to leave out; *Editions* in `references/project-templates.md` has the
+rest. Write the edition file, build it (`scripts/build-html.sh --edition <name> <library-dir> "<Project name>"`),
+and report what the build dropped or stopped on. For each stop, propose a fix: reword the passage, move it under a
+role heading, mark it for its role, or, when the term is fine for this edition's readers, an `allow` line in the
+edition file. Change documents or the edition file only on the user's yes. A change that needs new documents, such as adding a role, is the project target's
+work: run it with the new roles.
 
 **This target's two checks:**
 
@@ -277,10 +290,11 @@ newcomer needs what-it-is → how-it's-built → what-constrains-it → where-it
 status short.
 
 **4 — Unresolvable references.** `§2.48b`, `S114`, `M19`, `follow-ups.md`, bare repo paths. **Check:** grep
-for `§`, `M<n>`, `S<n>`, `.md`, `src/`. **Fix:** by reader. A reader with the repo (the project and epic
-targets, an internal handoff) can follow repo paths and links into it, not internal IDs: name them, or drop
-them as the scope table says. Outside the repo: inline the fact or drop it; provenance goes in a block marked
-internal. Nothing links outside the repo.
+for `§`, `M<n>`, `S<n>`, `.md`, `src/`. **Fix:** by reader. A reader with the repo (the project's contributor
+documents, the epic target, an internal handoff) can follow repo paths and links into it, not internal IDs: name
+them, or drop them as the scope table says. Outside the repo (the project's observer and practitioner documents, an
+external share): inline the fact or drop it; provenance goes in a block marked internal. Nothing links outside the
+repo.
 
 **5 — No landing.** No start-here, single altitude, no ordering across a multi-doc set. **Check:** can a
 reader tell, in thirty seconds, which document to open first and why? **Fix:** the tl;dr (project), the S

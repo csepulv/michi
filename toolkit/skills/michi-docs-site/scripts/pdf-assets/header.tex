@@ -1,0 +1,42 @@
+% Portable callout boxes via mdframed. No icon fonts — colored left borders only.
+\usepackage[xcolor,framemethod=tikz]{mdframed}
+
+% Principle / theory — blue left border
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linewidth=3pt, linecolor=NavyBlue,
+  backgroundcolor=blue!3,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=8pt, innerbottommargin=8pt,
+  skipabove=\medskipamount, skipbelow=\medskipamount
+]{principle}
+
+% How-to / practical — green left border
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linewidth=3pt, linecolor=OliveGreen,
+  backgroundcolor=green!3,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=8pt, innerbottommargin=8pt,
+  skipabove=\medskipamount, skipbelow=\medskipamount
+]{howto}
+
+% Aside / context — gray left border
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linewidth=3pt, linecolor=gray,
+  backgroundcolor=black!3,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=8pt, innerbottommargin=8pt,
+  skipabove=\medskipamount, skipbelow=\medskipamount
+]{aside}
+
+% Warning / pitfall — orange left border
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linewidth=3pt, linecolor=BurntOrange,
+  backgroundcolor=orange!5,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=8pt, innerbottommargin=8pt,
+  skipabove=\medskipamount, skipbelow=\medskipamount
+]{warning}

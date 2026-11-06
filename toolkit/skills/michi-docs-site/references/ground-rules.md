@@ -1,7 +1,5 @@
 # Ground Rules: Reading Project Docs
 
-**Last updated:** 2026-05-01
-
 Reference for how to read project documentation. Loaded by Michi skills alongside `principles.md`. Where principles
 shape *how to work*, ground rules shape *how to read what's written down* — and how to write to the human.
 

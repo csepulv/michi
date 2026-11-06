@@ -1,8 +1,10 @@
 ---
 name: michi-debrief
-description:
+description: >-
   Structured post-session review — assess what was delivered, review decisions, capture learnings, audit what got
-  invalidated, refresh the root docs, and calibrate trust for the next session.
+  invalidated, refresh the root docs, and calibrate trust for the next session. Use after a `michi-session`
+  milestone, at the end of a workshop or paired session worth recording, or when the user asks to debrief, wrap up,
+  review the session, or run a retro.
 ---
 
 # Michi Debrief
@@ -18,6 +20,8 @@ the next iteration). Surface assumptions (what got invalidated; what's now stale
 over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, the debrief and its promotions follow the
 project that was the session's subject:
@@ -109,6 +113,9 @@ Start with the facts.
 - Were acceptance criteria met? (Check each one explicitly)
 
 **Results (adapt to target):**
+
+Scenario levels are set at planning: **Level A**, the agent runs it and the result is a binary pass/fail;
+**Level B**, the agent runs it but judging the result needs judgment; **Level C**, a human evaluates it.
 
 For code targets:
 
@@ -442,7 +449,7 @@ Assess readiness for the next session's autonomy level.
 
 ## Outputs
 
-For deeper assessment or readiness artifacts (e.g., end-of-epic checkpoint docs), `toolkit/checkpoint-doc-formats.md`
+For deeper assessment or readiness artifacts (e.g., end-of-epic checkpoint docs), `references/checkpoint-doc-formats.md`
 offers optional structured formats — Readiness Checklist, Assessment-doc tables, Operational Guide.
 
 The debrief produces:

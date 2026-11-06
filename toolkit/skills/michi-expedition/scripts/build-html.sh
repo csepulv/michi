@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 # Build the HTML version of a library from its markdown.
 #
-#   scripts/build-html.sh [--config <file>] <library-dir> [project-name]
+#   scripts/build-html.sh [--config <file>] [--edition <name>] <library-dir> [project-name]
 #
 # Writes <library-dir>/html/: index.html (from tldr.md), one page per library markdown file
-# (subfolders kept), one SVG per Mermaid diagram, and library.css. Navigation is by role: a tab per
+# (subfolders kept), one SVG per Mermaid diagram, and library.css. With --edition, it builds the
+# edition described in <library-dir>/editions/<name>.conf into <library-dir>/editions/<name>/ instead
+# (see "Editions" in references/project-templates.md), and, unless the edition is private, zips it.
+# Navigation is by role: a tab per
 # role across the top, and a sidebar with only the current role's pages, with a section for each part
 # (subfolder). The roles, the documents, and the repo files the sidebar links to come from the config:
 # project.conf (the default) for a project library, expedition.conf for an expedition's portraits. An
@@ -18,21 +21,38 @@ set -euo pipefail
 MERMAID_CLI="@mermaid-js/mermaid-cli@12.0.0"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+usage() {
+  echo "usage: $0 [--config <file>] [--edition <name>] <library-dir> [project-name]" >&2
+  exit 2
+}
+
 config="$SCRIPT_DIR/project.conf"
-if [[ "${1:-}" == --config ]]; then
-  config="${2:-}"
-  shift 2 || true
-fi
+edition=""
+while [[ "${1:-}" == --* ]]; do
+  [[ $# -ge 2 ]] || usage
+  case "$1" in
+    --config) config="$2" ;;
+    --edition) edition="$2" ;;
+    *) usage ;;
+  esac
+  shift 2
+done
 library="${1:-}"
 if [[ -z "$library" || ! -d "$library" || ! -f "$config" ]]; then
-  echo "usage: $0 [--config <file>] <library-dir> [project-name]" >&2
+  usage
+fi
+# The name becomes a folder the build empties, so it may not be a path.
+if [[ -n "$edition" && ! "$edition" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+  echo "An edition name is letters, digits, '.', '_' and '-', not '$edition'." >&2
   exit 2
 fi
 library="$(cd "$library" && pwd)"
 repo_root="$(git -C "$library" rev-parse --show-toplevel)"
 lib_rel="${library#"$repo_root"/}"
 project="${2:-$(basename "$repo_root")}"
-out="$library/html"
+out_rel="$lib_rel/html"
+[[ -n "$edition" ]] && out_rel="$lib_rel/editions/$edition"
+out="$repo_root/$out_rel"
 
 if ! command -v pandoc >/dev/null 2>&1; then
   echo "pandoc not found on PATH." >&2
@@ -58,20 +78,26 @@ shared=()
 entries=()
 intro="project intro"
 
-# A library's own library.conf adds documents beyond the templates: doc lines only, for the config's
-# roles, listed after the config's own documents.
+# A library's own library.conf adds documents beyond the templates (doc lines, for the config's
+# roles, listed after the config's own documents) and records the library's roles (one roles line,
+# which the build only checks).
 read_config() {
-  local file="$1" docs_only="${2:-}" kind a b c d role
+  local file="$1" docs_only="${2:-}" kind a b c d role roles
   while IFS='|' read -r kind a b c d; do
     case "$kind" in "" | \#*) continue ;; esac
     if [[ -n "$docs_only" ]]; then
-      [[ "$kind" == doc ]] || { echo "$file: only doc lines belong here, not '$kind'" >&2; exit 2; }
-      for role in ${c//,/ }; do
+      case "$kind" in
+        doc) roles="$c" ;;
+        roles) roles="$a" ;;
+        *) echo "$file: only doc and roles lines belong here, not '$kind'" >&2; exit 2 ;;
+      esac
+      for role in ${roles//,/ }; do
         [[ " ${ROLES[*]} " == *" $role "* ]] || { echo "$file: unknown role '$role'" >&2; exit 2; }
       done
     fi
     case "$kind" in
       role) ROLES+=("$a"); role_lines+=("$a|$b|$c") ;;
+      roles) ;;
       intro) intro="$a" ;;
       shared) shared+=("$a|$b|$c") ;;
       doc | link | page) entries+=("$kind|$a|$b|$c|$d") ;;
@@ -82,6 +108,102 @@ read_config() {
 
 read_config "$config"
 [[ -f "$library/library.conf" ]] && read_config "$library/library.conf" docs-only
+
+# --- The edition (format in "Editions", references/project-templates.md) ---
+
+visibility=private
+edition_parts=""
+edition_exclude=" "
+allows=()
+replaces=()
+replaced_pages=""
+errors=()
+
+# A value from an edition file, without a trailing comment or surrounding spaces.
+edition_value() {
+  local value="${1%%#*}"
+  value="${value#"${value%%[![:space:]]*}"}"
+  echo "${value%"${value##*[![:space:]]}"}"
+}
+
+read_edition() {
+  local file="$library/editions/$edition.conf" kind value roles=() role page term
+  [[ -f "$file" ]] || { echo "No edition file: $file" >&2; exit 2; }
+  while IFS='|' read -r kind value; do
+    case "$kind" in "" | \#*) continue ;; esac
+    case "$kind" in
+      roles) value="$(edition_value "$value")"; read -ra roles <<<"${value//,/ }" ;;
+      visibility) visibility="$(edition_value "$value")" ;;
+      parts) value="$(edition_value "$value")"; edition_parts=" ${value//,/ } " ;;
+      exclude) value="$(edition_value "$value")"; edition_exclude+="${value//,/ } " ;;
+      allow)
+        page="$(edition_value "${value%%|*}")"
+        term="$(edition_value "${value#*|}")"
+        [[ "$value" == *"|"* && -n "$page" && -n "$term" ]] || { echo "$file: allow is allow|<page>|<term>" >&2; exit 2; }
+        allows+=("$page|$(lower "$term")")
+        ;;
+      replace)
+        page="$(edition_value "${value%%|*}")"
+        term="$(edition_value "${value#*|}")"
+        [[ "$value" == *"|"* && -n "$page" && -n "$term" ]] || { echo "$file: replace is replace|<path>|<replacement>" >&2; exit 2; }
+        replaces+=("$page|$term")
+        ;;
+      *) echo "$file: unknown entry '$kind'" >&2; exit 2 ;;
+    esac
+  done <"$file"
+  [[ ${#roles[@]} -gt 0 ]] || { echo "$file: no roles line" >&2; exit 2; }
+  for role in "${roles[@]}"; do
+    [[ " ${ROLES[*]} " == *" $role "* ]] || { echo "$file: unknown role '$role'" >&2; exit 2; }
+  done
+  case "$visibility" in
+    private | colleague | external) ;;
+    *) echo "$file: visibility is private, colleague, or external, not '$visibility'" >&2; exit 2 ;;
+  esac
+  for role in "${ROLES[@]}"; do
+    [[ " ${roles[*]} " == *" $role "* ]] || left_out_roles+="$role,"
+  done
+  all_roles="$(IFS=,; echo "${ROLES[*]}")"
+  ROLES=("${roles[@]}")
+}
+
+lower() {
+  echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+left_out_roles=""
+all_roles=""
+[[ -n "$edition" ]] && read_edition
+
+# The titles of documents that belong only to left-out roles: naming one is a trace of the role.
+# Separated by "|", which a title can't contain (it is the config's field separator).
+left_out_titles() {
+  local entry kind a b c d role kept
+  [[ -n "$left_out_roles" ]] || return 0
+  for entry in ${entries[@]+"${entries[@]}"}; do
+    IFS='|' read -r kind a b c d <<<"$entry"
+    [[ "$kind" == doc ]] || continue
+    kept=""
+    for role in ${c//,/ }; do
+      [[ " ${ROLES[*]} " == *" $role "* ]] && kept=yes
+    done
+    [[ -z "$kept" ]] && printf '%s|' "$b"
+  done
+  return 0
+}
+left_out_titles="$(left_out_titles)"
+
+is_bundled() {
+  [[ -n "$edition" && "$visibility" != private ]]
+}
+
+part_in_edition() {
+  [[ -z "$1" || -z "$edition_parts" || "$edition_parts" == *" $1 "* ]]
+}
+
+# A file the edition's exclude line names, by its library-relative or repo-relative path.
+is_excluded() {
+  [[ -n "$edition" && ( "$edition_exclude" == *" ${1#"$lib_rel"/} "* || "$edition_exclude" == *" $1 "* ) ]]
+}
 
 role_title() {
   local line
@@ -122,9 +244,65 @@ pages=()
 known=" $(printf '%s\n' "${shared[@]}" | cut -d'|' -f1 | tr '\n' ' ') "
 known+="$(printf '%s\n' "${entries[@]}" | awk -F'|' '$1 == "doc" {print $2}' | tr '\n' ' ')"
 
-add_page() {
-  [[ -f "$repo_root/$1" ]] && pages+=("$1|$2|$3|$4|${5:-}|${6:-}")
+# The edition's replacement for a file (repo-relative), from its replace|<path>|<replacement> lines, in
+# $replacement; each line that names a page the library has is recorded in $used_replaces.
+used_replaces=" "
+find_replacement() {
+  local entry
+  replacement=""
+  for entry in ${replaces[@]+"${replaces[@]}"}; do
+    if [[ "${entry%%|*}" == "$1" || "${entry%%|*}" == "${1#"$lib_rel"/}" ]]; then
+      replacement="$lib_rel/${entry#*|}"
+      used_replaces+="${entry%%|*} "
+      return 0
+    fi
+  done
   return 0
+}
+
+# Adds a page unless its file is missing or, in an edition, its role, part, or file is left out. An
+# edition's replacement is built in the file's place, under its name, and links to the file reach it.
+add_page() {
+  local src="$1" role="$4" part="${5:-}" replacement
+  [[ -f "$repo_root/$src" ]] || return 0
+  if [[ -n "$edition" ]]; then
+    find_replacement "$src"
+    [[ "$role" == shared || " ${ROLES[*]} " == *" $role "* ]] || return 0
+    part_in_edition "$part" || return 0
+    is_excluded "$src" && return 0
+    if [[ -n "$replacement" ]]; then
+      if [[ ! -f "$repo_root/$replacement" ]]; then
+        errors+=("the replacement for $src, ${replacement#"$lib_rel"/}, doesn't exist")
+        return 0
+      fi
+      [[ "$2" != link ]] && replaced_pages+="$src=$2,"
+      src="$replacement"
+    fi
+  fi
+  pages+=("$src|$2|$3|$role|$part|${6:-}")
+  return 0
+}
+
+# A repo file the sidebar names: a link to the live file, or, in an edition without the repo, a page
+# of its own under repo/ (markdown only). One listed for a role or part the edition leaves out is
+# recorded in excluded_links: links to it are treated like links to a left-out library document.
+excluded_links=""
+add_repo_link() {
+  local path="$1" label="$2" role="$3" part="${4:-}"
+  if [[ -n "$edition" ]] && { ! [[ " ${ROLES[*]} " == *" $role "* ]] || ! part_in_edition "$part" || is_excluded "$path"; }; then
+    find_replacement "$path"
+    excluded_links+="$path,"
+    return 0
+  fi
+  if ! is_bundled; then
+    add_page "$path" link "$label" "$role" "$part"
+    return 0
+  fi
+  if [[ "$path" != *.md ]]; then
+    errors+=("$path is linked from the $role sidebar but isn't markdown, so the edition can't carry it")
+    return 0
+  fi
+  add_page "$path" "repo/${path%.md}.html" "$label" "$role" "$part"
 }
 
 add_library_page() {
@@ -139,8 +317,10 @@ page_title() {
 
 # The config's documents in <dir> (empty for the library's top level, which also takes the config's
 # links and pages), then any other markdown files as "More".
+# A document listed under several roles is built under the first role it is added for (in an
+# edition, the first role the edition keeps); the others list it as an alias.
 add_documents_in() {
-  local dir="$1" prefix="${1:+$1/}" entry kind a b c d role rest flag rel
+  local dir="$1" prefix="${1:+$1/}" entry kind a b c d role rest flag rel count
   for entry in "${entries[@]}"; do
     IFS='|' read -r kind a b c d <<<"$entry"
     case "$kind" in
@@ -150,12 +330,13 @@ add_documents_in() {
         while [[ -n "$rest" ]]; do
           role="${rest%%,*}"
           rest="${rest#*,}"
+          count=${#pages[@]}
           add_library_page "$prefix$a" "$b" "" "$role" "$dir" "$flag"
-          flag=alias
+          [[ ${#pages[@]} -gt $count ]] && flag=alias
         done
         ;;
       link)
-        [[ -z "$dir" && ( -z "$d" || -f "$library/$d" ) ]] && add_page "$(repo_path "$a")" link "$b" "$c"
+        [[ -z "$dir" && ( -z "$d" || -f "$library/$d" ) ]] && add_repo_link "$(repo_path "$a")" "$b" "$c"
         ;;
       page)
         [[ -z "$dir" ]] && add_page "$(repo_path "$a")" "$b" "$c" "$d"
@@ -179,7 +360,7 @@ add_sidebar_links() {
       echo "sidebar-links: $path not found; skipped." >&2
       continue
     fi
-    add_page "$path" link "$label" "$role" "$part"
+    add_repo_link "$path" "$label" "$role" "$part"
   done <"$library/sidebar-links"
 }
 
@@ -190,17 +371,29 @@ done
 add_documents_in ""
 PARTS=()
 while read -r part; do
+  part_in_edition "$part" || continue
   PARTS+=("$part")
   add_documents_in "$part"
-done < <(cd "$library" && find . -mindepth 1 -maxdepth 1 -type d -not -name html | sed 's|^\./||' | sort)
+done < <(cd "$library" && find . -mindepth 1 -maxdepth 1 -type d -not -name html -not -name editions | sed 's|^\./||' | sort)
 add_sidebar_links
 
+# A replace line that names no page would let the unredacted original ship under a typo.
+for entry in ${replaces[@]+"${replaces[@]}"}; do
+  [[ "$used_replaces" == *" ${entry%%|*} "* ]] || errors+=("replace|${entry%%|*} matches no page in the library")
+done
+
+# page_map: the pages whose HTML name isn't their markdown name. edition_pages: in an edition,
+# every page it builds, so that links to anything else can be told apart.
 page_map=""
+edition_pages=""
 for entry in "${pages[@]}"; do
   IFS='|' read -r src html _ _ _ flag <<<"$entry"
   [[ "$html" == link || "$flag" == alias ]] && continue
   [[ "${src%.md}.html" != "$lib_rel/$html" ]] && page_map+="$src=$html,"
+  edition_pages+="$src=$html,"
 done
+edition_pages+="$replaced_pages"
+[[ -n "$edition" ]] || edition_pages=""
 
 # --- Navigation ---
 
@@ -311,7 +504,7 @@ callout_for() {
 # A shared page's sidebar: the roles to choose from, then the pages for everyone, then any extra groups.
 nav_for() {
   local current="$1" up="$2" role="$3" root_up entry r first part group=""
-  root_up="$(up_from "$lib_rel/html/$current")"
+  root_up="$(up_from "$out_rel/$current")"
   if [[ " ${ROLES[*]} " == *" $role "* ]]; then
     nav_section "$(role_title "$role")" "$role" "" "$current" "$up" "$root_up"
     for part in ${PARTS[@]+"${PARTS[@]}"}; do
@@ -409,15 +602,20 @@ render_diagrams() {
 
 build_page() {
   local index="$1" entry src html role up html_dir name
+  local source_args=()
   entry="${pages[index]}"
   src="$(field "$entry" src)"; html="$(field "$entry" html)"; role="$(field "$entry" role)"
   up="$(up_from "$html")"
   html_dir="$(dirname "$html")"
   name="$(basename "${src%.md}")"
+  # Outside a private edition, a page has no link to its markdown source: the reader has no repo.
+  is_bundled || source_args=(-V "source=$(up_from "$out_rel/$html")$src" -V "source-name=$(basename "$src")")
 
   mkdir -p "$work/$html_dir" "$out/$html_dir"
   render_diagrams "$repo_root/$src" "$work/$html_dir/$name.md"
-  find "$work/$html_dir" -maxdepth 1 -name "$name-*.svg" -exec cp {} "$out/$html_dir/" \;
+  # In an edition, a diagram is copied only if the page still shows it (below): one inside a dropped
+  # section or passage stays out of the bundle.
+  [[ -n "$edition" ]] || find "$work/$html_dir" -maxdepth 1 -name "$name-*.svg" -exec cp {} "$out/$html_dir/" \;
 
   pandoc "$work/$html_dir/$name.md" -f gfm -t html5 -s \
     --template "$SCRIPT_DIR/library-template.html" --toc --toc-depth=2 \
@@ -425,26 +623,138 @@ build_page() {
     --metadata pagetitle="$(page_title "$repo_root/$src")" \
     --metadata page_repo_dir="$(dirname "$src")" \
     --metadata page_name="$name" \
-    --metadata html_repo_dir="$lib_rel/html/$html_dir" \
+    --metadata page_source="$src" \
+    --metadata html_repo_dir="$out_rel/$html_dir" \
     --metadata library_dir="$lib_rel" \
+    --metadata out_dir="$out_rel" \
     --metadata page_map="$page_map" \
+    --metadata edition="$edition" \
+    --metadata visibility="$visibility" \
+    --metadata edition_pages="$edition_pages" \
+    --metadata excluded_links="$excluded_links" \
+    --metadata edition_roles="$(IFS=,; echo "${ROLES[*]}")" \
+    --metadata left_out_roles="$left_out_roles" \
+    --metadata left_out_titles="$left_out_titles" \
+    --metadata all_roles="$all_roles" \
+    --metadata tracked_file="$work/tracked" \
+    --metadata diagram_dir="$work/$html_dir" \
+    --metadata repo_names="$repo_names" \
+    --metadata repo_root="$repo_root" \
+    --metadata report_file="$work/report" \
     -V project="$project" \
     -V css="${up}library.css" \
     -V home="${up}index.html" \
-    -V source="$(up_from "$lib_rel/html/$html")$src" \
-    -V source-name="$(basename "$src")" \
+    ${source_args[@]+"${source_args[@]}"} \
     -V tabs="$(tabs_for "$role" "$up")" \
     -V callout="$(callout_for "$html" "$up" "$role")" \
     -V nav="$(nav_for "$html" "$up" "$role")" \
     -V pager="$(pager_for "$index" "$up" "$role")" \
     -o "$out/$html"
+  if [[ -n "$edition" ]]; then
+    { grep -oE "$name-[0-9]+\.svg" "$out/$html" || true; } | sort -u | while read -r svg; do
+      cp "$work/$html_dir/$svg" "$out/$html_dir/"
+    done
+  fi
   echo "$out/$html"
+}
+
+# --- An edition's report, images, and zip ---
+
+# The filter's records, one per line: kind, the page's source, detail (tab-separated).
+report_edition() {
+  local kind source detail page
+  [[ -f "$work/report" ]] || return 0
+  while IFS=$'\t' read -r kind source detail; do
+    # The page as an allow line names it: relative to the library, or the repo path of a carried file.
+    page="${source#"$lib_rel"/}"
+    case "$kind" in
+      DROPPED) echo "dropped list item ($source): $detail" ;;
+      DROPPED_ROW) echo "dropped table row ($source): $detail" ;;
+      DROPPED_SECTION) echo "dropped section ($source): $detail" ;;
+      DROPPED_PASSAGE) echo "dropped passage ($source): $detail" ;;
+      OUTSIDE) errors+=("$source links $detail, which is outside the edition") ;;
+      LEFT_OUT) errors+=("$page links $detail, a document the edition leaves out; drop it with a role heading or marker, or reword") ;;
+      TRACE) is_allowed "$source" "$detail" || errors+=("no trace: $page names \"$detail\"") ;;
+      MARKER) errors+=("$page: $detail") ;;
+      ASSET) copy_asset "$detail" "$source" ;;
+    esac
+  done < <(sort -u "$work/report")
+}
+
+# An edition's allow|<page>|<term> lines; the page is library-relative, the term matched without case.
+is_allowed() {
+  local page="${1#"$lib_rel"/}" term allow
+  term="$(lower "$2")"
+  for allow in ${allows[@]+"${allows[@]}"}; do
+    [[ "$allow" == "$page|$term" ]] && return 0
+  done
+  return 1
+}
+
+copy_asset() {
+  local path="$1" source="$2"
+  if [[ ! -f "$repo_root/$path" ]]; then
+    errors+=("$source shows $path, which doesn't exist")
+    return 0
+  fi
+  mkdir -p "$out/assets/$(dirname "$path")"
+  cp "$repo_root/$path" "$out/assets/$path"
+}
+
+# An external edition runs check-external.sh on every page it builds. A finding in a library document
+# stops the zip; one in a repo file carried from the sidebar is reported, not fixed: it isn't the library's.
+check_external() {
+  local entry src line status
+  [[ "$visibility" == external ]] || return 0
+  for entry in "${pages[@]}"; do
+    is_built "$entry" || continue
+    src="$(field "$entry" src)"
+    status=0
+    "$BASH" "$SCRIPT_DIR/check-external.sh" "$repo_root/$src" >"$work/external" || status=$?
+    if [[ $status -gt 1 ]]; then
+      errors+=("the external check itself failed on $src (exit $status)")
+      continue
+    fi
+    while IFS= read -r line; do
+      if [[ "$src" == "$lib_rel"/* ]]; then
+        errors+=("external check: $line")
+      else
+        echo "external check, reported only (outside the library): $line"
+      fi
+    done <"$work/external"
+  done
+}
+
+zip_edition() {
+  local zip_name
+  zip_name="$edition-$(date +%m%d%y).zip"
+  (cd "$library/editions" && rm -f "$zip_name" && zip -qr "$zip_name" "$edition")
+  echo "$library/editions/$zip_name"
 }
 
 mkdir -p "$out"
 find "$out" -mindepth 1 -delete
+# Today's zip is rebuilt or, if the build fails, gone: it must never outlive the sources it came from.
+is_bundled && rm -f "$library/editions/$edition-$(date +%m%d%y).zip"
+# The no-trace check counts as repo-only only what git tracks.
+[[ -n "$edition" ]] && git -C "$repo_root" -c core.quotePath=off ls-files >"$work/tracked"
+# The repo's names, for URLs into it: its folder, and its origin remote's name if it has one.
+repo_names="$(basename "$repo_root")"
+origin="$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)"
+[[ -n "$origin" ]] && repo_names+=",$(basename "${origin%.git}")"
 cp "$SCRIPT_DIR/library.css" "$out/library.css"
 for index in "${!pages[@]}"; do
   is_built "${pages[index]}" || continue
   build_page "$index"
 done
+
+[[ -n "$edition" ]] || exit 0
+report_edition
+check_external
+if [[ ${#errors[@]} -gt 0 ]]; then
+  printf 'error: %s\n' "${errors[@]}" >&2
+  echo "The edition $edition was built in $out for inspection, but not zipped." >&2
+  exit 1
+fi
+is_bundled && zip_edition
+exit 0

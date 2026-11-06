@@ -7,6 +7,10 @@ Target*) says how to run it; this file says what each document is and what goes 
 fill a template*, `SKILL.md`). The one exception: a document the named roles call for is always written, even when
 it is short.
 
+Contents: The readers · The documents · Documents beyond the templates · Editions · Existing files · What adjusts
+each document · Rules every template follows · Observer templates · Practitioner templates · Contributor templates ·
+Diagrams across the set
+
 ---
 
 ## The readers
@@ -27,7 +31,25 @@ outside the project. No level of technical competence is assumed; each role's do
 prerequisites. **Assume the domain, explain the project.** Every idea the project embodies is explained; a domain term
 the project uses in its own sense counts as a project idea.
 
-**Readers have the repo.** Every reader can open the repository.
+**Observers and practitioners may not have the repo.** Their documents link only to other library documents and to
+the web. A repo file they need (a package README, CHANGELOG.md) is listed in `<library>/sidebar-links`, so that an
+edition without the repo can carry it as a page (*Editions*, below). Contributor documents may link into the repo:
+contributors work in it.
+
+**A role's content stays with the role.** It lives in that role's documents. In a document every role reads (the
+tl;dr, the reading guide, the glossary), it goes in the role's list item, under a heading that names the role ("For
+contributors"), or in a passage marked for the role:
+
+```
+<!-- role: contributor -->
+Contributors start from the design notes and STATUS.md.
+<!-- /role -->
+```
+
+A marker can list several roles (`role: contributor, practitioner`); case and a plural don't matter. Markers go on
+lines of their own and don't nest. In an edition, a marker inside a paragraph, one that doesn't parse, a nested or
+unclosed one, or one naming an unknown role stops the build, and its passage is dropped meanwhile. An edition that
+leaves a role out then leaves no trace of it (*Editions*, below).
 
 **Layers add, they don't repeat.** Essential content is for every role; incidentals are for contributors;
 practitioners get what enables use. Where a topic appears in two roles, the later document adds detail and links
@@ -66,7 +88,7 @@ documents than these (*Documents beyond the templates*, below).
 choose another location; CLAUDE.md records it under `## Michi` as `library-root: <path>`. STATUS.md and
 ARCHITECTURE.md stay at the repo root. A part with its own Michi root docs (`docs/<name>/STATUS.md`,
 `ARCHITECTURE.md`) uses those. Each part's documents go in a subfolder named for the part (`library/<part>/`). The
-HTML is generated into `library/html/`.
+HTML is generated into `library/html/`, and each edition into `library/editions/<name>/`.
 
 ---
 
@@ -106,6 +128,79 @@ folder; the same line covers it there.
 
 ---
 
+## Editions
+
+An edition is a selection of the library built for some readers: some of its roles, for readers with or without the
+repo. A build with no edition named is the whole library, for readers with the repo, in `library/html/`.
+
+**Two choices: roles and visibility.** Visibility says who reads the build:
+
+| Visibility | The reader | The build |
+|---|---|---|
+| `private` | Has the repo. | Links into the repo are allowed. |
+| `colleague` | A colleague without the repo. | Sidebar links become pages. Any link that leaves the bundle, or any mention of a repo-only document, stops the build. A zip is written. |
+| `external` | Someone outside the organization. | As `colleague`, plus the external check. |
+
+**The name comes from the choices:** the roles joined by `-`, then the visibility unless it is `private`
+(`observer-practitioner-colleague`, `observer-practitioner`). Overrides are set only when the user asks: a different
+name, the parts to keep, documents to leave out, terms to let through (below), and replacements: a redacted version
+of a file, built in its place, under its name, with links to it reaching the replacement. Replacements live in
+`<library>/editions/`, are written by hand, and drift when their originals change.
+
+**The file** is `<library>/editions/<name>.conf`:
+
+```
+roles|observer,practitioner
+visibility|colleague
+parts|core,auth              # override: only these parts
+exclude|roadmap.md           # override: leave these documents out
+allow|overview.md|project.md # override: let this term through on this page
+replace|packages/auth/README.md|editions/auth-readme.md   # override: build this instead
+```
+
+**What the build leaves out.** Roles, parts, and documents outside the edition; the tl;dr and the glossary are always
+in. A document listed under two roles, whose first role is outside the edition, is built under the first role inside
+it. In every edition, a role the edition leaves out leaves no trace:
+
+- A section whose heading (below the page title) names the role ("Contributors", "For contributors", "Contributor
+  guide") is dropped with everything under it, down to the next heading of the same or a higher level.
+- A passage marked for roles the edition leaves out is dropped.
+- A list item or table row whose every link points outside the edition (a role in the tl;dr's or reading guide's
+  list, a row of the reading guide's table) is dropped. A repo file the sidebar lists for a left-out role, such as
+  STATUS.md, counts as outside the edition, `private` included.
+
+A heading that these drops leave with nothing under it goes too; one already empty in the source stays. A diagram goes
+with the section or passage it was in. Ordinary HTML comments are left out. The build reports each drop. Outside
+`private`, each page's link to its markdown source is left out too.
+
+**No trace, checked.** After those drops, the build reads everything each page ships (its text, title, code, raw HTML
+and its attributes, link targets, image titles, and its diagrams' labels) and stops on:
+
+- a link to a document outside the edition that wasn't dropped with its item or section;
+- the name of a left-out role, or the title of one of its documents ("Backlog", "Contributor guide"), including in a
+  link target (`getting-started.md#for-contributors`);
+- outside `private`, a repo-only document: a path in the repo that the edition doesn't carry as a page
+  (`docs/epics/…`, `/docs/…`, `skills/…`), the name of a markdown file at the repo root other than README.md
+  (`STATUS.md`, `ARCHITECTURE.md`), or a URL into the repo (one whose path holds the repo's name and then a tracked
+  path). A path starting `./` or `../` belongs to someone else's project and doesn't count. This applies to repo files
+  carried as pages too, such as a package README.
+
+Each finding names the page as an `allow` line names it: relative to the library, or the repo path of a carried file.
+The fix is in the source (reword the passage, move it under a role heading, or mark it), or, when the term is fine for
+this edition's readers, an `allow|<page>|<term>` line in the edition file. An `allow` line is written only on the
+user's yes. A `replace` line that names no page in the library stops the build.
+
+**The external check** (`scripts/check-external.sh`) reports first-person subjects, internal identifiers (`M19`,
+`S114`, `§2.48b`), and bare repo paths, with file and line, on every page an `external` edition builds. A finding in a
+library document stops the zip and is fixed in the source. A finding in a repo file built from `sidebar-links` is
+reported, not fixed: that file belongs to its part, not to the library.
+
+**Output.** `<library>/editions/<name>/`, and outside `private`, `<library>/editions/<name>-MMDDYY.zip`. Both are
+generated: the project's ignore file lists `<library>/editions/*/` and `<library>/editions/*.zip`. The `.conf` files
+are kept.
+
+---
+
 ## Existing files
 
 Most projects already have some of these documents, often in poor shape.
@@ -118,7 +213,7 @@ Most projects already have some of these documents, often in poor shape.
 - **README.md** stays the project's own. When it exists, add one link to the tl;dr. When there is no README.md, don't
   create one: the library carries the content itself.
 - **STATUS.md** stays as it is; the library links to it.
-- **CHANGELOG.md**, when one exists, is linked, not copied.
+- **CHANGELOG.md**, when one exists, is linked, not copied, and listed in `sidebar-links` for practitioners.
 - **The previous library** (on a re-run) is material like any other existing document: keep what is still true, and
   ask about anything that conflicts with a source.
 
@@ -239,7 +334,7 @@ detailed ARCHITECTURE.md's building blocks are, whether the reference is split b
 - **First question:** what's coming, and why does it matter?
 - **Sections:**
   1. *Direction.* One paragraph: where the project is heading.
-  2. *Coming.* Items grouped by how soon, each with what it is and why a observer would care.
+  2. *Coming.* Items grouped by how soon, each with what it is and why an observer would care.
   3. *Phases or evolution* (optional): how it got here, when that explains where it's going.
 - **Diagrams:** optional: phases or a timeline.
 - **Links:** overview status; the backlog, when the contributor role is written.
@@ -370,7 +465,7 @@ detailed ARCHITECTURE.md's building blocks are, whether the reference is split b
 ### ARCHITECTURE.md (repo root)
 
 **On hold.** For now the library links to the project's current ARCHITECTURE.md and doesn't rewrite it. A first
-trial (junkdrawer, 2026-10-27) showed that this outline, applied to an existing implementation map, produces a file
+trial showed that this outline, applied to an existing implementation map, produces a file
 that is "so much more than architecture" (API routes, file trees, narrative). What an architecture document should
 hold, and whether it is one file or several, is open. The outline below is kept as a record of the M3 design.
 

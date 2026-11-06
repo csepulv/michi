@@ -1,6 +1,10 @@
 ---
 name: michi-explore
-description: Structured conversation with Michi discipline — explore ideas, research options, orient in a new space. Like a good interview: follow the thread, notice drift, surface assumptions, capture what matters.
+description: >-
+  Structured conversation with Michi discipline — explore ideas, research options, orient in a new space. Follows
+  the thread, notices drift, surfaces assumptions, and captures what matters; `peek` orients on a project or a
+  named area and stops. Use for cold starts in an unfamiliar project, research and option comparisons,
+  brainstorming, or exploring before there is enough to plan.
 ---
 
 # Michi Explore
@@ -16,6 +20,8 @@ decisions). See `references/principles.md`.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ## When to Use
 

@@ -1,8 +1,11 @@
 ---
 name: michi-sustainability
-description:
-  Assess and maintain system health — code quality, test quality, architectural alignment, and knowledge capture. Scales
-  from a brief within-milestone check to a deep between-epic review.
+description: >-
+  Assess and maintain system health — code quality, test quality, architectural alignment, and knowledge capture —
+  from a brief within-milestone check to a deep between-epic review. Optional sub-modes: reuse audit (libraries that
+  would replace hand-rolled code), doc drift audit with token-tax measurement, doc compress at epic close, and
+  archive candidates. Use between milestones or epics, when the user asks for a health check, or when closing,
+  compressing or archiving an epic, auditing docs for staleness, or looking for code a library should replace.
 ---
 
 # Michi Sustainability Check
@@ -16,6 +19,8 @@ next iteration). Surface assumptions (identify drift or unchallenged assumptions
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 **Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, name the scope at session start:
 
@@ -45,37 +50,10 @@ intended), **in progress** (partial, with known next steps), **known gap** (miss
 **unknown gap** (missing, and we only just noticed). Unknown gaps are the valuable discoveries — the ones that wouldn't
 surface without deliberate review. Name them explicitly so they don't fade back into invisibility.
 
-### Code Quality
+### Code Quality, Test Quality, Architectural Alignment
 
-- [ ] **Refactoring pass** — Scan recent changes for duplication, unclear naming, functions doing too many things. Does
-      the code reveal its intent?
-- [ ] **Readability audit** — Can someone scan this code and understand what it does and why, without reading every
-      line? Are names describing intent, not mechanism?
-- [ ] **Separation of concerns** — Are domain logic, orchestration, and presentation properly separated? Would you have
-      to rewrite logic to use it with a different UI?
-- [ ] **Dead code** — Unused imports, unreachable branches, or commented-out code from recent work?
-
-### Test Quality
-
-- [ ] **Mock appropriateness** — Are mocks at I/O boundaries (network, storage, timers), not between internal modules?
-      Any mocks hiding real behavior?
-- [ ] **Test readability** — Do test names describe behavior? Is test data human-readable (ISO dates, not epoch
-      numbers)? Are expected values concrete, not regex patterns?
-- [ ] **Intent vs implementation** — Do tests assert on outcomes, or on which internal methods were called? Would tests
-      break if you refactored without changing behavior?
-- [ ] **Coverage gaps** — Are there obvious scenarios not tested? Edge cases, error paths, integration boundaries?
-- [ ] **Speed tradeoff** — Is the suite fast enough for tight feedback, but not so shallow that speed costs meaning? A
-      5-10 second suite with meaningful tests beats a sub-second suite with shallow ones.
-
-### Architectural Alignment
-
-- [ ] **Design intent** — Does accumulated code match the intended architecture? Has design drifted in a direction that
-      should be acknowledged or corrected?
-- [ ] **Design evolution** — Has the work revealed that the original design should change? If so, is that captured?
-- [ ] **Consistency** — Naming conventions, file organization, and patterns consistent across the codebase? Recent work
-      introducing inconsistencies?
-- [ ] **Cross-package coherence** — If the project spans packages, are boundaries clean? Contracts between packages
-      explicit?
+Read `references/health-checklists.md` and work through its *Code Quality*, *Test Quality* and *Architectural
+Alignment* checklists. (`michi-second-look` applies the same checklists from outside the session.)
 
 ### Knowledge and Questions
 
@@ -109,39 +87,17 @@ The "Reuse Over Reinvention" principle says: prefer existing libraries over cust
 simplifies. This sub-mode turns that principle into a systematic scan of a module or area. **Not default** — offer it
 when the code shows the signals, then run only if the human agrees.
 
-**Signals the code might warrant an audit:**
-
-- Regex-heavy parsing of well-known formats (frontmatter, CSV, TOML, Markdown, etc.)
-- Duplicated patterns across files — the same parse/format/merge logic repeated
-- Manual implementations of solved problems (deep merge, glob matching, path expansion, retry, rate limiting)
-- Verbose I/O wrappers that a utility library handles (recursive copy, temp directories, file watching)
-- Hand-built JSON/YAML/TOML/Markdown serialization
-
-If none of these signals are present, skip — the code is likely doing domain work, not reinventing.
+**Signals the code might warrant an audit:** see *Reuse Audit: Signals* in `references/health-checklists.md`. If
+none are present, skip.
 
 **If the human agrees to run the audit:**
 
 1. **Scope it.** One module or directory at a time. Read every file in scope before evaluating anything — get the full
    picture of patterns and constraints (dependency injection, factory functions, etc.) before proposing changes.
 2. **List candidates.** For each, note what it would replace, how many lines, and which files.
-3. **Evaluate each candidate against pass/fail criteria.** A library earns its place when it passes ALL of:
-   - **Net simplification** — measurable reduction (lines removed > lines added for import + wrapper). Target: at
-     least 30% reduction in the affected code.
-   - **Removes duplication** — eliminates repeated patterns across files, or consolidates a concern into one proven
-     implementation.
-   - **Well-maintained** — actively maintained, widely used, minimal dependency tree. Check weekly downloads and last
-     publish date.
-4. **And the library must NOT:**
-   - **Break existing patterns** — if the codebase uses `deps={}` injection for testability, a library that requires
-     module-level singletons is disqualified.
-   - **Force public-API changes** — sync→async migrations, changed return shapes, new error types. The ripple cost
-     often exceeds the benefit.
-   - **Save too little** — replacing 3-5 lines with a dependency adds maintenance surface (version bumps, breaking
-     changes, supply chain) without meaningful simplification.
-   - **Just swap approaches** — `Object.assign` for `deepmerge` when the merge is shallow, `execFileSync` for `execa`
-     when the call is already a one-liner. Different is not simpler.
-   - **Replace domain logic disguised as reinvention** — custom code handling business-specific edge cases or
-     priority ordering is purpose-built, not reinvented.
+3. **Evaluate each candidate against the pass/fail criteria** in *Reuse Audit: Criteria*
+   (`references/health-checklists.md`). A library earns its place only if it passes all of the positive criteria and
+   none of the disqualifiers.
 
 ### Audit Output
 
@@ -244,7 +200,7 @@ Only these:
   plan). Captures result, not the messy path that got there — **and what was asked for and not delivered.** A
   requirement that was dropped, narrowed or deferred stays visible as such, with the reason if it is known.
   Compression shortens the record; it does not turn an unmet requirement into a success.
-- **Revised `verification.md`** — overview of how the epic was verified. Light on details; the automated tests
+- **Revised `verification/test-plan.md`** — overview of how the epic was verified. Light on details; the automated tests
   are the long-lived artifact, and this doc points at them and explains the approach.
 - **`memory.md`, `journal.md`, `STATUS.md` if local to the epic** — preserved as historical record of how the work
   unfolded.
@@ -276,7 +232,7 @@ Work through these in order:
 3. **Revise `spec.md`** — rewrite as an overview of actual requirements and the milestones actually shipped.
    Drop original-plan *detail* that didn't survive. Keep any original *requirement* that was not met, marked as
    not met.
-4. **Revise `verification.md`** — light overview of the verification approach. Point at the long-lived
+4. **Revise `verification/test-plan.md`** — light overview of the verification approach. Point at the long-lived
    automated tests rather than restating them.
 5. **Cut** plans, per-milestone debriefs, scratch notes, in-progress discussion docs that have served their
    purpose. Keep any epic-local `memory.md` / `journal.md` / `STATUS.md`.
@@ -326,9 +282,9 @@ May 1, 2026):
 Two purposes: (1) you can tell at a glance when something was archived; (2) it prevents name conflicts if the
 original name is reused later (a new "chat-plugin" epic doesn't collide with the archived one).
 
-Use `git mv` for git-tracked artifacts to preserve history. The agent runs `git mv` directly — it's the one git
-mutation the agent is permitted. For bulk archive sweeps (more than ~5 files), surface the list and confirm before
-running.
+Use `git mv` for git-tracked artifacts to preserve history. Who runs it follows the project's git policy
+(CLAUDE.md): the human, or the agent where the policy allows it. For bulk archive sweeps (more than ~5 files),
+surface the list and confirm before running.
 
 ### Don't Archive
 
@@ -339,8 +295,8 @@ running.
   doc often still earns shelf space if newer work cites it
 
 The human decides what gets moved. Archiving is destructive-feeling and benefits from a human eye on each call.
-Surface candidates in the findings; once approved, the agent runs the `git mv` (individual renames directly; confirm
-the full list before bulk sweeps).
+Surface candidates in the findings; once approved, the `git mv` runs per the project's git policy (confirm the full
+list before bulk sweeps).
 
 ## Output
 
@@ -366,6 +322,6 @@ health picture, update STATUS.md before closing out — and the relevant `journa
 Follow the **STATUS reflex** in `references/ground-rules.md` — fix, subtract, stamp. Not conditional on "anything
 significant changed."
 
-For deeper checkpoint-style outputs (readiness assessments, milestone-end reviews), `toolkit/checkpoint-doc-formats.md`
+For deeper checkpoint-style outputs (readiness assessments, milestone-end reviews), `references/checkpoint-doc-formats.md`
 offers optional structured formats — Readiness Checklist, Assessment-doc tables, Operational Guide. Use when the
 lightweight Output above isn't enough.

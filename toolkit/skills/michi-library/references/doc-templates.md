@@ -4,6 +4,9 @@ Shapes for the `scope` and `epic` targets. The `project` target's templates are 
 `references/project-templates.md`. **These are shapes, not forms to fill.** A section with nothing true to
 say in it gets deleted, not padded. See the *Don't invent to fill a template* discipline in `SKILL.md`.
 
+Contents: The S Layer (start-here) · The Handoff Artifact (scope target) · The Epic Overview (epic target) ·
+Re-Derivation
+
 ---
 
 ## The S Layer (start-here)

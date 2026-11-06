@@ -35,8 +35,9 @@ A visual exhibit is a **claim** — same discipline as any finding:
 ## Where it appears (the docs site)
 
 The docs site (Astro + Starlight; the project's `extensions.md` has the path) renders docs + figures. After
-adding/updating, refresh it: `npm run sync` (re-copies content + figures; a running `npm run dev` hot-reloads) or
-`npm run build` (static). The site copies `figures/*` automatically.
+adding/updating, refresh it: `npm run sync` (re-copies content; a running `npm run dev` hot-reloads) or
+`npm run build` (static). Check that the site's sync copies `figures/*` too: a site scaffolded by `michi-docs-site`
+syncs only `.md` files, so copy the figures yourself or extend its `sync.sh`.
 
 ## Keep the boundary (essential vs. incidental)
 

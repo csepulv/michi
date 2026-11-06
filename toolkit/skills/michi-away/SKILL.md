@@ -26,6 +26,8 @@ priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
 
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
+
 ## Entry — before the human leaves
 
 Do this while they're still here. It's the last Paired moment.
@@ -87,7 +89,8 @@ Stop when either holds:
   times (Rule of 3).
 - **Nothing unblocked is left** — every remaining path goes through a block.
 
-On stop: update `## Position` with why you stopped, write `## Return briefing`, apply the STATUS reflex, and end.
+On stop: update `## Position` with why you stopped, write `## Return briefing`, apply the STATUS reflex
+(`references/ground-rules.md`), and end.
 Don't idle-poll.
 
 ## Surviving compaction

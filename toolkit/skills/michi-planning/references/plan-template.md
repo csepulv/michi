@@ -80,6 +80,11 @@ Then [expected outcome]
 
 [Empty — agent fills during implementation with gotchas, surprises, things to remember]
 
+## Discussion
+
+[Empty — agent fills during implementation with items for human review: tensions with north stars, conflicts with
+the human's words, open choices]
+
 ## Verification
 
 ### During Implementation (fast feedback)

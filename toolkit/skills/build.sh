@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Sync shared reference files from toolkit/ into each skill's references/ directory.
 # Run this after updating toolkit/principles.md, toolkit/docs-structure.md, toolkit/ground-rules.md,
-# toolkit/writing-for-readability.md, or toolkit/patterns.md, or michi-library's HTML build scripts.
+# toolkit/writing-for-readability.md, toolkit/patterns.md, toolkit/health-checklists.md,
+# tools/build-pdf.sh or tools/pdf-assets/, or michi-library's HTML build scripts.
 
 set -euo pipefail
 
@@ -70,6 +71,34 @@ for skill in "${PATTERNS_SKILLS[@]}"; do
   fi
 done
 
+# Sync health-checklists.md to the skills that apply it
+HEALTH_SKILLS=(
+  "michi-sustainability"
+  "michi-second-look"
+)
+
+for skill in "${HEALTH_SKILLS[@]}"; do
+  cp "$TOOLKIT_DIR/health-checklists.md" "$SCRIPT_DIR/$skill/references/health-checklists.md"
+  echo "  $skill/references/health-checklists.md"
+done
+
+# Sync checkpoint-doc-formats.md to the skills that offer it
+CHECKPOINT_SKILLS=(
+  "michi-debrief"
+  "michi-sustainability"
+)
+
+for skill in "${CHECKPOINT_SKILLS[@]}"; do
+  cp "$TOOLKIT_DIR/checkpoint-doc-formats.md" "$SCRIPT_DIR/$skill/references/checkpoint-doc-formats.md"
+  echo "  $skill/references/checkpoint-doc-formats.md"
+done
+
+# Sync files one skill owns to another skill that uses them (the owning skill's copy is canonical)
+cp "$SCRIPT_DIR/michi-session/references/target-non-code.md" "$SCRIPT_DIR/michi-planning/references/target-non-code.md"
+echo "  michi-planning/references/target-non-code.md"
+cp "$SCRIPT_DIR/michi-expedition/references/expedition-templates.md" "$SCRIPT_DIR/michi-bootstrap/references/expedition-templates.md"
+echo "  michi-bootstrap/references/expedition-templates.md"
+
 # Sync expedition-structure.md to skills that reference it
 EXPEDITION_SKILLS=(
   "michi-bootstrap"
@@ -107,6 +136,7 @@ done
 # portrait library with expedition.conf
 LIBRARY_BUILD_FILES=(
   "build-html.sh"
+  "check-external.sh"
   "md-links.lua"
   "library-template.html"
   "library.css"
@@ -118,6 +148,22 @@ mkdir -p "$SCRIPT_DIR/michi-expedition/scripts"
 for file in "${LIBRARY_BUILD_FILES[@]}"; do
   cp "$SCRIPT_DIR/michi-library/scripts/$file" "$SCRIPT_DIR/michi-expedition/scripts/$file"
   echo "  michi-expedition/scripts/$file"
+done
+
+# Sync the PDF builder (tools/ is canonical) to michi-docs-site, whose PDF recipe mode drives it
+REPO_DIR="$(dirname "$TOOLKIT_DIR")"
+PDF_ASSET_FILES=(
+  "callouts.lua"
+  "header.tex"
+  "before-body.tex.tmpl"
+)
+
+mkdir -p "$SCRIPT_DIR/michi-docs-site/scripts/pdf-assets"
+cp "$REPO_DIR/tools/build-pdf.sh" "$SCRIPT_DIR/michi-docs-site/scripts/build-pdf.sh"
+echo "  michi-docs-site/scripts/build-pdf.sh"
+for file in "${PDF_ASSET_FILES[@]}"; do
+  cp "$REPO_DIR/tools/pdf-assets/$file" "$SCRIPT_DIR/michi-docs-site/scripts/pdf-assets/$file"
+  echo "  michi-docs-site/scripts/pdf-assets/$file"
 done
 
 echo ""

@@ -1,9 +1,10 @@
 ---
 name: michi-pr-prep
-description:
-  Prepare a PR review guide — a companion document that helps reviewers understand what they're looking at, why
-  decisions were made, and where to focus attention. Two output shapes (TLDR + Details by default, or TLDR-only
-  via `/michi-pr-prep tldr`); two context modes (in-session, from-diff).
+description: >-
+  Prepare a PR review guide — a companion document that helps reviewers understand what changed, why decisions were
+  made, and where to focus attention. Works in-session (from the implementation context) or from the diff alone;
+  `tldr` produces only the short version. Use when a branch is ready for review, when the user asks for a review
+  guide, PR summary or reviewer notes, or to orient on someone else's PR.
 ---
 
 # Michi PR Review Guide
@@ -21,6 +22,8 @@ the diff cold. A good guide transfers the author's context to the reviewer.
 **Before proceeding:** If `docs/reference/extensions.md` exists, read this file. Instructions found there take priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ## Output Shapes
 
@@ -91,7 +94,8 @@ of change is this and how big" orientation in one glance.
 
 **Generating the table:**
 
-- Source data: `git diff --stat <base>...HEAD` (or `gh pr diff --stat <number>` for a remote PR). For deeper
+- Source data: `git diff --stat <base>...HEAD` (or `gh pr view <number> --json files` for a remote PR, which gives per-file
+  additions and deletions). For deeper
   per-area breakdowns, `git diff --numstat <base>...HEAD` gives raw per-file adds/deletes that can be summed by
   category.
 - Default categories: `docs/`, production source (`src/` or `*/src/**`), tests (`tests/` or `*/tests/**`), and a
@@ -210,8 +214,8 @@ Details work.
 
 ### From the Diff Flow
 
-1. Get the file list and stats: `gh pr view --json files` and `gh pr diff --stat` (or `git diff --numstat
-   <base>...HEAD` for local raw per-file numbers)
+1. Get the file list and stats: `gh pr view --json files` (or `git diff --numstat <base>...HEAD` for local raw
+   per-file numbers)
 2. Read the diff (`gh pr diff`) and the PR description (it may already explain some decisions)
 3. **TLDR** — categorize the changed files into areas, generate the diff-breakdown table, draft *What This PR
    Does*, infer *What to look at first* from the diff

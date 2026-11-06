@@ -63,35 +63,7 @@ Scenario: User creates a drawer and searches within it
 The agent executes these steps literally — making API calls, querying data stores, verifying assertions. Pass or fail
 per step.
 
----
-
-## The Verification Checklist
-
-After completing a milestone's implementation:
-
-1. **Self-review** — re-read the diff against acceptance criteria. Check for hardcoded assumptions, missing schema
-   updates, URL construction issues.
-2. **Execute Level A scenarios** — run each Given-When-Then sequence from the plan doc. Report pass/fail per step.
-3. **Unit tests pass**
-4. **Integration tests pass**
-5. **Cross-package schemas updated** — if new types, enum values, or service names were introduced
-6. **No hardcoded caller assumptions** — grep for hardcoded source/service/caller strings in shared code
-7. **Scope check** — compare diff against the plan's scope. If implementation expanded, log as a decision.
-
-Every item is mandatory. Do not skip any. Do not declare "done" until all pass.
-
----
-
-## Scope Creep Check
-
-Research shows agents exceed their stated instructions approximately 25% of the time (Spotify's LLM judge data). Also
-observed in other milestones, where the agent autonomously expanded scope.
-
-After completing verification, compare diff against `## Scope`:
-
-- Did you implement only what was planned?
-- Did you add features, refactoring, or "improvements" beyond scope?
-- If scope expanded: log as a decision with classification (design-choice or contract-change)
+The checklist itself is in `target-code.md` (code) and `target-non-code.md` (non-code).
 
 ---
 

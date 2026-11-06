@@ -15,7 +15,9 @@ $endif$
 <body>
   <header class="site-header">
     <a class="site-name" href="$home$">$project$ <span>library</span></a>
+$if(source)$
     <p class="generated">Generated from <a href="$source$">$source-name$</a>. Edit the markdown, not this page.</p>
+$endif$
   </header>
   <nav class="role-tabs" aria-label="Roles">
 $tabs$

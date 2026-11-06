@@ -3,7 +3,7 @@ name: michi-loop
 description: >-
   Set up and launch a disciplined lights-off loop — gate readiness, define the
   goal/verifier/stop contract, hand off to a loop mechanism, review at halt. For convergent work
-  with a verifier you can trust. The convergent + autonomous counterpart to michi-expedition.
+  with a verifier that can be trusted. The convergent + autonomous counterpart to michi-expedition.
 disable-model-invocation: true
 ---
 
@@ -21,6 +21,8 @@ It is the **convergent + autonomous** lane — the sibling of `michi-expedition`
 Entrusted-spiral). The boundary between them is the *form of verification you can answer* (see the Gate).
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ## When to use (and when not)
 
@@ -147,8 +149,8 @@ control surface, enacted:
 - **Interrupt** — a known, clean halt: stop the `/loop` or scheduled job, `TaskStop` a `Workflow`, or
   kill the headless process. The isolation is what makes an abrupt halt safe.
 
-Watch the first runs. Reuse, don't reinvent: the bundled `verify` skill and quality-gate loop patterns
-exist.
+Watch the first runs. Reuse, don't reinvent: a verification skill, if one is installed, and quality-gate loop
+patterns exist.
 
 ## 7. Review — lights back on
 

@@ -18,7 +18,7 @@ good scenario describes what the user wants to accomplish and how they'd know it
 
 Include scenarios in the task description as acceptance criteria. The agent uses them to understand what "done" means.
 
-**When to use:** Level 2-3 autonomy (supervised pipelines, autonomous with guardrails). The agent sees the scenarios and
+**When to use:** Entrusted work (supervised pipelines, autonomous with guardrails). The agent sees the scenarios and
 works toward them.
 
 **Strength:** Improves output quality by making expectations concrete. **Weakness:** The agent can over-fit to scenarios
@@ -29,7 +29,7 @@ rather than building a genuinely correct solution.
 Write scenarios the implementing agent never sees. After the agent completes work, a separate verification process runs
 holdout scenarios against the output.
 
-**When to use:** Level 3-4 autonomy (autonomous loops, self-improving systems) — e.g., as the
+**When to use:** Fully autonomous work (autonomous loops, self-improving systems) — e.g., as the
 independent-judgment verifier for a `michi-loop` run. Inspired by machine learning holdout/test sets.
 
 **Strength:** The agent can't game what it can't see. Catches "teaching to the test." **Weakness:** Requires
@@ -91,7 +91,7 @@ for human review gates. As confidence grows, promote C → B → A by making cri
 3. **Allocate** — Decide which go into task specs (Pattern 1) vs. holdout (Pattern 2)
 4. **Implement** — Convert Level A scenarios into runnable test code (separate skill/tool)
 5. **Run** — Execute as part of verification gates
-6. **Evolve** — When the factory produces bad output, ask: "What scenario would have caught this?" Add it.
+6. **Evolve** — When the agent produces bad output, ask: "What scenario would have caught this?" Add it.
 7. **Rotate** — Per Kaner: don't reuse the same scenarios forever. Create variations. Rotate old scenarios out of
    holdout.
 
@@ -113,7 +113,7 @@ verification: if pass/fail is ambiguous, an agent will get it wrong.
 
 ## Research-Informed Updates
 
-Findings from a survey of current practices in agent-based verification (March 2026):
+Findings from a survey of practices in agent-based verification:
 
 ### Harness Engineering (OpenAI Codex)
 

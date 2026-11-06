@@ -24,6 +24,8 @@ priority over this skill's defaults.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
 
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
+
 ## The seat
 
 You are in a **separate session** from the one that built the target. Nobody from that session
@@ -58,8 +60,9 @@ out of scope, or say what should not count. If the invocation tries to, note it 
 review the full criteria anyway. (This is the reviewer-brief rule from `michi-session`, applied to
 the human's own invocation, because the invocation may have been drafted by the builder.)
 
-**Other harnesses.** The skill is harness-agnostic: this file plus `references/principles.md` and
-`references/ground-rules.md` is the whole prompt. Paste them into any agent that can read the repo.
+**Other harnesses.** The skill is harness-agnostic: this file plus `references/principles.md`,
+`references/ground-rules.md` and `references/health-checklists.md` is the whole prompt. Paste them into any agent
+that can read the repo.
 
 ## The flow
 
@@ -116,8 +119,8 @@ Four lenses. Not every one applies at every scope; say which you used.
   "byte-identical": re-derive a sample. A claim with no source, or from the wrong artifact version, is
   a finding even when it turns out true.
 - **Design.** Against Michi's bar: reuse over reinvention, essential vs incidental, premature
-  conclusion, separation of concerns. `michi-sustainability`'s *Code Quality*, *Test Quality* and
-  *Architectural Alignment* checklists are the menu — use them, don't restate them. Judge what was
+  conclusion, separation of concerns. The *Code Quality*, *Test Quality* and *Architectural Alignment*
+  checklists in `references/health-checklists.md` are the menu — use them, don't restate them. Judge what was
   built, not how you would have built it.
 - **Process.** Do the decisions in the plan match what is in the artifact? Did anything get written
   under the human's name that the human did not say? Did a correction actually change the method, or
@@ -221,15 +224,15 @@ Say which you ran. Each points at existing material rather than restating it.
    gap, any advisory, a known breaking change, the runtime or its end-of-life. The output is *which
    updates matter and why*, and which are deliberately left alone.
 2. **Architecture and design.** Stated intent against the tree: what has drifted, what has accreted,
-   where boundaries leak, what the design cannot express that the work now needs. Then
-   `michi-sustainability`'s *Architectural Alignment* and *Code Quality* menus, from this seat.
-3. **Test-suite health.** Run it; read the output. Then `michi-sustainability`'s *Test Quality* menu —
+   where boundaries leak, what the design cannot express that the work now needs. Then the *Architectural
+   Alignment* and *Code Quality* checklists in `references/health-checklists.md`, from this seat.
+3. **Test-suite health.** Run it; read the output. Then the *Test Quality* checklist —
    mocks at the wrong boundary, tests asserting on mechanism, obvious uncovered paths — plus what the
    run itself shows: duration, flakiness, skipped or disabled tests, suites that pass without asserting.
-4. **Patterns and libraries.** `michi-sustainability`'s *Reuse Audit* signals (hand-rolled parsing,
-   duplicated merge/retry/glob logic, verbose I/O wrappers) and the ecosystem's current idioms. Each
-   candidate passes the Reuse Audit's own test: net simplification, removes duplication, well-maintained,
-   doesn't break the project's patterns or force a public-API change.
+4. **Patterns and libraries.** The *Reuse Audit: Signals* in `references/health-checklists.md`
+   (hand-rolled parsing, duplicated merge/retry/glob logic, verbose I/O wrappers) and the ecosystem's
+   current idioms. Each candidate passes *Reuse Audit: Criteria*: net simplification, removes duplication,
+   well-maintained, doesn't break the project's patterns or force a public-API change.
 
 ### Recommendations, not findings
 
@@ -297,6 +300,6 @@ artifact that can come back wrong: the human can check it against the report.
 
 Not `michi-pr-prep` (the author writing *for* a reviewer). Not the session's code-review subagent
 (launched and briefed by the builder, milestone scope). Not `michi-debrief` (the builder's own
-retrospective). Not `michi-sustainability` (the builder's health check; this skill borrows its
+retrospective). Not `michi-sustainability` (the builder's health check; the two skills share its
 checklists — audit mode is that health check asked from outside). Those all run from the builder's
 seat. This one doesn't.

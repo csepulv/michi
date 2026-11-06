@@ -25,6 +25,8 @@ toolkit's; a project's substrate specifics — field dictionaries, seeds, target
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
 
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
+
 **Principles served:** See `references/principles.md`. Especially: *Learning Mode vs. Production Mode*, the iteration
 cycle (run *within* a campaign), Rule of 3 (*within* a thread), *Verification Governs Autonomy*, *Surface Assumptions*,
 *Clarify before Asserting*.

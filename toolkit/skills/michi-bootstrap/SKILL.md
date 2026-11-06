@@ -1,8 +1,12 @@
 ---
 name: michi-bootstrap
-description:
+description: >-
   Onboard a project to the Michi documentation structure — survey what exists, recommend what to build (S/M/L/XL effort
-  tiers), and walk the user through setup interactively.
+  tiers), and walk the user through setup interactively. Also adds a project's `extensions.md` overrides
+  (`customize`), migrates a repo to the multi-project layout (`multi-project`), and scaffolds an expedition root
+  (`expedition`). Use when setting up Michi in a new or existing project, re-running to close gaps in a partial
+  setup, or when the user asks to customize Michi for a project, split a repo into sub-projects, or start an
+  expedition.
 ---
 
 # Michi Bootstrap
@@ -15,6 +19,8 @@ for a brand-new project or an existing one being prepared for Michi work.
 See `references/principles.md`.
 
 **Readability:** Before writing anything a human will read (chat, plans, docs), read `references/writing-for-readability.md`.
+
+**Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
 ## When to Use
 
@@ -447,8 +453,8 @@ and the substrate notes already exist; this creates them.) Canonical layout: `re
    - `STATUS.md` — current state per charter (active/paused/dormant).
    - `iteration-log.md` — the chronological spine, newest first (header row: `date · charter · portrait · mode · pass ·
      report · promoted · human verdict · next`).
-   - `backlog.yaml` — the living queue (seed with the schema from `michi-expedition`'s
-     `references/expedition-templates.md`; define the project's `type` vocabulary with the user).
+   - `backlog.yaml` — the living queue (seed with the schema in `references/expedition-templates.md`, the
+     `michi-expedition` templates; define the project's `type` vocabulary with the user).
    - `ruminations.md` — the open/murky companion to the portraits.
    - `charters/`, `portraits/`, `campaigns/`, `reference/` — empty dirs (with a `.gitkeep` if needed).
 

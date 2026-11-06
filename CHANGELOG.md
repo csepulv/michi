@@ -9,6 +9,63 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.11.05] - 2026-11-05
+
+This release lets a project library be built for particular readers, with or without access to the repo. It also
+tightens all the skills against Anthropic's Agent Skills best practices: clearer descriptions, missing files shipped,
+and several instructions fixed that failed when followed.
+
+### Added
+
+- **Library editions: build part of a library for some of its readers.** `/michi-library project configure` now
+  defines *editions*. An edition is a selection of the library's roles (observer, practitioner, contributor), plus a
+  visibility:
+  - `private`: the readers have the repo.
+  - `colleague`: the readers don't have the repo. The edition is self-contained, and the build writes a zip of the
+    HTML.
+  - `external`: someone outside your organization. This adds a check for first-person writing, internal IDs and bare
+    repo paths.
+
+  In every edition, a role you leave out leaves no trace: its sections, marked passages, links and mentions are all
+  dropped. Documents that exist only in the repo appear only in `private` editions. `allow` and `replace` lines in the
+  edition file let you pass a term through on one page, or build a redacted copy of a file in its place.
+
+### Changed
+
+- **Skill descriptions now say when to use each skill.** Claude chooses a skill from its description alone. Nine
+  skills described what they do but not when to use them: bootstrap, debrief, docs-site, explore, planning, pr-prep,
+  session, sustainability and workshop. Each now ends with a "Use when…" clause and names its sub-modes. For example,
+  sustainability's description now mentions doc compress and archive candidates, and workshop's mentions `bugfix`.
+- **Skills read Michi's principles once per session.** Fifteen skills now tell the agent to read
+  `references/principles.md` before starting, unless it's already in context. Before, the skills only said "see" the
+  file, and in practice it was never read. `michi-diagrams` and `michi-portal` are exempt.
+- **`michi-second-look` works on its own.** Its design review and audit use the Code Quality, Test Quality,
+  Architectural Alignment and Reuse Audit checklists. Those now live in a shared `references/health-checklists.md`,
+  which ships with both `michi-second-look` and `michi-sustainability`. Before, second-look relied on the
+  sustainability skill being installed.
+- **Files the skills pointed at now ship with them.** `michi-planning` now includes the non-code target guidance,
+  `michi-debrief` and `michi-sustainability` include the optional checkpoint formats, and `michi-bootstrap` includes
+  the expedition templates it seeds `backlog.yaml` from.
+- **Archiving follows your project's git policy.** `michi-sustainability` no longer assumes the agent may run
+  `git mv`. Who runs it is up to the project's own rules.
+
+### Fixed
+
+- **`michi-docs-site` PDF mode works outside the Michi repo.** The PDF builder and its assets now ship in the skill's
+  `scripts/` folder. Before, they lived only in the Michi repo.
+- **`michi-pr-prep` no longer uses a `gh` flag that doesn't exist.** The from-diff flow called `gh pr diff --stat`.
+  It now uses `gh pr view --json files`.
+- **The plan template has a `## Discussion` section.** `michi-planning` sent items there, but its template had no
+  such section.
+- **The scenario template in `michi-scenario-test-builder` copies cleanly.** A nested code fence was closing the
+  template early.
+- **`michi-explore`'s frontmatter is valid YAML.**
+- **Expedition templates match the generated files.** A portrait's campaign history lives in a generated
+  `history.md`, which `open.md` links to. The exhibit guide no longer claims that a site built with `michi-docs-site`
+  copies figures automatically.
+- **Doc compress names the right file.** It revises `verification/test-plan.md`, not a `verification.md` that the doc
+  structure never defines.
+
 ## [2026.11.01] - 2026-11-01
 
 This release gives experiment code (research probes, prototypes, spikes) its own home, outside the docs and the
