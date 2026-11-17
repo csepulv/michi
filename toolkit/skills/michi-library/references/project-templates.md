@@ -33,7 +33,8 @@ the project uses in its own sense counts as a project idea.
 
 **Observers and practitioners may not have the repo.** Their documents link only to other library documents and to
 the web. A repo file they need (a package README, CHANGELOG.md) is listed in `<library>/sidebar-links`, so that an
-edition without the repo can carry it as a page (*Editions*, below). Contributor documents may link into the repo:
+edition without the repo can carry it as a page (*Editions*, below); a file listed for several roles is carried once
+per role, as a library document listed for several roles is built. Contributor documents may link into the repo:
 contributors work in it.
 
 **A role's content stays with the role.** It lives in that role's documents. In a document every role reads (the
@@ -88,7 +89,8 @@ documents than these (*Documents beyond the templates*, below).
 choose another location; CLAUDE.md records it under `## Michi` as `library-root: <path>`. STATUS.md and
 ARCHITECTURE.md stay at the repo root. A part with its own Michi root docs (`docs/<name>/STATUS.md`,
 `ARCHITECTURE.md`) uses those. Each part's documents go in a subfolder named for the part (`library/<part>/`). The
-HTML is generated into `library/html/`, and each edition into `library/editions/<name>/`.
+HTML is generated into `library/html/`, and each edition into `library/editions/<name>/`. Every page has a search box
+over that build's own pages, which works from disk; it needs no setup.
 
 ---
 
@@ -124,7 +126,15 @@ it with the rest.
 
 **In the sidebar.** List it in `<library>/library.conf`, one `doc|<file>|<label>|<role>` line per document. The
 build adds it to that role's sidebar, after the templated documents. A part's extra document goes in the part's
-folder; the same line covers it there.
+folder; the same line covers it there. A document listed for several roles (`doc|<file>|<label>|observer,practitioner`)
+is built once per role, so a reader who opens it from their sidebar stays in their role: the first role's page keeps
+the file's name, each later role's is `<name>--<role>.html` beside it, and each role's pages link to its own.
+
+**Part labels.** The sidebar and the pager name a part by its folder. When folder names would confuse a reader, a
+`part|<folder>|<label>` line in `library.conf` gives the part a label to show instead (`part|web|Web client`). Paths
+and edition `parts` lines keep the folder name. The build stops on a `part` line for a folder that isn't a part, a
+second line for the same folder, a label given to two parts, and an edition `parts` line naming anything but a part
+folder.
 
 ---
 
@@ -143,9 +153,9 @@ repo. A build with no edition named is the whole library, for readers with the r
 
 **The name comes from the choices:** the roles joined by `-`, then the visibility unless it is `private`
 (`observer-practitioner-colleague`, `observer-practitioner`). Overrides are set only when the user asks: a different
-name, the parts to keep, documents to leave out, terms to let through (below), and replacements: a redacted version
-of a file, built in its place, under its name, with links to it reaching the replacement. Replacements live in
-`<library>/editions/`, are written by hand, and drift when their originals change.
+name, the parts to keep, documents to leave out, terms to let through (below), replacements (a redacted version
+of a file, built in its place, under its name, with links to it reaching the replacement), and files to carry (below).
+Replacements live in `<library>/editions/`, are written by hand, and drift when their originals change.
 
 **The file** is `<library>/editions/<name>.conf`:
 
@@ -156,11 +166,24 @@ parts|core,auth              # override: only these parts
 exclude|roadmap.md           # override: leave these documents out
 allow|overview.md|project.md # override: let this term through on this page
 replace|packages/auth/README.md|editions/auth-readme.md   # override: build this instead
+carry|schema/app-schema.json  # override: ship this file as it is
+carry|demo/player/index.html|demo/player/standalone.html   # override: ship the second file in the first's place
 ```
 
+**Carried files.** Outside `private`, a page can link to or embed (raw HTML `href`/`src`) a file that isn't a page,
+such as a downloadable schema or a self-contained player, only when the edition carries it. A `carry` line names the
+file, relative to the library or to the repo root (a leading `/` means the repo root); a second path ships that file in
+the first one's place. The file is copied as it is to the bundle's `assets/`, at its repo path, and links and raw HTML
+pointing at it (written from the source page, or from the built page as the private build expects) reach the copy.
+Only files an edition names are carried; any other such link still stops the build. A `carry` line naming a missing
+file, a file outside the repo, or a markdown file (a page is built, not carried) stops the build. Carried files aren't
+checked, so the build lists each one.
+
 **What the build leaves out.** Roles, parts, and documents outside the edition; the tl;dr and the glossary are always
-in. A document listed under two roles, whose first role is outside the edition, is built under the first role inside
-it. In every edition, a role the edition leaves out leaves no trace:
+in. A document listed under several roles takes its plain name from the first role inside the
+edition, and gets a copy for each other role the edition keeps. The edition's search covers only its own pages, and
+its index is built from each page after the drops below, so it holds nothing the edition left out. In every edition,
+a role the edition leaves out leaves no trace:
 
 - A section whose heading (below the page title) names the role ("Contributors", "For contributors", "Contributor
   guide") is dropped with everything under it, down to the next heading of the same or a higher level.
@@ -188,12 +211,19 @@ and its attributes, link targets, image titles, and its diagrams' labels) and st
 Each finding names the page as an `allow` line names it: relative to the library, or the repo path of a carried file.
 The fix is in the source (reword the passage, move it under a role heading, or mark it), or, when the term is fine for
 this edition's readers, an `allow|<page>|<term>` line in the edition file. An `allow` line is written only on the
-user's yes. A `replace` line that names no page in the library stops the build.
+user's yes. The build reports an `allow` line that silenced nothing, so stale lines show. A `replace` line that names
+no page in the library stops the build.
 
 **The external check** (`scripts/check-external.sh`) reports first-person subjects, internal identifiers (`M19`,
-`S114`, `§2.48b`), and bare repo paths, with file and line, on every page an `external` edition builds. A finding in a
-library document stops the zip and is fixed in the source. A finding in a repo file built from `sidebar-links` is
-reported, not fixed: that file belongs to its part, not to the library.
+`S114`, `§2.48b`), and bare repo paths on every page an `external` edition builds. It reads the page as the edition
+ships it, after the drops above, so a passage dropped for a left-out role gives no finding; a replaced page is
+checked as its replacement. Each finding names the page and the passage it is in (its first words), since the
+shipped text's lines aren't the source's. A finding in a library document stops the zip. It is fixed in the source,
+or, when the text is right as it is (a product name, quoted speech), let through on its page by an `allow` line. The
+term can be a phrase, such as a two-word name: it lets a word through only in a passage where every use of the word
+is inside the page's allowed phrases, so the word on its own, in that passage or elsewhere on the page, is still
+reported. Two quoted phrases in one passage can each have their own line. A finding in a repo file built from `sidebar-links` is reported, not fixed: that file belongs to its part, not
+to the library. Run alone on a file, the script reports file and line.
 
 **Output.** `<library>/editions/<name>/`, and outside `private`, `<library>/editions/<name>-MMDDYY.zip`. Both are
 generated: the project's ignore file lists `<library>/editions/*/` and `<library>/editions/*.zip`. The `.conf` files

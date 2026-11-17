@@ -32,6 +32,10 @@ verification governs autonomy, and sustain the system.
 
 **Principles:** Before starting, read `references/principles.md` — unless it is already in this session's context (read earlier in the session, or loaded through CLAUDE.md).
 
+**Multi-project repos:** If the repo has `multi-project: true` in CLAUDE.md, the project-level journal is the journal
+of the project the work belongs to: `docs/ROOT/journal.md` for the umbrella, `docs/<name>/journal.md` for a
+sub-project. Read that path wherever this skill says `docs/journal.md`.
+
 ## The Disciplines
 
 These always apply. They're what makes this Michi and not just winging it.
@@ -115,7 +119,8 @@ appropriate to bug fixes:
 - **Verify with a regression test.** The reproduction case becomes the test. The full suite still runs before
   declaring done.
 - **Light docs by default.** A `docs/journal.md` entry is usually enough — date, what broke, root cause, fix in one
-  line, regression test added. **Confirm with the user** if uncertain whether more is warranted (a flat-file epic,
+  line, regression test added, and a `**Behavior change:**` record if the fix changed behavior something relied on
+  (see Behavior Changes below). **Confirm with the user** if uncertain whether more is warranted (a flat-file epic,
   an epic-journal entry, or a pattern in `docs/reference/patterns.md`). When in doubt, ask.
 - **Escalate if it stops being a bug fix.** Scope creep ("while I'm in here…") is the failure mode. If the diagnosis
   reveals the fix needs explicit design discussion or touches multiple subsystems, surface that and offer to switch to
@@ -163,6 +168,20 @@ Workshop work doesn't get its own document tier. It rolls up based on scope:
 - **Bug fixes and small workshops:** a `docs/journal.md` entry is enough (see Bug-Fix Mode above).
 - **Sometimes the code and commits are the whole artifact.** A typo fix, a one-line bug, a renamed variable — capture
   may be the commit message itself.
+
+### Behavior Changes
+
+At Capture, ask whether the work changed behavior or a contract that users, callers, other packages or other projects
+already relied on. If it did, write the record to the project-level journal yourself, even for a one-line fix whose
+other capture is the commit message; a workshop usually has no debrief to do it:
+
+> **Behavior change:** [What the behavior was.] [What it is now.] Relied on by: [who or what].
+
+The paragraph sits in the project-level journal: inside the workshop's entry when that entry goes there, otherwise as
+an entry of its own, or as the whole entry. New behavior that nothing relied on yet needs no record.
+
+When the workshop writes a flat-file epic and the work changes or adds behavior, the epic doc states that behavior in
+its own section, apart from the decisions: rules a tester who has never seen the code could check.
 
 There's no `docs/workshop/` directory. If you find yourself reaching for one, the work belongs in an epic
 (use `/michi-planning` to scope it out) or already fits inside an existing one.

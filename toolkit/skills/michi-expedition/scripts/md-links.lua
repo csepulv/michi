@@ -10,7 +10,9 @@
 -- fails on it), and images are recorded for the build to copy into the bundle's assets/.
 -- Metadata: page_repo_dir (the source's folder), html_repo_dir (the HTML page's folder),
 -- library_dir, out_dir (the HTML folder), page_name, page_source, and page_map, the pages whose HTML
--- name isn't their markdown name ("docs/library/tldr.md=index.html,ARCHITECTURE.md=architecture.html").
+-- name isn't their markdown name ("docs/library/tldr.md=index.html,ARCHITECTURE.md=architecture.html"),
+-- and role_pages, the copies built for this page's role (a document listed for several roles), which a
+-- link reaches first.
 -- In an edition also: edition, visibility, edition_pages (every page built, in page_map's form),
 -- excluded_links (repo files the sidebar lists for a role or part the edition leaves out; links to
 -- them are treated like links to a left-out library document), repo_root, and report_file, where
@@ -23,9 +25,10 @@
 -- role's name or document title and, outside a private edition, a repo-only document; each is a TRACE.
 local page_repo_dir, html_repo_dir, library_dir, out_dir, page_name, page_source = "", "", "", "", "", ""
 local edition, visibility, repo_root, report_file = "", "", "", ""
-local page_map, edition_pages, excluded_links = {}, {}, {}
+local page_map, edition_pages, excluded_links, carried_files, role_pages = {}, {}, {}, {}, {}
 local edition_roles, left_out_roles, left_out_titles, all_roles = {}, {}, {}, {}
-local tracked_file, page_title, diagram_dir = "", "", ""
+local tracked_file, page_title, diagram_dir, shipped_file = "", "", "", ""
+local search_file, page_url, page_role, search_copies = "", "", "", {}
 local repo_names = {}
 
 local function split(path)
@@ -120,11 +123,17 @@ local function resolve(target)
   end
   local path, fragment = target:match("^([^#]*)(.*)$")
   local resolved = normalize(page_repo_dir .. "/" .. path)
+  if role_pages[resolved] then
+    return "rewrite", relative(html_repo_dir, out_dir .. "/" .. role_pages[resolved]) .. fragment
+  end
   if edition == "" then
     return "rewrite", relative(html_repo_dir, html_copy_of(resolved) or resolved) .. fragment
   end
   if edition_pages[resolved] then
     return "rewrite", relative(html_repo_dir, out_dir .. "/" .. edition_pages[resolved]) .. fragment
+  end
+  if bundled and carried_files[resolved] then
+    return "rewrite", relative(html_repo_dir, out_dir .. "/" .. carried_files[resolved]) .. fragment
   end
   if is_library_document(resolved) or excluded_links[resolved] then
     return "excluded"
@@ -152,8 +161,14 @@ function Meta(meta)
   for source, page in read("edition_pages"):gmatch("([^,=]+)=([^,]+)") do
     edition_pages[source] = page
   end
+  for source, page in read("role_pages"):gmatch("([^,=]+)=([^,]+)") do
+    role_pages[source] = page
+  end
   for path in read("excluded_links"):gmatch("[^,]+") do
     excluded_links[path] = true
+  end
+  for path, copy in read("carried_files"):gmatch("([^,=]+)=([^,]+)") do
+    carried_files[path] = copy
   end
   tracked_file = read("tracked_file")
   for role in read("edition_roles"):gmatch("[^,]+") do
@@ -168,7 +183,11 @@ function Meta(meta)
   for title in read("left_out_titles"):gmatch("[^|]+") do
     left_out_titles[#left_out_titles + 1] = title:lower()
   end
-  page_title, diagram_dir = read("pagetitle"), read("diagram_dir")
+  page_title, diagram_dir, shipped_file = read("pagetitle"), read("diagram_dir"), read("shipped_file")
+  search_file, page_url, page_role = read("search_file"), read("page_url"), read("page_role")
+  for copy_role, page in read("search_copies"):gmatch("([^,=]+)=([^,]+)") do
+    search_copies[copy_role] = page
+  end
   for name in read("repo_names"):gmatch("[^,]+") do
     repo_names[name] = true
   end
@@ -476,20 +495,56 @@ local function drop_excluded_rows(table_element)
   return {}
 end
 
--- Raw HTML isn't rewritten. Outside a private edition, a relative href or src in it would leave the
--- bundle, so it is recorded as leaving.
+-- The bundle copy of a file an edition carries, for a raw HTML href or src. The private build leaves raw
+-- HTML alone, so its author wrote the path from the built page (<library>/html/...); a path written from
+-- the source page is accepted too.
+local function carried_copy(path)
+  if path:match("^/") then
+    return nil
+  end
+  local private_dir = library_dir .. "/html" .. html_repo_dir:sub(#out_dir + 1)
+  for _, dir in ipairs({ private_dir, page_repo_dir }) do
+    local copy = carried_files[normalize(dir .. "/" .. path)]
+    if copy then
+      return copy
+    end
+  end
+  return nil
+end
+
+-- Raw HTML isn't rewritten, except, outside a private edition, an href or src that reaches a file the
+-- edition carries: it points at the copy. Any other relative href or src would leave the bundle, so it
+-- is recorded as leaving.
 local function check_raw_html(raw)
   if raw.format ~= "html" or edition == "" or visibility == "private" then
     return nil
   end
-  for _, attribute in ipairs({ "href", "src" }) do
-    for value in raw.text:gmatch("%f[%w]" .. attribute .. '%s*=%s*"([^"]*)"') do
-      if value ~= "" and not has_scheme(value) and not value:match("^#") then
-        report("OUTSIDE", value .. " (raw HTML)")
-      end
+  local changed = false
+  local function point_at_copy(value)
+    if value == "" or has_scheme(value) or value:match("^#") then
+      return nil
     end
+    local path, fragment = value:match("^([^#]*)(.*)$")
+    local copy = carried_copy(path)
+    if copy then
+      changed = true
+      return relative(html_repo_dir, out_dir .. "/" .. copy) .. fragment
+    end
+    report("OUTSIDE", value .. " (raw HTML)")
+    return nil
   end
-  return nil
+  for _, attribute in ipairs({ "href", "src" }) do
+    -- Quoted values, with either quote, then unquoted ones (which can't start with a quote).
+    raw.text = raw.text:gsub("(%f[%w]" .. attribute .. "%s*=%s*)([\"'])(.-)%2", function(before, quote, value)
+      local copy = point_at_copy(value)
+      return copy and (before .. quote .. copy .. quote) or nil
+    end)
+    raw.text = raw.text:gsub("(%f[%w]" .. attribute .. "%s*=%s*)([^%s\"'>][^%s>]*)", function(before, value)
+      local copy = point_at_copy(value)
+      return copy and (before .. copy) or nil
+    end)
+  end
+  return changed and raw or nil
 end
 
 function Link(link)
@@ -604,6 +659,9 @@ local function hidden_text(doc)
     for value in html:gmatch('="([^"]*)"') do
       parts[#parts + 1] = value
     end
+    for value in html:gmatch("='([^']*)'") do
+      parts[#parts + 1] = value
+    end
     parts[#parts + 1] = (html:gsub("<[^>]*>", " "):gsub("&[%a#%d]+;", " "))
   end
   doc:walk({
@@ -690,6 +748,92 @@ local function check_no_trace(doc)
   return nil
 end
 
+-- An external edition's check reads the page as the edition ships it, after every drop: the filter
+-- writes it out as markdown (one line per paragraph) for check-external.sh. A code block gets a class
+-- so the writer fences it (it indents one without), and the check skips fenced code.
+local function write_shipped(doc)
+  if shipped_file == "" then
+    return nil
+  end
+  local fenced = doc:walk({
+    CodeBlock = function(code)
+      if #code.classes == 0 then
+        code.classes = { "text" }
+      end
+      return code
+    end,
+  })
+  local file = assert(io.open(shipped_file, "w"))
+  -- The page title ships in <title> even when its heading sat in a dropped passage, so it is checked too.
+  file:write(page_title:gsub("\n", " ") .. "\n\n")
+  file:write(pandoc.write(fenced, "gfm", { wrap_text = "none" }))
+  file:close()
+  return nil
+end
+
+-- Search: the page as it ships, after every drop, split into index entries, one JSON object per line appended to
+-- search_file. The page's title is its first # heading, as text; the text before the next heading is a section
+-- headed by that title, and each later # or ## heading starts a section, indexed even when nothing is under it. A
+-- document's copies for other roles are listed with it, not indexed themselves (the build passes no search_file
+-- for a copy).
+local function plain_text(blocks)
+  local written = pandoc.write(pandoc.Pandoc(blocks), "plain", { wrap_text = "none" })
+  local kept = {}
+  for line in (written .. "\n"):gmatch("(.-)\n") do
+    -- A table's rules are lines of dashes and spaces only: layout, not text to search.
+    if not (line:match("^[%s%-]+$") and line:find("%-%-%-")) then
+      kept[#kept + 1] = line
+    end
+  end
+  return (table.concat(kept, " "):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", ""))
+end
+
+local function search_entry(title, section, anchor, blocks)
+  local text = plain_text(blocks)
+  if text == "" and anchor == "" then
+    return nil
+  end
+  return pandoc.json.encode({
+    page = page_url,
+    anchor = anchor,
+    title = title,
+    section = section or title,
+    role = page_role,
+    copies = search_copies,
+    text = text,
+  })
+end
+
+local function write_search_entries(doc)
+  if search_file == "" then
+    return nil
+  end
+  local lines, title, has_title, section, anchor, blocks = {}, page_title, false, nil, "", {}
+  local function close_section()
+    local line = search_entry(title, section, anchor, blocks)
+    if line then
+      lines[#lines + 1] = line
+    end
+  end
+  for _, block in ipairs(doc.blocks) do
+    if block.t == "Header" and block.level == 1 and not has_title then
+      title, has_title = pandoc.utils.stringify(block), true
+    elseif block.t == "Header" and block.level <= 2 then
+      close_section()
+      section, anchor, blocks = pandoc.utils.stringify(block), block.identifier, {}
+    else
+      blocks[#blocks + 1] = block
+    end
+  end
+  close_section()
+  local file = assert(io.open(search_file, "a"))
+  for _, line in ipairs(lines) do
+    file:write(line .. "\n")
+  end
+  file:close()
+  return nil
+end
+
 return {
   { Meta = Meta },
   { Blocks = record_empty_headings },
@@ -704,4 +848,6 @@ return {
   { Blocks = drop_empty_sections },
   { Link = Link, Image = Image, RawInline = check_raw_html, RawBlock = check_raw_html },
   { Pandoc = check_no_trace },
+  { Pandoc = write_shipped },
+  { Pandoc = write_search_entries },
 }

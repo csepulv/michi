@@ -250,8 +250,10 @@ system-health sibling. Reference only — don't modify that skill.)*
    `portraits/<subject>/history.md`; never edit those by hand).
 5. **Refresh the site** (`npm run sync` in the site dir) and confirm it renders. With no project site, build the
    portrait library's HTML: `scripts/build-html.sh --config scripts/expedition.conf <expedition-root>/portraits
-   "<Expedition>"` (tabs "For reviewers" and "For contributors", a section per portrait; `portraits/html/` is
-   generated, never edited).
+   "<Expedition>"` (tabs "For reviewers" and "For contributors", a section per portrait; a page both roles read,
+   such as Details, has a copy per role, so a sidebar click never changes the tab; a search box finds sections
+   across the portraits, from disk; `portraits/html/` is generated, never edited; the build needs pandoc 3.1.1 or
+   later).
 
 Stay on the essential (what to show + the data + the chart/guide); leave site config / theme / interactive infra to the
 presentation layer. If richer presentation is wanted, **surface it, don't hand-roll it.**

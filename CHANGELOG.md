@@ -9,6 +9,39 @@ The public repo (`csepulv/michi`) tracks `main` only — there are no release
 tags. Each public commit corresponds to one published release, with the
 matching version recorded here.
 
+## [2026.11.16] - 2026-11-16
+
+This release adds search to project libraries and keeps a reader in their role as they move around one. It also
+records every change to behavior that something already relies on, so a project keeps a history of them.
+
+### Added
+
+- **Search in project libraries.** Every page a library build makes now has a search box in its header. As you type,
+  it lists the matching sections (page, heading, role, and a short excerpt), and Enter or a click opens one. It
+  searches only that build's own pages, works when the pages are opened from disk or unzipped from an edition (no
+  server), and an edition's search can't surface anything the edition left out. It uses
+  [MiniSearch](https://github.com/lucaong/minisearch) (MIT), which ships inside the skill.
+- **Labels for a library's parts.** A part is a subfolder of the library, and the sidebar named it by its folder. A
+  `part|<folder>|<label>` line in `library.conf` now gives it a readable label in the sidebar and in Previous and Next.
+- **`carry` lines for editions.** An edition without the repo can now ship a file that isn't a page (an embedded
+  player, a JSON file a page links to) by listing it with a `carry` line. Before, such a link stopped the build.
+- **A record of each behavior change.** When planning writes an epic's spec, it asks whether the epic changes
+  anything users, callers or other projects already rely on, and states that behavior in its own section. When such a
+  change is made, the debrief (or, for small work, the workshop) writes a `**Behavior change:**` paragraph to the
+  project's journal: what it was, what it is now, and who relies on it.
+
+### Changed
+
+- **A sidebar click keeps you in your role.** A document listed for two roles (observers and practitioners, say) was
+  built once, so a practitioner who clicked it in their sidebar landed on the observers' page and sidebar. Now each
+  role gets its own page (`<name>--<role>.html` beside the first), and that role's sidebar, links and Previous/Next
+  go to it. This also applies to repo files an edition carries for two roles, and to expedition portraits.
+- **The external check reads each page as the edition ships it,** after passages for left-out roles are dropped, so
+  it no longer reports text the reader never sees. `allow` lines now cover its findings too, including phrases.
+- **Library builds need pandoc 3.1.1 or later.** The build checks at the start and says so on an older pandoc.
+- **An edition's `parts` line must name part folders.** A name that isn't one (a part's label, for example) now stops
+  the build; before, it dropped those pages without a message. A wrong `part` line in `library.conf` also stops it.
+
 ## [2026.11.05] - 2026-11-05
 
 This release lets a project library be built for particular readers, with or without access to the repo. It also

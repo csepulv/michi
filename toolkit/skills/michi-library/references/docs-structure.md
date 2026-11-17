@@ -556,6 +556,7 @@ promotion table below extracts specific findings into their long-lived homes.
 | -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Plan doc `## Decisions`    | `docs/reference/patterns.md`                              | Decision reveals a reusable pattern or anti-pattern                                        |
 | Plan doc `## Decisions`    | `CLAUDE.md`                                               | Decision should be a permanent rule for this project                                       |
+| Plan doc `## Decisions`    | Project-level `journal.md`, as a `**Behavior change:**` paragraph | A `contract-change` that altered behavior or a contract something already relied on: what it was, what it is now, what relies on it |
 | Plan doc `## Notes`        | Epic's `journal.md`                                       | Domain-specific gotcha worth preserving                                                    |
 | Plan doc `## Notes`        | `docs/reference/patterns.md` or epic's `journal.md`       | Process insight about methodology                                                          |
 | Plan doc `## Discussion`   | Resolved, deferred, or promoted to project-level question | Triaged during debrief                                                                     |
@@ -589,7 +590,7 @@ Notify the human when their involvement would change the outcome. Four triggers:
 
 | Trigger                  | Why                                                                  | Channel          |
 | ------------------------ | -------------------------------------------------------------------- | ---------------- |
-| Contract-change decision | Human may disagree with an API/schema change                         | Slack + plan doc |
+| Contract-change decision | Human may disagree with a change to behavior or a contract others rely on, or a new service type | Slack + plan doc |
 | Verification failure     | Real API call failed — may indicate a design problem, not just a bug | Slack            |
 | Blocker                  | Agent can't proceed without human input                              | Slack + plan doc |
 | Milestone completion     | Checkpoint for async review                                          | Slack            |

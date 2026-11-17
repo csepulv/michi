@@ -217,6 +217,25 @@ sections:
 - **Verification** — Level A scenarios (mandatory), unit/integration tests, cross-package checks, scope check, Level B/C
   scenarios (debrief)
 
+### Behavior in the Epic Spec
+
+When planning writes or revises the epic's `spec.md`, ask every time: **does this epic change anything that users,
+callers, other packages or other projects already rely on?** Then:
+
+- **State behavior in its own section** (`## Behavior` is a suggested heading), apart from `## Decisions`. One rule
+  per item, each one something a tester who has never seen the code could check. Mark a rule that isn't agreed yet as
+  pending. Design choices (storage, data shape, libraries) stay in Decisions, and a decision can name the behavior it
+  serves.
+- **Label each change to existing behavior** with what it was and what it becomes. Look past the decisions: a change
+  can sit in the starting point or in a milestone's description. Adding validation to an endpoint that accepted any
+  body, for example, refuses callers that worked before.
+- **If nothing existing changes, say so in one line** ("No change to existing behavior."), so a reader can see the
+  question was asked.
+
+Copy each labeled change into the Scope of the plan for the milestone that makes it, with what it was and what it
+becomes. The session reads the plan, not the spec, and logs each such change as a `contract-change` decision when it
+implements it; the debrief records it in the project-level journal.
+
 ### Epic-Level Verification Artifacts
 
 Create or update these during planning — not during debrief:

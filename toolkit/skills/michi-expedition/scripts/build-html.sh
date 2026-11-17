@@ -11,10 +11,11 @@
 # role across the top, and a sidebar with only the current role's pages, with a section for each part
 # (subfolder). The roles, the documents, and the repo files the sidebar links to come from the config:
 # project.conf (the default) for a project library, expedition.conf for an expedition's portraits. An
-# optional <library>/library.conf adds the library's own documents (doc lines), and an optional
+# optional <library>/library.conf adds the library's own documents (doc lines) and part labels (part
+# lines), and an optional
 # sidebar-links file adds other repo files. The folder is regenerated from scratch on every run, so
 # never edit it.
-# Needs pandoc and git, and mmdc on PATH or Node 22.13+ for npx (the first npx run downloads a
+# Needs pandoc 3.1.1 or later and git, and mmdc on PATH or Node 22.13+ for npx (the first npx run downloads a
 # headless browser). project-name defaults to the repo folder's name.
 set -euo pipefail
 
@@ -58,6 +59,21 @@ if ! command -v pandoc >/dev/null 2>&1; then
   echo "pandoc not found on PATH." >&2
   exit 3
 fi
+# The search index is written with pandoc's Lua JSON module, which pandoc 3.1.1 added.
+pandoc_version_at_least() {
+  local have want i
+  IFS=. read -r -a have <<<"$(pandoc --version | head -1 | sed 's/^pandoc //; s/[^0-9.].*//')"
+  IFS=. read -r -a want <<<"$1"
+  for i in 0 1 2; do
+    [[ ${have[i]:-0} -gt ${want[i]:-0} ]] && return 0
+    [[ ${have[i]:-0} -lt ${want[i]:-0} ]] && return 1
+  done
+  return 0
+}
+if ! pandoc_version_at_least 3.1.1; then
+  echo "pandoc 3.1.1 or later is needed (found $(pandoc --version | head -1))." >&2
+  exit 3
+fi
 if command -v mmdc >/dev/null 2>&1; then
   mmdc_cmd=(mmdc)
 elif command -v npx >/dev/null 2>&1; then
@@ -76,11 +92,24 @@ ROLES=()
 role_lines=()
 shared=()
 entries=()
+part_lines=()
 intro="project intro"
 
+# One part line: a folder and a label, each folder labeled once, and no label used for two folders.
+add_part_label() {
+  local file="$1" folder="$2" label="$3" line
+  [[ -n "$folder" && "$label" == *[![:space:]]* ]] || { echo "$file: a part line is part|<folder>|<label>, not 'part|$folder|$label'" >&2; exit 2; }
+  for line in ${part_lines[@]+"${part_lines[@]}"}; do
+    [[ "${line%%|*}" == "$folder" ]] && { echo "$file: a second part line for '$folder'" >&2; exit 2; }
+    [[ "${line#*|}" == "$label" ]] && { echo "$file: parts '${line%%|*}' and '$folder' have the same label, '$label'" >&2; exit 2; }
+  done
+  part_lines+=("$folder|$label")
+}
+
 # A library's own library.conf adds documents beyond the templates (doc lines, for the config's
-# roles, listed after the config's own documents) and records the library's roles (one roles line,
-# which the build only checks).
+# roles, listed after the config's own documents), gives parts display labels (part lines, checked
+# against the library's subfolders once they are listed), and records the library's roles (one roles
+# line, which the build only checks).
 read_config() {
   local file="$1" docs_only="${2:-}" kind a b c d role roles
   while IFS='|' read -r kind a b c d; do
@@ -89,7 +118,8 @@ read_config() {
       case "$kind" in
         doc) roles="$c" ;;
         roles) roles="$a" ;;
-        *) echo "$file: only doc and roles lines belong here, not '$kind'" >&2; exit 2 ;;
+        part) roles="" ;;
+        *) echo "$file: only doc, part, and roles lines belong here, not '$kind'" >&2; exit 2 ;;
       esac
       for role in ${roles//,/ }; do
         [[ " ${ROLES[*]} " == *" $role "* ]] || { echo "$file: unknown role '$role'" >&2; exit 2; }
@@ -98,6 +128,7 @@ read_config() {
     case "$kind" in
       role) ROLES+=("$a"); role_lines+=("$a|$b|$c") ;;
       roles) ;;
+      part) add_part_label "$file" "$a" "$b" ;;
       intro) intro="$a" ;;
       shared) shared+=("$a|$b|$c") ;;
       doc | link | page) entries+=("$kind|$a|$b|$c|$d") ;;
@@ -116,6 +147,7 @@ edition_parts=""
 edition_exclude=" "
 allows=()
 replaces=()
+carries=()
 replaced_pages=""
 errors=()
 
@@ -147,6 +179,11 @@ read_edition() {
         term="$(edition_value "${value#*|}")"
         [[ "$value" == *"|"* && -n "$page" && -n "$term" ]] || { echo "$file: replace is replace|<path>|<replacement>" >&2; exit 2; }
         replaces+=("$page|$term")
+        ;;
+      carry)
+        value="$(edition_value "$value")"
+        [[ -n "${value%%|*}" ]] || { echo "$file: carry is carry|<path> or carry|<path>|<file to ship in its place>" >&2; exit 2; }
+        carries+=("$value")
         ;;
       *) echo "$file: unknown entry '$kind'" >&2; exit 2 ;;
     esac
@@ -213,6 +250,15 @@ role_title() {
   echo "$1"
 }
 
+# A part's label from its part line, or its folder name.
+part_label() {
+  local line
+  for line in ${part_lines[@]+"${part_lines[@]}"}; do
+    [[ "${line%%|*}" == "$1" ]] && { printf '%s\n' "${line#*|}"; return; }
+  done
+  printf '%s\n' "$1"
+}
+
 role_blurb() {
   local line
   for line in "${role_lines[@]}"; do
@@ -237,10 +283,13 @@ repo_path() {
 # role is one of the config's roles, shared (every role: the tl;dr and the glossary), or "More" for
 # library files the config doesn't name. part is empty for the library-wide pages, or the subfolder
 # name for a part's pages (library/<part>/). An html of "link" marks a repo file the sidebar links to
-# as it is, without building a page. flag "alias" marks a page listed under a second role: it appears
-# in that role's sidebar but is built, and paged, under its first role.
+# as it is, without building a page. flag "copy" marks a document's page for a later role it is listed
+# under: built as <name>--<role>.html beside the first role's page, with that role's tab, sidebar, and
+# Previous and Next. role_copies holds "role|source|copy html" for each, so that a page for that role
+# links to its own copy.
 
 pages=()
+role_copies=()
 known=" $(printf '%s\n' "${shared[@]}" | cut -d'|' -f1 | tr '\n' ' ') "
 known+="$(printf '%s\n' "${entries[@]}" | awk -F'|' '$1 == "doc" {print $2}' | tr '\n' ' ')"
 
@@ -275,7 +324,7 @@ add_page() {
         errors+=("the replacement for $src, ${replacement#"$lib_rel"/}, doesn't exist")
         return 0
       fi
-      [[ "$2" != link ]] && replaced_pages+="$src=$2,"
+      [[ "$2" != link && "${6:-}" != copy ]] && replaced_pages+="$src=$2,"
       src="$replacement"
     fi
   fi
@@ -302,11 +351,63 @@ add_repo_link() {
     errors+=("$path is linked from the $role sidebar but isn't markdown, so the edition can't carry it")
     return 0
   fi
-  add_page "$path" "repo/${path%.md}.html" "$label" "$role" "$part"
+  add_repo_page "$path" "$label" "$role" "$part"
+}
+
+# A carried repo file's page: repo/<path>.html for the first role that lists it, and a copy,
+# repo/<path>--<role>.html, for each other role, as for a library document listed for several roles.
+# repo_page_roles holds "path|first role" for each file carried so far.
+repo_page_roles=()
+add_repo_page() {
+  local path="$1" label="$2" role="$3" part="$4" entry first_role="" count=${#pages[@]} copy_html
+  for entry in ${repo_page_roles[@]+"${repo_page_roles[@]}"}; do
+    [[ "${entry%|*}" == "$path" ]] && first_role="${entry##*|}"
+  done
+  if [[ -z "$first_role" || "$first_role" == "$role" ]]; then
+    add_page "$path" "repo/${path%.md}.html" "$label" "$role" "$part"
+    [[ -z "$first_role" && ${#pages[@]} -gt $count ]] && repo_page_roles+=("$path|$role")
+    return 0
+  fi
+  copy_html="repo/${path%.md}--$role.html"
+  if [[ -f "$repo_root/${path%.md}--$role.md" ]]; then
+    echo "$repo_root/${path%.md}--$role.md would be built over the $role copy of $path; rename it" >&2
+    exit 2
+  fi
+  add_page "$path" "$copy_html" "$label" "$role" "$part" copy
+  [[ ${#pages[@]} -gt $count ]] && role_copies+=("$role|$path|$copy_html")
+  return 0
 }
 
 add_library_page() {
   add_page "$lib_rel/$1" "${3:-${1%.md}.html}" "$2" "$4" "${5:-}" "${6:-}"
+}
+
+# One role's page of a library document: the document's own page for the first role added
+# ($first_added empty, set here once a page is added), a copy for each later one.
+add_role_page() {
+  local rel="$1" label="$2" role="$3" part="$4" count=${#pages[@]} copy_html
+  if [[ -z "$first_added" ]]; then
+    add_library_page "$rel" "$label" "" "$role" "$part"
+    [[ ${#pages[@]} -gt $count ]] && first_added=yes
+    return 0
+  fi
+  copy_html="${rel%.md}--$role.html"
+  if [[ -f "$library/${rel%.md}--$role.md" ]]; then
+    echo "$library/${rel%.md}--$role.md would be built over the $role copy of $rel; rename it" >&2
+    exit 2
+  fi
+  add_library_page "$rel" "$label" "$copy_html" "$role" "$part" copy
+  [[ ${#pages[@]} -gt $count ]] && role_copies+=("$role|$lib_rel/$rel|$copy_html")
+  return 0
+}
+
+# A role's copies, as "source=copy html," for the link filter: a page for that role links to them.
+role_pages_for() {
+  local entry
+  for entry in ${role_copies[@]+"${role_copies[@]}"}; do
+    [[ "${entry%%|*}" == "$1" ]] && printf '%s,' "${entry#*|}" | sed 's/|/=/'
+  done
+  return 0
 }
 
 page_title() {
@@ -317,22 +418,20 @@ page_title() {
 
 # The config's documents in <dir> (empty for the library's top level, which also takes the config's
 # links and pages), then any other markdown files as "More".
-# A document listed under several roles is built under the first role it is added for (in an
-# edition, the first role the edition keeps); the others list it as an alias.
+# A document listed under several roles keeps its name for the first role it is added for (in an
+# edition, the first role the edition keeps); each later role gets a copy.
 add_documents_in() {
-  local dir="$1" prefix="${1:+$1/}" entry kind a b c d role rest flag rel count
+  local dir="$1" prefix="${1:+$1/}" entry kind a b c d role rest rel first_added
   for entry in "${entries[@]}"; do
     IFS='|' read -r kind a b c d <<<"$entry"
     case "$kind" in
       doc)
         rest="$c,"
-        flag=""
+        first_added=""
         while [[ -n "$rest" ]]; do
           role="${rest%%,*}"
           rest="${rest#*,}"
-          count=${#pages[@]}
-          add_library_page "$prefix$a" "$b" "" "$role" "$dir" "$flag"
-          [[ ${#pages[@]} -gt $count ]] && flag=alias
+          add_role_page "$prefix$a" "$b" "$role" "$dir"
         done
         ;;
       link)
@@ -370,16 +469,73 @@ for entry in "${shared[@]}"; do
 done
 add_documents_in ""
 PARTS=()
+all_parts=" "
 while read -r part; do
+  all_parts+="$part "
   part_in_edition "$part" || continue
   PARTS+=("$part")
   add_documents_in "$part"
 done < <(cd "$library" && find . -mindepth 1 -maxdepth 1 -type d -not -name html -not -name editions | sed 's|^\./||' | sort)
 add_sidebar_links
 
+# A part line names one of the library's parts, whether or not an edition keeps it.
+for line in ${part_lines[@]+"${part_lines[@]}"}; do
+  [[ "$all_parts" == *" ${line%%|*} "* ]] || {
+    echo "$library/library.conf: part '${line%%|*}' is not a part (a subfolder of the library)" >&2
+    exit 2
+  }
+done
+
+# An edition's parts line names part folders, not labels.
+for part in $edition_parts; do
+  [[ "$all_parts" == *" $part "* ]] || {
+    echo "$library/editions/$edition.conf: parts names '$part', which is not a part folder of the library" >&2
+    exit 2
+  }
+done
+
 # A replace line that names no page would let the unredacted original ship under a typo.
 for entry in ${replaces[@]+"${replaces[@]}"}; do
   [[ "$used_replaces" == *" ${entry%%|*} "* ]] || errors+=("replace|${entry%%|*} matches no page in the library")
+done
+
+# An edition's carry lines: repo files it ships as files (not pages), each under the bundle's assets/ at
+# its repo path. With a second path, that file ships in the first one's place. A path is relative to the
+# library, or to the repo root (with a leading "/", or when the library has no such file). Links and raw
+# HTML pointing at a carried file reach the copy; a carried file isn't checked, so the build lists it.
+carried_files=""
+carried=()
+# A carry path as a normalized repo-relative path, if it names a file inside the repo.
+carry_path() {
+  local base="$repo_root" path="$1" dir root
+  if [[ "$path" == /* ]]; then
+    path="${path#/}"
+  elif [[ -f "$library/$path" ]]; then
+    base="$library"
+  fi
+  [[ -f "$base/$path" ]] || return 0
+  case "$(basename "$path")" in . | ..) return 0 ;; esac
+  dir="$(cd "$base/$(dirname "$path")" && pwd -P)" || return 0
+  root="$(cd "$repo_root" && pwd -P)"
+  [[ "$dir" == "$root" || "$dir" == "$root"/* ]] || return 0
+  dir="${dir#"$root"}"
+  dir="${dir#/}"
+  echo "${dir:+$dir/}$(basename "$path")"
+}
+for entry in ${carries[@]+"${carries[@]}"}; do
+  original="$(carry_path "${entry%%|*}")"
+  shipped_as="$original"
+  [[ "$entry" == *"|"* ]] && shipped_as="$(carry_path "$(edition_value "${entry#*|}")")"
+  if [[ -z "$original" || -z "$shipped_as" ]]; then
+    errors+=("carry|$entry names no file in the repo")
+    continue
+  fi
+  if [[ "$original" == *.md || "$shipped_as" == *.md ]]; then
+    errors+=("carry|$entry names a markdown file; carry is for files that aren't pages")
+    continue
+  fi
+  carried+=("$original|$shipped_as")
+  is_bundled && carried_files+="$original=assets/$original,"
 done
 
 # page_map: the pages whose HTML name isn't their markdown name. edition_pages: in an edition,
@@ -388,7 +544,7 @@ page_map=""
 edition_pages=""
 for entry in "${pages[@]}"; do
   IFS='|' read -r src html _ _ _ flag <<<"$entry"
-  [[ "$html" == link || "$flag" == alias ]] && continue
+  [[ "$html" == link || "$flag" == copy ]] && continue
   [[ "${src%.md}.html" != "$lib_rel/$html" ]] && page_map+="$src=$html,"
   edition_pages+="$src=$html,"
 done
@@ -412,9 +568,9 @@ field() {
   esac
 }
 
-# A page built under this entry: not a link, not an alias.
+# A page built under this entry: anything but a link (a role's copy is built too).
 is_built() {
-  [[ "$(field "$1" html)" != link && "$(field "$1" flag)" != alias ]]
+  [[ "$(field "$1" html)" != link ]]
 }
 
 # The first built page of a role: its library-wide pages come first, then its parts in order.
@@ -508,7 +664,7 @@ nav_for() {
   if [[ " ${ROLES[*]} " == *" $role "* ]]; then
     nav_section "$(role_title "$role")" "$role" "" "$current" "$up" "$root_up"
     for part in ${PARTS[@]+"${PARTS[@]}"}; do
-      nav_section "$part" "$role" "$part" "$current" "$up" "$root_up"
+      nav_section "$(part_label "$part")" "$role" "$part" "$current" "$up" "$root_up"
     done
     for_everyone "$current" "$up" "$root_up"
     return
@@ -528,7 +684,11 @@ nav_for() {
     part="$(field "$entry" part)"
     if [[ "$r/$part" != "$group" ]]; then
       [[ -n "$group" ]] && echo "      </ul>"
-      echo "      <h2>${part:-$r}</h2>"
+      if [[ -n "$part" ]]; then
+        echo "      <h2>$(part_label "$part")</h2>"
+      else
+        echo "      <h2>$r</h2>"
+      fi
       echo "      <ul>"
       group="$r/$part"
     fi
@@ -545,7 +705,7 @@ part_links_for() {
   local role="$1" up="$2" part first
   for part in ${PARTS[@]+"${PARTS[@]}"}; do
     first="$(first_page_in "$role" "$part")"
-    [[ -n "$first" ]] && printf '\n          <a href="%s%s">%s</a>' "$up" "$first" "$part"
+    [[ -n "$first" ]] && printf '\n          <a href="%s%s">%s</a>' "$up" "$first" "$(part_label "$part")"
   done
   return 0
 }
@@ -575,7 +735,7 @@ pager_for() {
     return 0
   fi
   if [[ -n "$part" ]]; then
-    echo "        <div class=\"end\"><p><strong>That's the last page for $part.</strong></p>"
+    echo "        <div class=\"end\"><p><strong>That's the last page for $(part_label "$part").</strong></p>"
   else
     echo "        <div class=\"end\"><p><strong>That's the last page $(role_title "$role" | tr 'A-Z' 'a-z').</strong></p>"
   fi
@@ -600,9 +760,31 @@ render_diagrams() {
   fi
 }
 
+# A page's copies for other roles, as "role=copy html," for its search entries.
+copies_of_page() {
+  local entry copy_role copy_html
+  for entry in ${role_copies[@]+"${role_copies[@]}"}; do
+    copy_role="${entry%%|*}"
+    copy_html="${entry##*|}"
+    [[ "$copy_html" == "${1%.html}--$copy_role.html" ]] && printf '%s=%s,' "$copy_role" "$copy_html"
+  done
+  return 0
+}
+
+# search-index.js: the entries the filter wrote, one per line, as window.LIBRARY_SEARCH; with MiniSearch, its
+# license, and the box's script beside it.
+write_search_index() {
+  {
+    echo "window.LIBRARY_SEARCH = ["
+    [[ -s "$work/search.jsonl" ]] && sed '$!s/$/,/' "$work/search.jsonl"
+    echo "];"
+  } >"$out/search-index.js"
+  cp "$SCRIPT_DIR/vendor/minisearch.js" "$SCRIPT_DIR/vendor/minisearch-LICENSE.txt" "$SCRIPT_DIR/search.js" "$out/"
+}
+
 build_page() {
   local index="$1" entry src html role up html_dir name
-  local source_args=()
+  local source_args=() shipped_args=() search_args=()
   entry="${pages[index]}"
   src="$(field "$entry" src)"; html="$(field "$entry" html)"; role="$(field "$entry" role)"
   up="$(up_from "$html")"
@@ -610,6 +792,17 @@ build_page() {
   name="$(basename "${src%.md}")"
   # Outside a private edition, a page has no link to its markdown source: the reader has no repo.
   is_bundled || source_args=(-V "source=$(up_from "$out_rel/$html")$src" -V "source-name=$(basename "$src")")
+  # An external edition's check reads the page as shipped, which the filter writes here: the plain page's,
+  # since a copy's text differs only in its link targets.
+  if [[ "$visibility" == external && "$(field "$entry" flag)" != copy ]]; then
+    mkdir -p "$(dirname "$work/shipped/$src")"
+    shipped_args=(--metadata "shipped_file=$work/shipped/$src")
+  fi
+  # Search indexes a document once, from its plain page, listing its copies.
+  if [[ "$(field "$entry" flag)" != copy ]]; then
+    search_args=(--metadata "search_file=$work/search.jsonl" --metadata "page_url=$html"
+      --metadata "page_role=$role" --metadata "search_copies=$(copies_of_page "$html")")
+  fi
 
   mkdir -p "$work/$html_dir" "$out/$html_dir"
   render_diagrams "$repo_root/$src" "$work/$html_dir/$name.md"
@@ -628,10 +821,12 @@ build_page() {
     --metadata library_dir="$lib_rel" \
     --metadata out_dir="$out_rel" \
     --metadata page_map="$page_map" \
+    --metadata role_pages="$(role_pages_for "$role")" \
     --metadata edition="$edition" \
     --metadata visibility="$visibility" \
     --metadata edition_pages="$edition_pages" \
     --metadata excluded_links="$excluded_links" \
+    --metadata carried_files="$carried_files" \
     --metadata edition_roles="$(IFS=,; echo "${ROLES[*]}")" \
     --metadata left_out_roles="$left_out_roles" \
     --metadata left_out_titles="$left_out_titles" \
@@ -645,6 +840,10 @@ build_page() {
     -V css="${up}library.css" \
     -V home="${up}index.html" \
     ${source_args[@]+"${source_args[@]}"} \
+    ${shipped_args[@]+"${shipped_args[@]}"} \
+    ${search_args[@]+"${search_args[@]}"} \
+    -V root="$up" \
+    -V role="$role" \
     -V tabs="$(tabs_for "$role" "$up")" \
     -V callout="$(callout_for "$html" "$up" "$role")" \
     -V nav="$(nav_for "$html" "$up" "$role")" \
@@ -682,13 +881,47 @@ report_edition() {
 }
 
 # An edition's allow|<page>|<term> lines; the page is library-relative, the term matched without case.
+# A no-trace finding is allowed by a line whose term is the finding. An external finding is one word
+# in a passage; it is allowed when the page's terms (words or phrases) that hold the word and appear in
+# the passage, taken together, cover every use of the word there: "allow|<page>|<name> Me" lets the name
+# through, but not "me" on its own, in that passage or elsewhere; two quoted phrases in one passage can
+# each have their own line.
+# Each line that allows something is recorded in $used_allows, to report the ones that never do.
+used_allows=" "
 is_allowed() {
-  local page="${1#"$lib_rel"/}" term allow
+  local page="${1#"$lib_rel"/}" term index allow_page allow_term word passage phrase covering=""
   term="$(lower "$2")"
-  for allow in ${allows[@]+"${allows[@]}"}; do
-    [[ "$allow" == "$page|$term" ]] && return 0
+  [[ $# -eq 3 ]] && { word=" $(words "$2") "; passage=" $(words "$3") "; }
+  for index in ${allows[@]+"${!allows[@]}"}; do
+    allow_page="${allows[index]%%|*}"
+    allow_term="${allows[index]#*|}"
+    [[ "$allow_page" == "$page" ]] || continue
+    if [[ $# -eq 2 ]]; then
+      [[ "$allow_term" == "$term" ]] && { used_allows+="$index "; return 0; }
+      continue
+    fi
+    phrase=" $(words "$allow_term") "
+    if [[ "$phrase" == *"$word"* && "$passage" == *"$phrase"* ]]; then
+      covering+="$index "
+      passage="${passage//"$phrase"/ }"
+    fi
   done
-  return 1
+  [[ -n "$covering" && "$passage" != *"$word"* ]] || return 1
+  used_allows+="$covering"
+  return 0
+}
+
+# Text as lowercase words separated by single spaces, for matching words and phrases.
+words() {
+  lower "$1" | tr -cs '[:alnum:]' ' ' | sed 's/^ //; s/ $//'
+}
+
+report_unused_allows() {
+  local index
+  for index in ${allows[@]+"${!allows[@]}"}; do
+    [[ "$used_allows" == *" $index "* ]] || echo "allow|${allows[index]} silenced nothing; remove it if it is stale"
+  done
+  return 0
 }
 
 copy_asset() {
@@ -701,27 +934,60 @@ copy_asset() {
   cp "$repo_root/$path" "$out/assets/$path"
 }
 
-# An external edition runs check-external.sh on every page it builds. A finding in a library document
-# stops the zip; one in a repo file carried from the sidebar is reported, not fixed: it isn't the library's.
+# An external edition runs check-external.sh on every page it builds, as the page ships: after the
+# drops, as the filter wrote it. A finding names the page as an allow line does and the passage it is in
+# (its first words), since the shipped text's lines aren't the source's. A finding in a library document
+# stops the zip unless an allow line covers it; one in a repo file carried from the sidebar is reported,
+# not fixed: it isn't the library's.
 check_external() {
-  local entry src line status
+  local entry src shipped status page kind text passage line
   [[ "$visibility" == external ]] || return 0
   for entry in "${pages[@]}"; do
     is_built "$entry" || continue
+    [[ "$(field "$entry" flag)" == copy ]] && continue
     src="$(field "$entry" src)"
+    shipped="$work/shipped/$src"
+    if [[ ! -f "$shipped" ]]; then
+      errors+=("the external check found no shipped copy of $src")
+      continue
+    fi
     status=0
-    "$BASH" "$SCRIPT_DIR/check-external.sh" "$repo_root/$src" >"$work/external" || status=$?
+    "$BASH" "$SCRIPT_DIR/check-external.sh" --shipped "$repo_root" "$src" "$shipped" >"$work/external" || status=$?
     if [[ $status -gt 1 ]]; then
       errors+=("the external check itself failed on $src (exit $status)")
       continue
     fi
-    while IFS= read -r line; do
-      if [[ "$src" == "$lib_rel"/* ]]; then
-        errors+=("external check: $line")
-      else
+    while IFS=$'\t' read -r page kind text passage; do
+      line="${page#"$lib_rel"/}: $kind \"$text\" in \"$(first_words "$passage")\""
+      if [[ "$src" != "$lib_rel"/* ]]; then
         echo "external check, reported only (outside the library): $line"
+      elif ! is_allowed "$src" "$text" "$passage"; then
+        errors+=("external check: $line")
       fi
     done <"$work/external"
+  done
+}
+
+# The first words of a passage, without markdown marks, to find it in the source.
+first_words() {
+  local text
+  text="$(echo "$1" | sed -E 's/^(#+|[-*+]|[0-9]+\.|>|\|)[[:space:]]*//; s/[`*_]//g')"
+  echo "$text" | awk '{ line = ""; for (i = 1; i <= NF && i <= 6; i++) line = line (i > 1 ? " " : "") $i; print line (NF > 6 ? "…" : "") }'
+}
+
+copy_carried() {
+  local entry original shipped_as
+  is_bundled || return 0
+  for entry in ${carried[@]+"${carried[@]}"}; do
+    original="${entry%%|*}"
+    shipped_as="${entry#*|}"
+    mkdir -p "$out/assets/$(dirname "$original")"
+    cp "$repo_root/$shipped_as" "$out/assets/$original"
+    if [[ "$shipped_as" == "$original" ]]; then
+      echo "carried, not checked: $original"
+    else
+      echo "carried, not checked: $original (from $shipped_as)"
+    fi
   done
 }
 
@@ -747,10 +1013,13 @@ for index in "${!pages[@]}"; do
   is_built "${pages[index]}" || continue
   build_page "$index"
 done
+write_search_index
 
 [[ -n "$edition" ]] || exit 0
 report_edition
+copy_carried
 check_external
+report_unused_allows
 if [[ ${#errors[@]} -gt 0 ]]; then
   printf 'error: %s\n' "${errors[@]}" >&2
   echo "The edition $edition was built in $out for inspection, but not zipped." >&2

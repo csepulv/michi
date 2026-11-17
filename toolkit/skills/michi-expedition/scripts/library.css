@@ -21,6 +21,13 @@ a { color: var(--link); }
 .site-name { font-weight: 700; color: var(--fg); text-decoration: none; }
 .site-name span { font-weight: 400; color: var(--muted); }
 .generated { margin: 0; font-size: 0.85rem; color: var(--muted); }
+.search { position: relative; flex: 0 1 22rem; }
+.search input { width: 100%; box-sizing: border-box; padding: 0.4rem 0.6rem; font: inherit; font-size: 0.9rem; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; }
+.search-results { position: absolute; z-index: 10; left: 0; right: 0; max-height: 70vh; overflow-y: auto; margin: 0.25rem 0 0; padding: 0; list-style: none; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); }
+.search-results a { display: block; padding: 0.5rem 0.75rem; color: var(--fg); text-decoration: none; border-left: 3px solid transparent; }
+.search-results a[aria-selected="true"], .search-results a:hover { background: var(--current-bg); border-left-color: var(--current-bar); }
+.search-results small { display: block; color: var(--muted); font-size: 0.8rem; }
+.search-results .search-empty { padding: 0.5rem 0.75rem; color: var(--muted); }
 
 .role-tabs {
   display: flex; flex-wrap: wrap; max-width: 82rem; margin: 0 auto; padding: 0 1.5rem;

@@ -43,7 +43,8 @@ plus extracted findings in their long-lived homes.
 
 **Short debrief:** Freeform paired work, workshops, small sessions. A summary entry in `docs/journal.md` (or the epic's
 journal) covering what changed, why, and anything worth remembering. Pass 1 light, Pass 2 still required, Pass 3 still
-required — staleness doesn't care about session size.
+required — staleness doesn't care about session size. Pass 1.5's `**Behavior change:**` records are required at any
+size.
 
 **Skip:** Trivial changes where the commit message is the whole story. Not every session needs a debrief.
 
@@ -252,6 +253,21 @@ Separate into two categories:
 - New patterns or anti-patterns discovered
 - Process improvements that worked or didn't
 - Tool usage insights
+
+#### Behavior Changes
+
+For each `contract-change` decision that altered behavior or a contract something already relied on, write a record
+to the project-level journal, even when the rest of this debrief's entry goes to the epic's journal. A short debrief
+writes these records too. A new service type, or other new behavior nothing relied on yet, stays in the plan.
+
+> **Behavior change:** [What the behavior was.] [What it is now.] Relied on by: [who or what].
+
+For a short debrief of work that logged no decisions (a workshop, freeform paired work), ask directly whether the work
+changed behavior or a contract something already relied on, and write the record unless the workshop already did.
+
+The paragraph sits in the project-level journal: inside this debrief's entry when that entry goes there, otherwise as
+an entry of its own. The journal outlives the epic's spec, which Doc Compress rewrites, and one search for
+`Behavior change:` finds every record.
 
 #### Pattern Updates
 
@@ -462,6 +478,7 @@ The debrief produces:
 
 2. **Journal entry** → epic's `journal.md` or `docs/journal.md`
    - Domain learnings, gotchas, open questions — things worth preserving outside the debrief
+   - `**Behavior change:**` records always go to the project-level journal (Pass 1.5)
    - Carries the date heading and refreshes the doc's `Last updated:` stamp
 
 3. **Pattern/anti-pattern updates** → `docs/reference/patterns.md`

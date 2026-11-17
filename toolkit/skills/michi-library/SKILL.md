@@ -92,11 +92,17 @@ templates, the readers, and the rules are in `references/project-templates.md`; 
    current one (guidance for architecture documents is not settled). Then build the HTML:
    `scripts/build-html.sh <library-dir> "<Project name>"`. It regenerates `html/` from scratch: a tab per role
    across the top (For observers, For practitioners, For contributors), a sidebar with only the current role's
-   pages, an on-this-page list, and Previous and Next within the role, which stop at the role's last page. The
+   pages, an on-this-page list, and Previous and Next within the role, which stop at the role's last page. A
+   search box in the header lists matching sections as the reader types; it searches the build's own pages, from
+   their text as shipped, and works from disk (`search-index.js`, `search.js`, and MiniSearch, from `scripts/vendor/`,
+   are copied into the build). The build needs pandoc 3.1.1 or later and stops, saying so, on an older one. The
    tl;dr becomes `html/index.html`, the project intro for everyone. It ("First time here?") and the glossary
    follow each role's pages in the sidebar, under "For everyone"; each role's first page opens with a "First
    time here?" callout linking to it, for readers who came in through a tab. With parts, each role's sidebar
-   adds a section per part after its project-wide pages, and Previous and Next stay within one part. To put a
+   adds a section per part after its project-wide pages, and Previous and Next stay within one part. A part is
+   named by its folder, or by the label a `part|<folder>|<label>` line in `<library>/library.conf` gives it. A
+   document listed for several roles is built once per role (`<name>--<role>.html` for each role after the first),
+   so a sidebar click never moves a reader to another role. To put a
    repo file in a sidebar as it is (a part's README as its reference, say), list it in `<library>/sidebar-links`,
    one `role|part|label|repo-relative path` per line (part empty for the project-wide section). Links to
    repo markdown (ARCHITECTURE.md, STATUS.md, reference docs) stay links to the live files, read with a markdown
@@ -114,7 +120,9 @@ user asks to set a name, parts, or documents to leave out; *Editions* in `refere
 rest. Write the edition file, build it (`scripts/build-html.sh --edition <name> <library-dir> "<Project name>"`),
 and report what the build dropped or stopped on. For each stop, propose a fix: reword the passage, move it under a
 role heading, mark it for its role, or, when the term is fine for this edition's readers, an `allow` line in the
-edition file. Change documents or the edition file only on the user's yes. A change that needs new documents, such as adding a role, is the project target's
+edition file (this covers the external check's findings too, such as a product name or quoted speech; the term can be
+a phrase). A link or embed to a file that isn't a page needs a `carry` line. Change documents or the edition file only
+on the user's yes. A change that needs new documents, such as adding a role, is the project target's
 work: run it with the new roles.
 
 **This target's two checks:**

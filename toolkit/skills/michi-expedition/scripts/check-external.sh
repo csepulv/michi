@@ -2,6 +2,7 @@
 # Report what a reader outside the organization shouldn't see in a document.
 #
 #   scripts/check-external.sh <markdown-file>...
+#   scripts/check-external.sh --shipped <repo-root> <page> <markdown-file>
 #
 # One line per finding, "<repo-relative file>:<line>: <kind> "<text>"", for three kinds:
 #   first person     I, me, my, we, us, our (and their contractions); "you" is ordinary documentation voice
@@ -11,21 +12,23 @@
 # Fenced code blocks are skipped. Link targets are ignored; link text is checked. First person is not
 # looked for inside inline code; ids and paths are. Exits 1 when there are findings, 0 when there are none,
 # and 2 when the check itself can't run (a missing file, no repo, no perl).
+# --shipped is the build's form: the file is a page as an edition ships it (written outside the repo),
+# <page> names its source, and each finding is one tab-separated line: page, kind, text, and the
+# passage (the line) it is in, since the shipped text's line numbers aren't the source's.
 # The build runs this for external editions (see "Editions" in references/project-templates.md).
 set -uo pipefail
 
-[[ $# -gt 0 ]] || { echo "usage: $0 <markdown-file>..." >&2; exit 2; }
+usage() {
+  echo "usage: $0 <markdown-file>... | $0 --shipped <repo-root> <page> <markdown-file>" >&2
+  exit 2
+}
 
-found=0
-for file in "$@"; do
-  [[ -f "$file" ]] || { echo "$0: no such file: $file" >&2; exit 2; }
-  dir="$(cd "$(dirname "$file")" && pwd -P)" || exit 2
-  repo_root="$(git -C "$dir" rev-parse --show-toplevel)" || exit 2
-  rel="$dir/$(basename "$file")"
-  rel="${rel#"$repo_root"/}"
+# check <file> <repo-relative name> <repo root> <format: line or shipped>
+check() {
+  local file="$1" rel="$2" repo_root="$3" format="$4" tracked status
   tracked="$(mktemp)" || exit 2
   git -C "$repo_root" -c core.quotePath=off ls-files >"$tracked" || { rm -f "$tracked"; exit 2; }
-  TRACKED="$tracked" REL="$rel" perl -ne '
+  TRACKED="$tracked" REL="$rel" FORMAT="$format" perl -ne '
     BEGIN {
       $fence = 0; $found = 0;
       open(my $list, "<", $ENV{TRACKED}) or exit 2;
@@ -46,23 +49,52 @@ for file in "$@"; do
     (my $plain = $text) =~ s/`//g;
     my @findings;
     while ($prose =~ /(?<![\w\x27\/-])(I|I\x27m|I\x27ve|I\x27d|I\x27ll|[Mm]e|[Mm]y|[Ww]e|[Ww]e\x27re|[Ww]e\x27ve|[Ww]e\x27d|[Ww]e\x27ll|[Oo]ur|[Oo]urs|[Uu]s)(?![\w\x27\/-])/g) {
-      push @findings, "first person \"$1\"";
+      push @findings, ["first person", $1];
     }
     while ($plain =~ /(?<![\w-])(M\d+|S\d+|§\s*[\d.]+[a-z]?)(?![\w-])/g) {
-      push @findings, "internal id \"$1\"";
+      push @findings, ["internal id", $1];
     }
     while ($plain =~ /(?<![\w\/.-])([\w.-]+(?:\/[\w.-]+)+)/g) {
       (my $path = $1) =~ s/[.,:;]+$//;
       next if $path =~ /^\.\.?\//;           # relative to somewhere else, such as the reader`s own project
       (my $key = $path) =~ s{/$}{};
-      push @findings, "repo path \"$path\"" if $tracked{$key};
+      push @findings, ["repo path", $path] if $tracked{$key};
     }
-    for my $finding (@findings) { print "$ENV{REL}:$.: $finding\n"; $found = 1 }
+    (my $passage = $_) =~ s/^\s+|\s+$//g;
+    $passage =~ s/\t/ /g;
+    for my $finding (@findings) {
+      my ($kind, $found_text) = @$finding;
+      if ($ENV{FORMAT} eq "shipped") { print "$ENV{REL}\t$kind\t$found_text\t$passage\n" }
+      else { print "$ENV{REL}:$.: $kind \"$found_text\"\n" }
+      $found = 1;
+    }
     END { exit($found ? 1 : 0) }
   ' "$file"
   status=$?
   rm -f "$tracked"
-  case "$status" in
+  return "$status"
+}
+
+[[ $# -gt 0 ]] || usage
+
+if [[ "$1" == --shipped ]]; then
+  [[ $# -eq 4 ]] || usage
+  [[ -f "$4" && -d "$2" ]] || { echo "$0: no such file or repo: $4, $2" >&2; exit 2; }
+  check "$4" "$3" "$2" shipped
+  status=$?
+  [[ $status -le 1 ]] || exit 2
+  exit "$status"
+fi
+
+found=0
+for file in "$@"; do
+  [[ -f "$file" ]] || { echo "$0: no such file: $file" >&2; exit 2; }
+  dir="$(cd "$(dirname "$file")" && pwd -P)" || exit 2
+  repo_root="$(git -C "$dir" rev-parse --show-toplevel)" || exit 2
+  rel="$dir/$(basename "$file")"
+  rel="${rel#"$repo_root"/}"
+  check "$file" "$rel" "$repo_root" line
+  case "$?" in
     0) ;;
     1) found=1 ;;
     *) exit 2 ;;

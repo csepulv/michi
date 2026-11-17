@@ -74,6 +74,7 @@ Then [expected outcome]
 - **Reasoning:** [Why this choice]
 - **Impact:** implementation-detail | design-choice | contract-change
 - **Reversible:** Yes / No
+- **Behavior change:** [Only when existing behavior changes: what it was, what it is now, who or what relies on it]
 ```
 
 ## Notes

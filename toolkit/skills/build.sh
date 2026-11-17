@@ -142,10 +142,14 @@ LIBRARY_BUILD_FILES=(
   "library.css"
   "project.conf"
   "expedition.conf"
+  "search.js"
+  "vendor/minisearch.js"
+  "vendor/minisearch-LICENSE.txt"
+  "vendor/README.md"
 )
 
-mkdir -p "$SCRIPT_DIR/michi-expedition/scripts"
 for file in "${LIBRARY_BUILD_FILES[@]}"; do
+  mkdir -p "$(dirname "$SCRIPT_DIR/michi-expedition/scripts/$file")"
   cp "$SCRIPT_DIR/michi-library/scripts/$file" "$SCRIPT_DIR/michi-expedition/scripts/$file"
   echo "  michi-expedition/scripts/$file"
 done

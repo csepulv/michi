@@ -193,14 +193,22 @@ When you make a choice without human input:
 - **Reasoning:** [Why this choice]
 - **Impact:** [Does this affect the API contract? Other packages? Future milestones?]
 - **Reversible:** [Yes/No — can this be easily changed later?]
+- **Behavior change:** [Only when existing behavior changes: what it was, what it is now, who or what relies on it]
 ```
 
 **Decision classification:**
 
 - `implementation-detail` — internal naming, file organization, algorithm choice. Log it, no notification needed.
 - `design-choice` — interface shape, data format, library selection. Log it, human reviews during debrief.
-- `contract-change` — public API modification, schema change, new service type. **Log it AND notify the human
-  immediately** (Slack or whatever channel is established).
+- `contract-change` — a change to behavior or a contract that users, callers, other packages or other projects already
+  rely on: a public API modification, a schema change, a changed default, error or user-visible rule. A new service
+  type counts too. **Log it AND notify the human immediately** (Slack or whatever channel is established). When it
+  changes existing behavior, fill the decision's **Behavior change** line (what it was, what it is now, who or what
+  relies on it); the debrief records it in the project-level journal.
+
+A change to existing behavior that the plan or spec already calls for is logged the same way, as a `contract-change`
+decision, when it is implemented. The human agreed to it at planning; the decision is how it reaches the
+notification and the journal.
 
 If you're unsure whether something is a contract-change: it is. Notify.
 

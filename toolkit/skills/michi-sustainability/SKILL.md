@@ -231,7 +231,11 @@ Work through these in order:
      `docs/reference/key-decisions.md`.
 3. **Revise `spec.md`** — rewrite as an overview of actual requirements and the milestones actually shipped.
    Drop original-plan *detail* that didn't survive. Keep any original *requirement* that was not met, marked as
-   not met.
+   not met. Before rewriting, and before step 5 cuts the plans, check that each change to existing behavior the epic
+   made has its `**Behavior change:**` record in the project-level journal. Look in both places a change is written
+   down: the spec's labeled changes and the plans' `contract-change` decisions. This is the last point where the
+   before and after are both on the page. Propose any missing record to the human, as with a promotion, in this form:
+   `**Behavior change:** [What the behavior was.] [What it is now.] Relied on by: [who or what].`
 4. **Revise `verification/test-plan.md`** — light overview of the verification approach. Point at the long-lived
    automated tests rather than restating them.
 5. **Cut** plans, per-milestone debriefs, scratch notes, in-progress discussion docs that have served their

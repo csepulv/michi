@@ -18,6 +18,7 @@ $endif$
 $if(source)$
     <p class="generated">Generated from <a href="$source$">$source-name$</a>. Edit the markdown, not this page.</p>
 $endif$
+    <div class="search" data-root="$root$" data-role="$role$" hidden><input type="search" placeholder="Search the library" aria-label="Search the library" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="library-search-results" data-testid="library-search" /><ul class="search-results" id="library-search-results" role="listbox" aria-label="Search results" data-testid="library-search-results" hidden></ul></div>
   </header>
   <nav class="role-tabs" aria-label="Roles">
 $tabs$
@@ -42,5 +43,8 @@ $table-of-contents$
     </aside>
 $endif$
   </div>
+  <script src="$root$minisearch.js" defer></script>
+  <script src="$root$search-index.js" defer></script>
+  <script src="$root$search.js" defer></script>
 </body>
 </html>
